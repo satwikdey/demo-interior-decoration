@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Colors */
+  --primary: #1e3a8a; /* Deep Blue from Logo */
+  --secondary: #d4af37; /* Soft Gold/Brass */
+  --neutral-light: #f9f9f7; /* Warm White */
+  --neutral-dark: #1a1a1a;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-background: var(--neutral-light);
+  --color-foreground: var(--neutral-dark);
+  
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  
+  /* Animation Utilities */
+  --animate-fade-in: fade-in 0.8s ease-out forwards;
+  --animate-slide-up: slide-up 0.8s ease-out forwards;
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+body {
+  background-color: var(--neutral-light);
+  color: var(--neutral-dark);
+  font-family: var(--font-sans);
+}
