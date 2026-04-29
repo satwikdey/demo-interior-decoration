@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Container } from "@/components/Container";
@@ -18,9 +19,17 @@ const navLinks = [
     { href: "/contact", label: "Contact" },
 ];
 
+// Pages that start with a dark full-bleed hero image — navbar should be transparent/white text
+const darkHeroPages = ["/", "/about", "/contact"];
+
 export const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const pathname = usePathname();
+
+    const hasDarkHero = darkHeroPages.includes(pathname);
+    // If no dark hero (e.g. /projects, /journal), start dark regardless of scroll
+    const useLightText = hasDarkHero && !isScrolled;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -33,21 +42,25 @@ export const Navbar = () => {
     return (
         <nav
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out",
                 isScrolled
-                    ? "bg-white/90 backdrop-blur-md shadow-sm py-4"
-                    : "bg-transparent py-6"
+                    ? "bg-white/95 backdrop-blur-md shadow-sm py-4"
+                    : hasDarkHero
+                        ? "bg-transparent py-6"
+                        : "bg-white/95 backdrop-blur-md py-5 border-b border-neutral-100"
             )}
         >
             <Container className="flex items-center justify-between">
                 <Link href="/" className="relative z-50">
                     <div className="relative h-10 w-40 md:h-12 md:w-48">
-                        {/* Using the logo from public folder */}
                         <Image
                             src="/logo.png"
                             alt="Interior Designer Logo"
                             fill
-                            className="object-contain"
+                            className={cn(
+                                "object-contain transition-all duration-500",
+                                useLightText ? "brightness-0 invert" : "brightness-100"
+                            )}
                             priority
                         />
                     </div>
@@ -60,8 +73,10 @@ export const Navbar = () => {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "text-sm font-medium tracking-widest uppercase transition-colors hover:text-secondary",
-                                isScrolled ? "text-neutral-800" : "text-neutral-800" // Always dark if bg is light/transparent, but hero might need consideration
+                                "text-[11px] font-medium tracking-widest uppercase transition-colors",
+                                useLightText
+                                    ? "text-white/90 hover:text-white"
+                                    : "text-neutral-700 hover:text-primary"
                             )}
                         >
                             {link.label}
@@ -69,7 +84,12 @@ export const Navbar = () => {
                     ))}
                     <Link
                         href="/contact"
-                        className="px-6 py-2 bg-primary text-white text-sm font-medium tracking-wide hover:bg-primary/90 transition-colors"
+                        className={cn(
+                            "px-6 py-2 text-[11px] font-medium tracking-widest uppercase transition-all",
+                            useLightText
+                                ? "bg-white text-neutral-900 hover:bg-white/90"
+                                : "bg-primary text-white hover:bg-primary/90"
+                        )}
                     >
                         Inquire
                     </Link>
@@ -77,7 +97,10 @@ export const Navbar = () => {
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="md:hidden z-50 text-neutral-800 p-2"
+                    className={cn(
+                        "md:hidden z-50 p-2 transition-colors",
+                        useLightText ? "text-white" : "text-neutral-800"
+                    )}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

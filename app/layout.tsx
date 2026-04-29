@@ -17,8 +17,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Interior Design Studio | Bespoke Luxury Interiors",
-  description: "A leading interior design studio creating sophisticated spaces worldwide.",
+  title: "DesignOne Studio | Timeless Interior Design",
+  description: "DesignOne is an independent design studio committed to creating timeless, well-executed, and meaningful environments across residential, hospitality, and heritage projects.",
 };
 
 export default function RootLayout({

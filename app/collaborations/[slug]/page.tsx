@@ -60,57 +60,40 @@ export default function CollaborationDetail() {
     }
 
     return (
-        <main className="bg-white min-h-screen">
-            {/* Hero */}
-            <div className="relative h-[60vh] w-full">
-                <Image
-                    src={collab.image}
-                    alt={collab.name}
-                    fill
-                    className="object-cover"
-                    priority
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-center text-white p-6"
-                    >
-                        <p className="text-sm uppercase tracking-widest font-bold mb-4">{collab.category}</p>
-                        <h1 className="text-5xl md:text-7xl font-serif">{collab.name}</h1>
-                    </motion.div>
+        <main className="bg-white min-h-screen pt-24 lg:pt-0">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 px-2 min-h-screen">
+                {/* Column 1: Text Content */}
+                <div className="flex flex-col justify-center px-12 md:px-20 lg:px-24 py-24 order-last lg:order-first">
+                    <Link href="/collaborations" className="inline-flex items-center text-[10px] uppercase tracking-widest text-neutral-400 hover:text-black mb-20 transition-colors">
+                        <ArrowLeft size={14} className="mr-2" /> Back to Collaborations
+                    </Link>
+                    <h2 className="text-4xl font-serif mb-8 leading-tight">
+                        "{collab.description}"
+                    </h2>
+                    <div className="w-12 h-0.5 bg-primary mb-12"></div>
+                    <p className="text-neutral-500 font-light text-lg leading-relaxed">
+                        {collab.fullDescription}
+                    </p>
+                </div>
+
+                {/* Columns 2 & 3: Large Images */}
+                <div className="relative h-[500px] lg:h-screen w-full">
+                    <Image
+                        src={collab.gallery[1] || collab.image}
+                        alt={`${collab.name} showcase 1`}
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+                <div className="relative h-[500px] lg:h-screen w-full">
+                    <Image
+                        src={collab.gallery[2] || collab.image}
+                        alt={`${collab.name} showcase 2`}
+                        fill
+                        className="object-cover"
+                    />
                 </div>
             </div>
-
-            <Container className="py-24">
-                <Link href="/collaborations" className="inline-flex items-center text-sm uppercase tracking-widest text-neutral-500 hover:text-black mb-16 transition-colors">
-                    <ArrowLeft size={16} className="mr-2" /> Back to Collaborations
-                </Link>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
-                    <div>
-                        <h2 className="text-3xl font-serif mb-8 leading-relaxed">
-                            "{collab.description}"
-                        </h2>
-                        <div className="w-12 h-0.5 bg-primary mb-8"></div>
-                        <p className="text-neutral-600 font-light text-lg leading-loose">
-                            {collab.fullDescription}
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        {collab.gallery.slice(1).map((img, idx) => (
-                            <div key={idx} className="relative aspect-square">
-                                <Image
-                                    src={img}
-                                    alt={`${collab.name} detail ${idx}`}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </Container>
         </main>
     );
 }

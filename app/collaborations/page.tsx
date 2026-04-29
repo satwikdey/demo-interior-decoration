@@ -27,17 +27,19 @@ export default function Collaborations() {
     return (
         <main className="pt-32 pb-24 bg-white min-h-screen">
             <Container>
-                <div className="text-center mb-16">
-                    <h1 className="font-serif text-5xl md:text-6xl mb-6">Collaborations</h1>
+                <div className="text-center mb-12">
+                    <h1 className="font-serif text-5xl md:text-6xl mb-4">Collaborations</h1>
                     <p className="text-neutral-500 font-light max-w-2xl mx-auto text-lg">
                         Partnering with the world's finest artisans and brands to create specific collections that embody our design ethos.
                     </p>
                 </div>
+            </Container>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="px-0">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
                     {collaborations.map((collab, index) => (
                         <Link href={`/collaborations/${collab.slug}`} key={index} className="group text-center cursor-pointer block">
-                            <div className="relative h-80 w-full overflow-hidden mb-6 bg-neutral-100">
+                            <div className="relative h-[600px] md:h-[800px] w-full overflow-hidden bg-neutral-100">
                                 <Image
                                     src={collab.image}
                                     alt={collab.name}
@@ -45,12 +47,14 @@ export default function Collaborations() {
                                     className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                                 />
                             </div>
-                            <h2 className="font-serif text-2xl mb-2">{collab.name}</h2>
-                            <p className="text-sm uppercase tracking-widest text-neutral-400 font-bold">{collab.category}</p>
+                            <div className="py-8 bg-white">
+                                <h2 className="font-serif text-2xl mb-2">{collab.name}</h2>
+                                <p className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold">{collab.category}</p>
+                            </div>
                         </Link>
                     ))}
                 </div>
-            </Container>
+            </div>
         </main>
     );
 }

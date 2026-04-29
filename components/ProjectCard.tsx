@@ -19,7 +19,7 @@ export const ProjectCard = ({ title, category, image, slug, index }: ProjectCard
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group relative h-[400px] md:h-[500px] w-full overflow-hidden cursor-pointer"
+            className="group relative h-[500px] md:h-[700px] w-full overflow-hidden cursor-pointer"
         >
             <Link href={`/projects/${slug}`}>
                 <Image
