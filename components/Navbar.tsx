@@ -29,7 +29,8 @@ export const Navbar = () => {
 
     const hasDarkHero = darkHeroPages.includes(pathname);
     // If no dark hero (e.g. /projects, /journal), start dark regardless of scroll
-    const useLightText = hasDarkHero && !isScrolled;
+    // Force dark text when mobile menu is open (white bg)
+    const useLightText = hasDarkHero && !isScrolled && !isMobileMenuOpen;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -38,6 +39,16 @@ export const Navbar = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Lock body scroll when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [isMobileMenuOpen]);
 
     return (
         <nav
@@ -98,10 +109,11 @@ export const Navbar = () => {
                 {/* Mobile Menu Toggle */}
                 <button
                     className={cn(
-                        "md:hidden z-50 p-2 transition-colors",
-                        useLightText ? "text-white" : "text-neutral-800"
+                        "md:hidden z-[60] relative p-2 transition-colors",
+                        isMobileMenuOpen ? "text-neutral-900" : useLightText ? "text-white" : "text-neutral-800"
                     )}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
@@ -111,21 +123,45 @@ export const Navbar = () => {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center space-y-8 md:hidden"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 bg-white z-[55] flex flex-col items-center justify-center space-y-6 md:hidden pt-20"
                     >
                         {navLinks.map((link) => (
-                            <Link
+                            <motion.div
                                 key={link.href}
-                                href={link.href}
-                                className="text-2xl font-serif text-neutral-900"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                <Link
+                                    href={link.href}
+                                    className={cn(
+                                        "text-2xl font-serif transition-colors",
+                                        pathname === link.href ? "text-primary" : "text-neutral-900 hover:text-primary"
+                                    )}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {link.label}
+                                </Link>
+                            </motion.div>
+                        ))}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="pt-4"
+                        >
+                            <Link
+                                href="/contact"
+                                className="px-8 py-3 bg-primary text-white text-[11px] font-medium tracking-widest uppercase"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
-                                {link.label}
+                                Inquire
                             </Link>
-                        ))}
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>

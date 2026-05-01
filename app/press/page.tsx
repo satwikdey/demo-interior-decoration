@@ -55,7 +55,7 @@ export default function Press() {
                                         src={item.image}
                                         alt={item.title}
                                         fill
-                                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                        className="object-cover lg:grayscale lg:group-hover:grayscale-0 transition-all duration-700"
                                     />
                                 </div>
                                 <div className="space-y-4">

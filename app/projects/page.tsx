@@ -160,8 +160,8 @@ export default function Projects() {
                             className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                             priority
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
-                        <div className="absolute bottom-8 left-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:from-transparent md:via-transparent md:bg-black/0 md:group-hover:bg-black/20 transition-colors duration-500" />
+                        <div className="absolute bottom-8 left-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
                             <p className="text-white/70 text-[10px] uppercase tracking-widest mb-1">{featured.location} — {featured.category}</p>
                             <h2 className="text-white font-serif text-4xl">{featured.title}</h2>
                         </div>
@@ -187,8 +187,8 @@ export default function Projects() {
                                 fill
                                 className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-500" />
-                            <div className="absolute bottom-6 left-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:from-transparent md:via-transparent md:bg-black/0 md:group-hover:bg-black/25 transition-colors duration-500" />
+                            <div className="absolute bottom-6 left-8 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
                                 <p className="text-white/70 text-[10px] uppercase tracking-widest mb-1">{project.location} — {project.category}</p>
                                 <h3 className="text-white font-serif text-2xl">{project.title}</h3>
                             </div>

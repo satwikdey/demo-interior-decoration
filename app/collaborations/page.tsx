@@ -44,7 +44,7 @@ export default function Collaborations() {
                                     src={collab.image}
                                     alt={collab.name}
                                     fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-100 md:opacity-90 md:group-hover:opacity-100"
                                 />
                             </div>
                             <div className="py-8 bg-white">

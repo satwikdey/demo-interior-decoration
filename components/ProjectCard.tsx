@@ -28,9 +28,10 @@ export const ProjectCard = ({ title, category, image, slug, index }: ProjectCard
                     fill
                     className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+                {/* Desktop: reveal on hover | Mobile/Tablet: always visible */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:from-transparent md:via-transparent md:bg-black/0 md:group-hover:bg-black/20 transition-colors duration-500" />
 
-                <div className="absolute bottom-0 left-0 right-0 p-8 w-full translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute bottom-0 left-0 right-0 p-8 w-full translate-y-0 opacity-100 md:translate-y-4 md:opacity-0 transition-all duration-500 md:group-hover:translate-y-0 md:group-hover:opacity-100">
                     <p className="text-secondary text-xs uppercase tracking-widest mb-2 font-bold">{category}</p>
                     <h3 className="text-white font-serif text-2xl md:text-3xl">{title}</h3>
                 </div>
