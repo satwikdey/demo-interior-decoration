@@ -1,0 +1,22 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgF" x1="0" y1="0" x2="1200" y2="1500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0E3D0"/>
+      <stop offset="1" stop-color="#D6C1A8"/>
+    </linearGradient>
+    <linearGradient id="dressF" x1="600" y1="780" x2="600" y2="1500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6B4C5A"/>
+      <stop offset="1" stop-color="#3E2D37"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="1500" fill="url(#bgF)"/>
+  <ellipse cx="600" cy="350" rx="255" ry="250" fill="#3B2E31"/>
+  <ellipse cx="600" cy="520" rx="175" ry="220" fill="#E3C3AA"/>
+  <path d="M355 1000C400 850 505 780 600 780C695 780 800 850 845 1000V1500H355V1000Z" fill="url(#dressF)"/>
+  <path d="M470 920C510 870 555 845 600 845C645 845 690 870 730 920L600 1045L470 920Z" fill="#FAF6EE"/>
+  <path d="M530 1140L600 1045L670 1140V1500H530V1140Z" fill="#4B3742"/>
+  <rect x="465" y="500" width="90" height="24" rx="12" fill="#433535"/>
+  <rect x="645" y="500" width="90" height="24" rx="12" fill="#433535"/>
+  <path d="M510 622C548 664 652 664 690 622" stroke="#A5755E" stroke-width="13" stroke-linecap="round"/>
+</svg>

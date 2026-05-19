@@ -20,7 +20,7 @@ export default function About() {
             <section className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="flex flex-col justify-center px-12 md:px-20 lg:px-24 py-24">
                     <p className="text-[10px] uppercase tracking-widest text-neutral-400 mb-6">Who We Are</p>
-                    <h2 className="font-serif text-4xl md:text-5xl text-neutral-900 mb-8 leading-tight">
+                    <h2 className="font-script text-5xl md:text-6xl text-neutral-900 mb-8 leading-tight">
                         DesignOne — an independent studio creating timeless, well-executed environments.
                     </h2>
                     <p className="text-neutral-600 font-light text-lg leading-relaxed mb-6">
@@ -55,7 +55,7 @@ export default function About() {
                 </div>
                 <div className="flex flex-col justify-center px-12 md:px-20 lg:px-24 py-24">
                     <p className="text-[10px] uppercase tracking-widest text-neutral-400 mb-6">Our Direction</p>
-                    <h2 className="font-serif text-4xl md:text-5xl text-neutral-900 mb-8 leading-tight">
+                    <h2 className="font-script text-5xl md:text-6xl text-neutral-900 mb-8 leading-tight">
                         Restrained. Purposeful. Enduring.
                     </h2>
                     <p className="text-neutral-600 font-light text-lg leading-relaxed mb-6">
@@ -76,25 +76,25 @@ export default function About() {
             </section>
 
             {/* Principals */}
-            <section className="py-16 px-0 bg-[#fff0db]">
-                <div className="px-12 md:px-20 lg:px-24 mb-10">
+            <section className="py-20 md:py-24 px-0 bg-[#fff0db]">
+                <div className="px-8 md:px-14 lg:px-20 mb-8 md:mb-10">
                     <p className="text-[10px] uppercase tracking-widest text-neutral-400 mb-2">The Principals</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                     {/* Yusuf */}
                     <div className="group flex flex-col">
-                        <div className="relative aspect-[4/5] w-full overflow-hidden">
+                        <div className="relative h-[300px] md:h-[380px] lg:h-[430px] w-full overflow-hidden bg-[#e8d8c4]">
                             <Image
-                                src="/projects/living-luxe-1.jpg"
+                                src="/placeholders/principal-male.svg"
                                 alt="Yusuf Hussain"
                                 fill
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
                         </div>
-                        <div className="px-12 md:px-20 lg:px-24 py-12">
+                        <div className="px-8 md:px-14 lg:px-20 py-10 md:py-12">
                             <p className="text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Co-Founder & Principal</p>
-                            <h3 className="font-serif text-3xl text-neutral-900 mb-4">Yusuf Hussain</h3>
-                            <p className="text-neutral-600 font-light leading-relaxed">
+                            <h3 className="font-serif text-3xl md:text-4xl text-neutral-900 mb-4">Yusuf Hussain</h3>
+                            <p className="max-w-2xl text-neutral-600 font-light leading-relaxed">
                                 Yusuf brings architectural structure, planning rigour, and deep site knowledge to every
                                 project. His training grounds him in the technical — ensuring that design intent is
                                 faithfully translated into built reality. He oversees coordination between manufacturing,
@@ -106,18 +106,18 @@ export default function About() {
 
                     {/* Vidhisha */}
                     <div className="group flex flex-col">
-                        <div className="relative aspect-[4/5] w-full overflow-hidden">
+                        <div className="relative h-[300px] md:h-[380px] lg:h-[430px] w-full overflow-hidden bg-[#e6d7c6]">
                             <Image
-                                src="/projects/living-luxe-2.jpg"
+                                src="/placeholders/principal-female.svg"
                                 alt="Vidhisha Nimuchwala"
                                 fill
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
                         </div>
-                        <div className="px-12 md:px-20 lg:px-24 py-12">
+                        <div className="px-8 md:px-14 lg:px-20 py-10 md:py-12">
                             <p className="text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Co-Founder & Principal</p>
-                            <h3 className="font-serif text-3xl text-neutral-900 mb-4">Vidhisha Nimuchwala</h3>
-                            <p className="text-neutral-600 font-light leading-relaxed">
+                            <h3 className="font-serif text-3xl md:text-4xl text-neutral-900 mb-4">Vidhisha Nimuchwala</h3>
+                            <p className="max-w-2xl text-neutral-600 font-light leading-relaxed">
                                 Vidhisha brings a refined sensibility to spatial harmony, detail, and user experience.
                                 She oversees conceptual development and aesthetic direction — ensuring that every environment
                                 is not only beautiful but deeply considered. Her work is rooted in the belief that great

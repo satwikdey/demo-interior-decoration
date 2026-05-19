@@ -6,6 +6,7 @@
   --secondary: #d4af37; /* Soft Gold/Brass */
   --neutral-light: #f9f9f7; /* Warm White */
   --neutral-dark: #1a1a1a;
+  --brand-red: #7a0016; /* Deep Red for Footer */
 }
 
 @theme inline {
@@ -13,9 +14,11 @@
   --color-secondary: var(--secondary);
   --color-background: var(--neutral-light);
   --color-foreground: var(--neutral-dark);
-  
+  --color-brand-red: var(--brand-red);
+
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
+  --font-script: var(--font-script);
   
   /* Animation Utilities */
   --animate-fade-in: fade-in 0.8s ease-out forwards;
@@ -36,4 +39,10 @@ body {
   background-color: var(--neutral-light);
   color: var(--neutral-dark);
   font-family: var(--font-sans);
+}
+
+.font-script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1.05;
 }

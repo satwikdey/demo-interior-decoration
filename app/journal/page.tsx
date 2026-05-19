@@ -88,7 +88,7 @@ export default function Journal() {
             </div>
 
             {/* Featured first article — full width */}
-            <div className="mb-3 px-0">
+            <div className="mb-0 px-0">
                 <Link href={`/journal/${articles[0].slug}`} className="block group relative w-full h-[60vh] overflow-hidden">
                     <Image
                         src={articles[0].image}
@@ -107,7 +107,7 @@ export default function Journal() {
             </div>
 
             {/* Grid — 3 columns, big images */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 px-0">
                 {articles.slice(1).map((article, index) => (
                     <Link
                         key={index}

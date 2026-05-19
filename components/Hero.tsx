@@ -6,43 +6,69 @@ import { Container } from "@/components/Container";
 
 export const Hero = () => {
     return (
-        <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-            {/* Background Image with Ken Burns Effect */}
+        <section className="relative min-h-screen w-full overflow-hidden">
+            {/* 3-image collage background */}
             <motion.div
-                initial={{ scale: 1.1 }}
+                initial={{ scale: 1.04 }}
                 animate={{ scale: 1 }}
-                transition={{ duration: 10, ease: "easeOut" }}
-                className="absolute inset-0 z-0"
+                transition={{ duration: 8, ease: "easeOut" }}
+                className="absolute inset-0 z-0 grid grid-cols-1 grid-rows-[1fr_0.65fr] gap-2 bg-neutral-950 p-2 md:gap-3 md:p-3"
             >
-                <Image
-                    src="/projects/living-1.jpeg" // Using one of the living room shots
-                    alt="Luxury Living Room"
-                    fill
-                    className="object-cover"
-                    priority
-                    quality={90}
-                />
-                <div className="absolute inset-0 bg-black/30" /> {/* Overlay */}
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3">
+                    <div className="relative overflow-hidden">
+                        <Image
+                            src="/projects/living-luxe-1.jpg"
+                            alt="Modern kitchen interior"
+                            fill
+                            className="object-cover"
+                            priority
+                            quality={90}
+                        />
+                    </div>
+                    <div className="relative overflow-hidden">
+                        <Image
+                            src="/projects/living-urban-1.jpg"
+                            alt="Refined living room interior"
+                            fill
+                            className="object-cover"
+                            priority
+                            quality={90}
+                        />
+                    </div>
+                </div>
+                <div className="relative overflow-hidden">
+                    <Image
+                        src="/projects/nahata-living.jpg"
+                        alt="Elegant interior detailing"
+                        fill
+                        className="object-cover"
+                        priority
+                        quality={90}
+                    />
+                </div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-black/30 to-black/55" />
             </motion.div>
 
             {/* Hero Content */}
-            <Container className="relative z-10 text-center text-white">
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="font-serif text-5xl md:text-7xl lg:text-8xl mb-6 tracking-tight"
-                >
-                    Timeless Elegance
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-lg md:text-2xl font-light tracking-wide max-w-2xl mx-auto text-neutral-100"
-                >
-                    Crafting bespoke interiors that blend luxury, comfort, and individual story.
-                </motion.p>
+            <Container className="relative z-10 flex min-h-screen items-center justify-center text-center text-white">
+                <div>
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="font-script text-6xl md:text-8xl lg:text-9xl mb-6 tracking-tight"
+                    >
+                        Timeless Elegance
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="text-lg md:text-2xl font-light tracking-wide max-w-2xl mx-auto text-neutral-100"
+                    >
+                        Crafting bespoke interiors that blend luxury, comfort, and individual story.
+                    </motion.p>
+                </div>
             </Container>
         </section>
     );

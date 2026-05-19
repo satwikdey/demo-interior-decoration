@@ -1,201 +1,386 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-const projects = [
-    {
-        title: "5 Ballygunge",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/living-1.jpeg",
-        slug: "ballygunge",
-        description: "A 5,000 sq. ft. residence designed for four generations, blending legacy pieces with refreshed contemporary aesthetics."
-    },
-    {
-        title: "38/a",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/bedroom-luxe.jpg",
-        slug: "38a",
-        description: "A compact two-bedroom apartment with an open-plan configuration, muted Scandinavian palette, and concealed lighting."
-    },
-    {
-        title: "Urbana",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/urbana-1.jpg",
-        slug: "city-modern",
-        description: "A thoughtful high-rise residence emphasising spatial innovation, natural materials, and commissioned local artwork."
-    },
-    {
-        title: "Sinclairs Bayview",
-        location: "Port Blair, Andaman",
-        category: "Hospitality",
-        image: "/projects/sinclairs-1.jpg",
-        slug: "sinclairs",
-        description: "A landmark renovation of a legacy hospitality asset using a tropical contemporary palette and expansive glazing."
-    },
-    {
-        title: "Bikaner House",
-        location: "Bikaner, Rajasthan",
-        category: "Heritage & Commercial",
-        image: "/projects/bikaner-1.jpg",
-        slug: "heritage-palace",
-        description: "A contemporary interpretation of Rajasthani haveli architecture — repetitive arches, sandstone tones, and a central courtyard pool."
-    },
-    {
-        title: "Dal Chini",
-        location: "Kolkata",
-        category: "Hospitality",
-        image: "/projects/exhibition-1.jpg",
-        slug: "heritage-hall",
-        description: "A modern culinary destination with a refined rustic concept — reclaimed wood, hand-finished metals, and natural stone."
-    },
-    {
-        title: "The Taj Gateway",
-        location: "Kolkata",
-        category: "Hospitality",
-        image: "/projects/hospitality-3.jpg",
-        slug: "taj-gateway",
-        description: "A luxury hotel lobby redesign blending contemporary comfort with traditional Indian craft elements."
-    },
-    {
-        title: "Nahata Residence",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/nahata-1.jpg",
-        slug: "skyline-heights",
-        description: "Luxury living redefined — multi-unit development with bespoke joinery, premium marble finishes, and a cohesive design language."
-    },
-    {
-        title: "Grand Residence",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/pappu-1.jpg",
-        slug: "grand-residence",
-        description: "A warm and inviting family home — rich woods, plush velvets, and statement lighting create spaces perfect for entertaining."
-    },
-    {
-        title: "Opulent Suites",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/bedroom-luxe-1.jpg",
-        slug: "opulent-bedrooms",
-        description: "Master suites designed for ultimate relaxation — plush textiles, bespoke headboards, and integrated lighting systems."
-    },
-    {
-        title: "Modern Bedrooms",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/bedroom-modern-1.jpg",
-        slug: "modern-bedrooms",
-        description: "Efficient, stylish, and serene — clean lines, smart storage solutions, and a calming neutral palette for modern living."
-    },
-    {
-        title: "Luxury Living",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/living-luxe-1.jpg",
-        slug: "luxury-living",
-        description: "Grand living areas emphasising volume, light, and sophisticated material palettes — marble, brass, and velvet."
-    },
-    {
-        title: "Urban Living",
-        location: "Kolkata",
-        category: "Private Residential",
-        image: "/projects/living-urban-1.jpg",
-        slug: "urban-living",
-        description: "Smart open-plan solutions for city apartments — integrating dining and lounging with a focus on flow and functionality."
-    },
+interface Project {
+  id: string;
+  slug: string;
+  mainImage: string;
+  title: string;
+  location: string;
+  category: string;
+  description: string;
+}
+
+const demoProjects: Project[] = [
+  {
+    id: "demo-1",
+    slug: "urbana-demo",
+    mainImage: "/projects/urbana-living.jpg",
+    title: "Urbana Living",
+    location: "Kolkata",
+    category: "Private Residential",
+    description: "A calm, layered living space balancing tonal finishes with soft contrast.",
+  },
+  {
+    id: "demo-2",
+    slug: "nahata-demo",
+    mainImage: "/projects/nahata-living.jpg",
+    title: "Nahata Residence",
+    location: "Kolkata",
+    category: "Private Residential",
+    description: "A refined family home with bespoke furniture and warm textures.",
+  },
+  {
+    id: "demo-3",
+    slug: "bikaner-demo",
+    mainImage: "/projects/bikaner-1.jpg",
+    title: "Bikaner Suite",
+    location: "Bikaner",
+    category: "Hospitality",
+    description: "Modern hospitality language blended with regional material character.",
+  },
+  {
+    id: "demo-4",
+    slug: "exhibition-demo",
+    mainImage: "/projects/exhibition-1.jpg",
+    title: "Exhibition Pavilion",
+    location: "Mumbai",
+    category: "Heritage & Commercial",
+    description: "An immersive showcase environment crafted around spatial storytelling.",
+  },
+  {
+    id: "demo-5",
+    slug: "bedroom-demo",
+    mainImage: "/projects/bedroom-luxe.jpg",
+    title: "Luxe Bedroom Concept",
+    location: "Delhi",
+    category: "Private Residential",
+    description: "A plush sleeping suite with precise joinery and ambient lighting.",
+  },
+  {
+    id: "demo-6",
+    slug: "living-demo",
+    mainImage: "/projects/living-1.jpeg",
+    title: "Contemporary Living Studio",
+    location: "Jaipur",
+    category: "Hospitality",
+    description: "Clean geometry and tactile finishes for a timeless contemporary mood.",
+  },
 ];
 
-const categories = ["All", "Private Residential", "Hospitality", "Heritage & Commercial"];
+const baseCategories = ["All", "Private Residential", "Hospitality", "Heritage & Commercial"];
 
-export default function Projects() {
-    const [filter, setFilter] = useState("All");
+function chunkProjects(projects: Project[], chunkSize = 4): Project[][] {
+  const groups: Project[][] = [];
+  for (let i = 0; i < projects.length; i += chunkSize) {
+    groups.push(projects.slice(i, i + chunkSize));
+  }
+  return groups;
+}
 
-    const filteredProjects = filter === "All"
-        ? projects
-        : projects.filter(p => p.category === filter);
+function ProjectTile({
+  project,
+  index,
+  className,
+}: {
+  project: Project;
+  index: number;
+  className: string;
+}) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.45, delay: (index % 6) * 0.06 }}
+      className={cn("group relative overflow-hidden border border-neutral-100 bg-white", className)}
+    >
+      <Link href={`/projects/${project.slug}`} className="block h-full">
+        <div className="relative h-full w-full overflow-hidden">
+          <Image
+            src={project.mainImage}
+            alt={project.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+        </div>
 
-    const [featured, ...rest] = filteredProjects;
+        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 text-white">
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-white/75">{project.location}</p>
+          <h3 className="font-serif text-2xl md:text-3xl">{project.title}</h3>
+          <p className="mt-2 line-clamp-2 text-sm font-light text-white/85">{project.description}</p>
+        </div>
+      </Link>
+    </motion.article>
+  );
+}
+
+function ProjectPatternGroup({
+  group,
+  groupIndex,
+  startIndex,
+}: {
+  group: Project[];
+  groupIndex: number;
+  startIndex: number;
+}) {
+  const mirror = groupIndex % 2 === 1;
+
+  if (group.length === 1) {
+    return (
+      <div className="grid grid-cols-1">
+        <ProjectTile
+          project={group[0]!}
+          index={startIndex}
+          className="aspect-[16/9] md:aspect-[16/7]"
+        />
+      </div>
+    );
+  }
+
+  if (group.length === 2) {
+    return (
+      <div className="grid grid-cols-1 gap-0 md:grid-cols-2">
+        {group.map((project, i) => (
+          <ProjectTile
+            key={project.id}
+            project={project}
+            index={startIndex + i}
+            className="aspect-[4/5]"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (group.length === 3) {
+    const left = group[0]!;
+    const rightTop = group[1]!;
+    const rightBottom = group[2]!;
+
+    const desktopLayout = (
+      <div className="hidden gap-0 md:grid md:grid-cols-12">
+        <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
+        <div className="col-span-7 grid grid-rows-2 gap-0">
+          <ProjectTile
+            project={rightTop}
+            index={startIndex + 1}
+            className="aspect-[16/9] h-full min-h-[17rem]"
+          />
+          <ProjectTile
+            project={rightBottom}
+            index={startIndex + 2}
+            className="aspect-[16/9] h-full min-h-[17rem]"
+          />
+        </div>
+      </div>
+    );
+
+    const mirroredDesktopLayout = (
+      <div className="hidden gap-0 md:grid md:grid-cols-12">
+        <div className="col-span-7 grid grid-rows-2 gap-0">
+          <ProjectTile
+            project={rightTop}
+            index={startIndex + 1}
+            className="aspect-[16/9] h-full min-h-[17rem]"
+          />
+          <ProjectTile
+            project={rightBottom}
+            index={startIndex + 2}
+            className="aspect-[16/9] h-full min-h-[17rem]"
+          />
+        </div>
+        <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
+      </div>
+    );
 
     return (
-        <main className="min-h-screen bg-[#F9F7F2]">
-            {/* Page Header */}
-            <div className="pt-40 pb-12 text-center px-8">
-                <h1 className="font-serif text-5xl md:text-6xl text-neutral-900 mb-4">Our Portfolio</h1>
-                <p className="text-neutral-500 font-light max-w-xl mx-auto">
-                    A curated selection of completed projects across residential, hospitality, and heritage contexts.
-                </p>
-            </div>
-
-            {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-6 mb-14 px-8">
-                {categories.map((cat) => (
-                    <button
-                        key={cat}
-                        onClick={() => setFilter(cat)}
-                        className={`text-[11px] uppercase tracking-widest pb-1 border-b transition-colors ${filter === cat
-                            ? "border-neutral-900 text-neutral-900 font-semibold"
-                            : "border-transparent text-neutral-400 hover:text-neutral-700"
-                            }`}
-                    >
-                        {cat}
-                    </button>
-                ))}
-            </div>
-
-            {/* Featured (First) Project — Full Bleed */}
-            {featured && (
-                <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full mb-3">
-                    <Link href={`/projects/${featured.slug}`} className="block group relative w-full h-[70vh] overflow-hidden">
-                        <Image
-                            src={featured.image}
-                            alt={featured.title}
-                            fill
-                            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-                            priority
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:from-transparent md:via-transparent md:bg-black/0 md:group-hover:bg-black/20 transition-colors duration-500" />
-                        <div className="absolute bottom-8 left-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
-                            <p className="text-white/70 text-[10px] uppercase tracking-widest mb-1">{featured.location} — {featured.category}</p>
-                            <h2 className="text-white font-serif text-4xl">{featured.title}</h2>
-                        </div>
-                    </Link>
-                </motion.div>
-            )}
-
-            {/* Remaining Projects — 2-col tall grid */}
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-3 px-0">
-                {rest.map((project, index) => (
-                    <motion.div
-                        key={project.slug}
-                        layout
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: index * 0.05 }}
-                    >
-                        <Link href={`/projects/${project.slug}`} className="block group relative w-full aspect-[4/3] overflow-hidden">
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                fill
-                                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:from-transparent md:via-transparent md:bg-black/0 md:group-hover:bg-black/25 transition-colors duration-500" />
-                            <div className="absolute bottom-6 left-8 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
-                                <p className="text-white/70 text-[10px] uppercase tracking-widest mb-1">{project.location} — {project.category}</p>
-                                <h3 className="text-white font-serif text-2xl">{project.title}</h3>
-                            </div>
-                        </Link>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </main>
+      <>
+        <div className="grid grid-cols-1 gap-0 md:hidden">
+          {group.map((project, i) => (
+            <ProjectTile key={project.id} project={project} index={startIndex + i} className="aspect-[16/10]" />
+          ))}
+        </div>
+        {mirror ? mirroredDesktopLayout : desktopLayout}
+      </>
     );
+  }
+
+  const left = group[0]!;
+  const rightTop = group[1]!;
+  const rightBottomLeft = group[2]!;
+  const rightBottomRight = group[3]!;
+
+  const desktopLayout = (
+    <div className="hidden gap-0 md:grid md:grid-cols-12">
+      <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
+      <div className="col-span-7 grid grid-rows-[1fr_auto] gap-0">
+        <ProjectTile
+          project={rightTop}
+          index={startIndex + 1}
+          className="aspect-[16/8] h-full min-h-[17rem]"
+        />
+        <div className="grid grid-cols-2 gap-0">
+          <ProjectTile
+            project={rightBottomLeft}
+            index={startIndex + 2}
+            className="aspect-[16/10] min-h-[12rem]"
+          />
+          <ProjectTile
+            project={rightBottomRight}
+            index={startIndex + 3}
+            className="aspect-[16/10] min-h-[12rem]"
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  const mirroredDesktopLayout = (
+    <div className="hidden gap-0 md:grid md:grid-cols-12">
+      <div className="col-span-7 grid grid-rows-[1fr_auto] gap-0">
+        <ProjectTile
+          project={rightTop}
+          index={startIndex + 1}
+          className="aspect-[16/8] h-full min-h-[17rem]"
+        />
+        <div className="grid grid-cols-2 gap-0">
+          <ProjectTile
+            project={rightBottomLeft}
+            index={startIndex + 2}
+            className="aspect-[16/10] min-h-[12rem]"
+          />
+          <ProjectTile
+            project={rightBottomRight}
+            index={startIndex + 3}
+            className="aspect-[16/10] min-h-[12rem]"
+          />
+        </div>
+      </div>
+      <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
+    </div>
+  );
+
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-0 md:hidden">
+        {group.map((project, i) => (
+          <ProjectTile key={project.id} project={project} index={startIndex + i} className="aspect-[16/10]" />
+        ))}
+      </div>
+      {mirror ? mirroredDesktopLayout : desktopLayout}
+    </>
+  );
+}
+
+export default function Projects() {
+  const [filter, setFilter] = useState("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch("/api/projects");
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data?.error || "Failed to fetch projects");
+        }
+
+        setProjects(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  const activeProjects = projects.length > 0 ? projects : demoProjects;
+  const categories = [...new Set([...baseCategories, ...activeProjects.map((project) => project.category)])];
+  const filteredProjects =
+    filter === "All"
+      ? activeProjects
+      : activeProjects.filter((project) => project.category === filter);
+
+  const groupedProjects = chunkProjects(filteredProjects, 4);
+  const isDemoMode = projects.length === 0;
+
+  return (
+    <main className="min-h-screen bg-white pb-0">
+      <div className="pt-40 pb-12 text-center px-8">
+        <h1 className="font-script text-6xl md:text-7xl text-neutral-900 mb-4">Our Portfolio</h1>
+        <p className="text-neutral-500 font-light max-w-xl mx-auto">
+          A curated selection of completed projects across residential, hospitality, and heritage
+          contexts.
+        </p>
+        {isDemoMode && (
+          <p className="mt-4 text-[10px] uppercase tracking-widest text-amber-700">
+            Showing demo layout cards until live Firebase projects are available
+          </p>
+        )}
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <Link
+            href="/admin/dashboard"
+            className="inline-flex items-center justify-center px-8 py-3 bg-neutral-900 text-white text-[11px] uppercase tracking-widest hover:bg-neutral-800 transition-colors"
+          >
+            Open Backend To Change Images
+          </Link>
+          <p className="text-[10px] uppercase tracking-widest text-neutral-400">
+            Admin login required
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-6 mb-14 px-8">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            className={`text-[11px] uppercase tracking-widest pb-1 border-b transition-colors ${
+              filter === cat
+                ? "border-neutral-900 text-neutral-900 font-semibold"
+                : "border-transparent text-neutral-400 hover:text-neutral-700"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="text-center py-40 uppercase tracking-widest text-[10px] text-neutral-400">
+          Loading Portfolio...
+        </div>
+      ) : (
+        <div className="space-y-0 px-0 pb-0">
+          {groupedProjects.map((group, groupIndex) => (
+            <ProjectPatternGroup
+              key={`group-${groupIndex}-${group.map((project) => project.id).join("-")}`}
+              group={group}
+              groupIndex={groupIndex}
+              startIndex={groupIndex * 4}
+            />
+          ))}
+        </div>
+      )}
+
+      {!loading && filteredProjects.length === 0 && (
+        <div className="py-40 text-center px-8">
+          <p className="text-neutral-400 font-light italic">No projects found in this category.</p>
+        </div>
+      )}
+    </main>
+  );
 }

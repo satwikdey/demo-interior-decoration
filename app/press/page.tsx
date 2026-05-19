@@ -45,11 +45,11 @@ export default function Press() {
                 </div>
             </Container>
 
-            <div className="px-1">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
+            <div className="px-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
                     {pressMap.map((item, index) => (
                         <Link href={`/press/${item.slug}`} key={index} className="block group">
-                            <article className="bg-white p-10 h-full flex flex-col justify-between">
+                            <article className="bg-white p-0 h-full flex flex-col justify-between">
                                 <div className="relative h-[450px] md:h-[600px] w-full mb-8 overflow-hidden bg-neutral-100">
                                     <Image
                                         src={item.image}
@@ -58,7 +58,7 @@ export default function Press() {
                                         className="object-cover lg:grayscale lg:group-hover:grayscale-0 transition-all duration-700"
                                     />
                                 </div>
-                                <div className="space-y-4">
+                                <div className="space-y-4 p-10">
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-primary">{item.publication}</p>
                                     <h3 className="font-serif text-2xl leading-tight group-hover:underline decoration-1">{item.title}</h3>
                                     <p className="text-neutral-400 text-sm font-light">{item.date}</p>

@@ -10,13 +10,10 @@ import { Container } from "@/components/Container";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
     { href: "/projects", label: "Portfolio" },
-    { href: "/collaborations", label: "Collaborations" },
-    { href: "/press", label: "Press" },
-    { href: "/careers", label: "Careers" },
-    { href: "/contact", label: "Contact" },
+    { href: "/collaborations", label: "Collaboration" },
+    { href: "/about", label: "About Us" },
+    { href: "/contact", label: "Contact Us" },
 ];
 
 // Pages that start with a dark full-bleed hero image — navbar should be transparent/white text
@@ -63,7 +60,7 @@ export const Navbar = () => {
         >
             <Container className="flex items-center justify-between">
                 <Link href="/" className="relative z-50">
-                    <div className="relative h-10 w-40 md:h-12 md:w-48">
+                    <div className="relative h-10 w-40 lg:h-12 lg:w-48">
                         <Image
                             src="/logo.png"
                             alt="Interior Designer Logo"
@@ -78,7 +75,7 @@ export const Navbar = () => {
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center space-x-8">
+                <div className="hidden lg:flex items-center space-x-8">
                     {navLinks.map((link) => (
                         <Link
                             key={link.href}
@@ -93,75 +90,83 @@ export const Navbar = () => {
                             {link.label}
                         </Link>
                     ))}
-                    <Link
-                        href="/contact"
-                        className={cn(
-                            "px-6 py-2 text-[11px] font-medium tracking-widest uppercase transition-all",
-                            useLightText
-                                ? "bg-white text-neutral-900 hover:bg-white/90"
-                                : "bg-primary text-white hover:bg-primary/90"
-                        )}
-                    >
-                        Inquire
-                    </Link>
                 </div>
 
-                {/* Mobile Menu Toggle */}
-                <button
-                    className={cn(
-                        "md:hidden z-[60] relative p-2 transition-colors",
-                        isMobileMenuOpen ? "text-neutral-900" : useLightText ? "text-white" : "text-neutral-800"
-                    )}
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+            {/* Mobile Menu Toggle */}
+            <button
+                className={cn(
+                    "lg:hidden z-[1000] relative p-2 transition-colors",
+                    isMobileMenuOpen ? "text-neutral-900" : useLightText ? "text-white" : "text-neutral-800"
+                )}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
             </Container>
 
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="fixed inset-0 bg-white z-[55] flex flex-col items-center justify-center space-y-6 md:hidden pt-20"
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                        className="fixed inset-0 w-screen h-screen bg-white !opacity-100 z-[999] flex flex-col lg:hidden"
                     >
-                        {navLinks.map((link) => (
+                        {/* Mobile Menu Header */}
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-neutral-100 bg-white">
+                            <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+                                <div className="relative h-10 w-32">
+                                    <Image
+                                        src="/logo.png"
+                                        alt="Logo"
+                                        fill
+                                        className="object-contain"
+                                        priority
+                                    />
+                                </div>
+                            </Link>
+                        </div>
+
+                        {/* Mobile Menu Links */}
+                        <div className="flex-1 flex flex-col px-10 py-12 space-y-8 overflow-y-auto bg-white">
+                            {navLinks.map((link, idx) => (
+                                <motion.div
+                                    key={link.href}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.1 + idx * 0.05 }}
+                                >
+                                    <Link
+                                        href={link.href}
+                                        className={cn(
+                                            "text-4xl font-serif transition-colors block",
+                                            pathname === link.href ? "text-primary" : "text-neutral-900 hover:text-primary"
+                                        )}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </motion.div>
+                            ))}
+                            
                             <motion.div
-                                key={link.href}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.1 }}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.5 }}
+                                className="pt-10"
                             >
                                 <Link
-                                    href={link.href}
-                                    className={cn(
-                                        "text-2xl font-serif transition-colors",
-                                        pathname === link.href ? "text-primary" : "text-neutral-900 hover:text-primary"
-                                    )}
+                                    href="/contact"
+                                    className="block w-full text-center py-5 bg-primary text-white text-xs font-bold uppercase tracking-[0.2em]"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
-                                    {link.label}
+                                    Inquire Now
                                 </Link>
                             </motion.div>
-                        ))}
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="pt-4"
-                        >
-                            <Link
-                                href="/contact"
-                                className="px-8 py-3 bg-primary text-white text-[11px] font-medium tracking-widest uppercase"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Inquire
-                            </Link>
-                        </motion.div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

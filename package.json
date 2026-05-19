@@ -6,16 +6,36 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "images:svg:convert": "node scripts/convert-project-images-to-svg.js",
+    "images:svg:replace-refs": "node scripts/replace-image-refs-with-svg.js",
+    "images:svg:all": "npm run images:svg:convert && npm run images:svg:replace-refs",
+    "images:raster:restore-refs": "node scripts/replace-image-refs-with-raster.js",
+    "firebase:images:rewrite-svg": "node scripts/update-firestore-image-urls-to-svg.js",
+    "firebase:images:rewrite-raster": "node scripts/update-firestore-image-urls-to-raster.js"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.2",
+    "@image-tracer-ts/nodejs": "^1.0.4",
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
+    "firebase-admin": "^13.9.0",
     "framer-motion": "^12.33.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
+    "next-auth": "^4.24.14",
+    "firebase-admin": "^13.6.0",
+    "@image-tracer-ts/nodejs": "^1.0.4",
+    "prisma": "^6.19.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "tailwind-merge": "^3.4.0"
+    "react-hook-form": "^7.75.0",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.4.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -25,6 +45,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
