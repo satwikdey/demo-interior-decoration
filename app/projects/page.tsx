@@ -75,54 +75,60 @@ const demoProjects: Project[] = [
 
 const baseCategories = ["All", "Private Residential", "Hospitality", "Heritage & Commercial"];
 
-function chunkProjects(projects: Project[], chunkSize = 4): Project[][] {
-  const groups: Project[][] = [];
-  for (let i = 0; i < projects.length; i += chunkSize) {
-    groups.push(projects.slice(i, i + chunkSize));
-  }
-  return groups;
-}
-
-function ProjectTile({
+/* ── Card component ─────────────────────────────────────────── */
+function ProjectCard({
   project,
   index,
   className,
 }: {
   project: Project;
   index: number;
-  className: string;
+  className?: string;
 }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.45, delay: (index % 6) * 0.06 }}
-      className={cn("group relative overflow-hidden border border-neutral-100 bg-white", className)}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, delay: (index % 6) * 0.07 }}
+      className={cn(
+        "group relative overflow-hidden rounded-2xl bg-neutral-200",
+        className
+      )}
     >
       <Link href={`/projects/${project.slug}`} className="block h-full">
+        {/* Image */}
         <div className="relative h-full w-full overflow-hidden">
           <Image
             src={project.mainImage}
             alt={project.title}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 text-white">
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-white/75">{project.location}</p>
-          <h3 className="font-serif text-2xl md:text-3xl">{project.title}</h3>
-          <p className="mt-2 line-clamp-2 text-sm font-light text-white/85">{project.description}</p>
+        {/* Bottom label */}
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-10">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-white/60 mb-1">
+            {project.location}
+          </p>
+          <h3 className="font-serif text-xl md:text-2xl text-white leading-tight">
+            {project.title}
+          </h3>
+          <p className="text-[10px] uppercase tracking-widest text-white/50 mt-1">
+            {project.category}
+          </p>
         </div>
       </Link>
     </motion.article>
   );
 }
 
-function ProjectPatternGroup({
+/* ── Masonry-style grid group (alternating layout) ──────────── */
+function ProjectGroup({
   group,
   groupIndex,
   startIndex,
@@ -131,153 +137,109 @@ function ProjectPatternGroup({
   groupIndex: number;
   startIndex: number;
 }) {
-  const mirror = groupIndex % 2 === 1;
+  const flip = groupIndex % 2 === 1;
 
+  /* 1-up: full-width banner */
   if (group.length === 1) {
     return (
       <div className="grid grid-cols-1">
-        <ProjectTile
-          project={group[0]!}
-          index={startIndex}
-          className="aspect-[16/9] md:aspect-[16/7]"
-        />
+        <ProjectCard project={group[0]!} index={startIndex} className="h-[55vw] max-h-[520px] min-h-[280px]" />
       </div>
     );
   }
 
+  /* 2-up: equal halves */
   if (group.length === 2) {
     return (
-      <div className="grid grid-cols-1 gap-0 md:grid-cols-2">
-        {group.map((project, i) => (
-          <ProjectTile
-            key={project.id}
-            project={project}
-            index={startIndex + i}
-            className="aspect-[4/5]"
-          />
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {group.map((p, i) => (
+          <ProjectCard key={p.id} project={p} index={startIndex + i} className="aspect-[4/5]" />
         ))}
       </div>
     );
   }
 
-  if (group.length === 3) {
-    const left = group[0]!;
-    const rightTop = group[1]!;
-    const rightBottom = group[2]!;
+  /* 3-up: 1 tall left + 2 stacked right */
+  const tallCard = group[0]!;
+  const smallCards = group.slice(1);
 
-    const desktopLayout = (
-      <div className="hidden gap-0 md:grid md:grid-cols-12">
-        <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
-        <div className="col-span-7 grid grid-rows-2 gap-0">
-          <ProjectTile
-            project={rightTop}
-            index={startIndex + 1}
-            className="aspect-[16/9] h-full min-h-[17rem]"
-          />
-          <ProjectTile
-            project={rightBottom}
-            index={startIndex + 2}
-            className="aspect-[16/9] h-full min-h-[17rem]"
-          />
-        </div>
-      </div>
-    );
-
-    const mirroredDesktopLayout = (
-      <div className="hidden gap-0 md:grid md:grid-cols-12">
-        <div className="col-span-7 grid grid-rows-2 gap-0">
-          <ProjectTile
-            project={rightTop}
-            index={startIndex + 1}
-            className="aspect-[16/9] h-full min-h-[17rem]"
-          />
-          <ProjectTile
-            project={rightBottom}
-            index={startIndex + 2}
-            className="aspect-[16/9] h-full min-h-[17rem]"
-          />
-        </div>
-        <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
-      </div>
-    );
-
-    return (
-      <>
-        <div className="grid grid-cols-1 gap-0 md:hidden">
-          {group.map((project, i) => (
-            <ProjectTile key={project.id} project={project} index={startIndex + i} className="aspect-[16/10]" />
-          ))}
-        </div>
-        {mirror ? mirroredDesktopLayout : desktopLayout}
-      </>
-    );
-  }
-
-  const left = group[0]!;
-  const rightTop = group[1]!;
-  const rightBottomLeft = group[2]!;
-  const rightBottomRight = group[3]!;
-
-  const desktopLayout = (
-    <div className="hidden gap-0 md:grid md:grid-cols-12">
-      <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
-      <div className="col-span-7 grid grid-rows-[1fr_auto] gap-0">
-        <ProjectTile
-          project={rightTop}
-          index={startIndex + 1}
-          className="aspect-[16/8] h-full min-h-[17rem]"
-        />
-        <div className="grid grid-cols-2 gap-0">
-          <ProjectTile
-            project={rightBottomLeft}
-            index={startIndex + 2}
-            className="aspect-[16/10] min-h-[12rem]"
-          />
-          <ProjectTile
-            project={rightBottomRight}
-            index={startIndex + 3}
-            className="aspect-[16/10] min-h-[12rem]"
-          />
-        </div>
+  const tallLeft = (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[3fr_2fr]">
+      <ProjectCard project={tallCard} index={startIndex} className="aspect-[3/4] sm:aspect-auto sm:min-h-[540px]" />
+      <div className="grid grid-rows-2 gap-3">
+        {smallCards.map((p, i) => (
+          <ProjectCard key={p.id} project={p} index={startIndex + 1 + i} className="min-h-[180px]" />
+        ))}
       </div>
     </div>
   );
 
-  const mirroredDesktopLayout = (
-    <div className="hidden gap-0 md:grid md:grid-cols-12">
-      <div className="col-span-7 grid grid-rows-[1fr_auto] gap-0">
-        <ProjectTile
-          project={rightTop}
-          index={startIndex + 1}
-          className="aspect-[16/8] h-full min-h-[17rem]"
-        />
-        <div className="grid grid-cols-2 gap-0">
-          <ProjectTile
-            project={rightBottomLeft}
-            index={startIndex + 2}
-            className="aspect-[16/10] min-h-[12rem]"
-          />
-          <ProjectTile
-            project={rightBottomRight}
-            index={startIndex + 3}
-            className="aspect-[16/10] min-h-[12rem]"
-          />
-        </div>
+  const tallRight = (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_3fr]">
+      <div className="grid grid-rows-2 gap-3">
+        {smallCards.map((p, i) => (
+          <ProjectCard key={p.id} project={p} index={startIndex + 1 + i} className="min-h-[180px]" />
+        ))}
       </div>
-      <ProjectTile project={left} index={startIndex} className="col-span-5 h-full min-h-[36rem]" />
+      <ProjectCard project={tallCard} index={startIndex} className="aspect-[3/4] sm:aspect-auto sm:min-h-[540px]" />
+    </div>
+  );
+
+  return flip ? tallRight : tallLeft;
+}
+
+/* 4-up layout: 1 tall left + (1 wide top + 2 small bottom right) */
+function FourUpGroup({
+  group,
+  groupIndex,
+  startIndex,
+}: {
+  group: Project[];
+  groupIndex: number;
+  startIndex: number;
+}) {
+  const flip = groupIndex % 2 === 1;
+  const [tall, wide, bl, br] = group as [Project, Project, Project, Project];
+
+  const leftSide = <ProjectCard project={tall} index={startIndex} className="sm:min-h-[560px] aspect-[3/4] sm:aspect-auto" />;
+  const rightSide = (
+    <div className="flex flex-col gap-3">
+      <ProjectCard project={wide} index={startIndex + 1} className="flex-1 min-h-[220px]" />
+      <div className="grid grid-cols-2 gap-3">
+        <ProjectCard project={bl} index={startIndex + 2} className="aspect-[4/3]" />
+        <ProjectCard project={br} index={startIndex + 3} className="aspect-[4/3]" />
+      </div>
     </div>
   );
 
   return (
-    <>
-      <div className="grid grid-cols-1 gap-0 md:hidden">
-        {group.map((project, i) => (
-          <ProjectTile key={project.id} project={project} index={startIndex + i} className="aspect-[16/10]" />
-        ))}
-      </div>
-      {mirror ? mirroredDesktopLayout : desktopLayout}
-    </>
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[5fr_7fr]">
+      {flip ? <>{rightSide}{leftSide}</> : <>{leftSide}{rightSide}</>}
+    </div>
   );
+}
+
+/* ── Dispatcher ─────────────────────────────────────────────── */
+function ProjectSection({
+  group,
+  groupIndex,
+  startIndex,
+}: {
+  group: Project[];
+  groupIndex: number;
+  startIndex: number;
+}) {
+  if (group.length === 4) {
+    return <FourUpGroup group={group} groupIndex={groupIndex} startIndex={startIndex} />;
+  }
+  return <ProjectGroup group={group} groupIndex={groupIndex} startIndex={startIndex} />;
+}
+
+/* ── Page ───────────────────────────────────────────────────── */
+function chunkProjects(projects: Project[], size = 4): Project[][] {
+  const out: Project[][] = [];
+  for (let i = 0; i < projects.length; i += size) out.push(projects.slice(i, i + size));
+  return out;
 }
 
 export default function Projects() {
@@ -286,101 +248,127 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    (async () => {
       try {
         const res = await fetch("/api/projects");
         const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data?.error || "Failed to fetch projects");
-        }
-
-        setProjects(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
+        setProjects(res.ok && Array.isArray(data) ? data : []);
+      } catch {
         setProjects([]);
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchProjects();
+    })();
   }, []);
 
-  const activeProjects = projects.length > 0 ? projects : demoProjects;
-  const categories = [...new Set([...baseCategories, ...activeProjects.map((project) => project.category)])];
-  const filteredProjects =
-    filter === "All"
-      ? activeProjects
-      : activeProjects.filter((project) => project.category === filter);
+  const active = projects.length > 0 ? projects : demoProjects;
+  const categories = [...new Set([...baseCategories, ...active.map((p) => p.category)])];
+  const featured = active[0]; // pinned to hero — never appears in the grid
 
-  const groupedProjects = chunkProjects(filteredProjects, 4);
-  const isDemoMode = projects.length === 0;
+  // Grid excludes the featured project so it only shows at the top
+  const gridProjects = active.slice(1);
+  const filtered = filter === "All"
+    ? gridProjects
+    : gridProjects.filter((p) => p.category === filter);
+  const groups = chunkProjects(filtered, 4);
 
   return (
-    <main className="min-h-screen bg-white pb-0">
-      <div className="pt-40 pb-12 text-center px-8">
-        <h1 className="font-script text-6xl md:text-7xl text-neutral-900 mb-4">Our Portfolio</h1>
-        <p className="text-neutral-500 font-light max-w-xl mx-auto">
-          A curated selection of completed projects across residential, hospitality, and heritage
-          contexts.
-        </p>
-        {isDemoMode && (
-          <p className="mt-4 text-[10px] uppercase tracking-widest text-amber-700">
-            Showing demo layout cards until live Firebase projects are available
-          </p>
-        )}
-        <div className="mt-8 flex flex-col items-center gap-3">
-          <Link
-            href="/admin/dashboard"
-            className="inline-flex items-center justify-center px-8 py-3 bg-neutral-900 text-white text-[11px] uppercase tracking-widest hover:bg-neutral-800 transition-colors"
-          >
-            Open Backend To Change Images
-          </Link>
-          <p className="text-[10px] uppercase tracking-widest text-neutral-400">
-            Admin login required
-          </p>
-        </div>
-      </div>
+    <main className="min-h-screen bg-[#1a1714]">
 
-      <div className="flex flex-wrap justify-center gap-6 mb-14 px-8">
+      {/* ── Hero Header ─────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-[#1a1714] pt-28 pb-10">
+        <div className="site-container grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
+
+          {/* Left: Title + description */}
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#b5904a] mb-6">
+              Our Portfolio
+            </p>
+            <h1 className="leading-[0.9] mb-8">
+              <span
+                className="block font-sans font-light text-[#e8e0d0]"
+                style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}
+              >
+                Interior
+              </span>
+              <span
+                className="block font-serif italic text-[#b5904a]"
+                style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)", fontWeight: 300 }}
+              >
+                Portfolio
+              </span>
+            </h1>
+            <p className="text-[#9a9488] font-light text-sm leading-relaxed max-w-sm">
+              A curated selection of completed projects across residential,
+              hospitality, and heritage contexts — each shaped by proportion,
+              lifestyle and light.
+            </p>
+          </div>
+
+          {/* Right: Featured image + badge */}
+          {featured && (
+            <div className="relative">
+              <div className="relative h-[300px] md:h-[360px] w-full rounded-2xl overflow-hidden">
+                <Image
+                  src={featured.mainImage}
+                  alt={featured.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              {/* Floating badge */}
+              <div className="absolute bottom-5 left-5 bg-[#2a2824]/90 backdrop-blur-sm rounded-xl px-5 py-3 shadow-lg max-w-[200px] border border-white/10">
+                <p className="text-[9px] uppercase tracking-widest text-[#b5904a] mb-1">Design One</p>
+                <p className="font-serif text-sm text-[#e8e0d0] leading-snug">
+                  Curated by Space, Mood &amp; Detail
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Filter bar ──────────────────────────────────────────── */}
+      <div className="site-container flex flex-wrap justify-center gap-3 pt-4 pb-8">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`text-[11px] uppercase tracking-widest pb-1 border-b transition-colors ${
-              filter === cat
-                ? "border-neutral-900 text-neutral-900 font-semibold"
-                : "border-transparent text-neutral-400 hover:text-neutral-700"
-            }`}
+            className={`text-[10px] sm:text-[11px] uppercase tracking-[0.15em] px-5 py-2.5 rounded-full border transition-all duration-300 ${filter === cat
+                ? "bg-[#b5904a] border-[#b5904a] text-[#1a1714] font-medium"
+                : "bg-transparent border-white/20 text-white/50 hover:border-white/50 hover:text-white"
+              }`}
           >
             {cat}
           </button>
         ))}
       </div>
 
-      {loading ? (
-        <div className="text-center py-40 uppercase tracking-widest text-[10px] text-neutral-400">
-          Loading Portfolio...
-        </div>
-      ) : (
-        <div className="space-y-0 px-0 pb-0">
-          {groupedProjects.map((group, groupIndex) => (
-            <ProjectPatternGroup
-              key={`group-${groupIndex}-${group.map((project) => project.id).join("-")}`}
-              group={group}
-              groupIndex={groupIndex}
-              startIndex={groupIndex * 4}
-            />
-          ))}
-        </div>
-      )}
+      {/* ── Project Grid ────────────────────────────────────────── */}
+      <div className="site-container pb-20">
+        {loading ? (
+          <div className="py-40 text-center text-[10px] uppercase tracking-widest text-white/30">
+            Loading Portfolio…
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="py-40 text-center">
+            <p className="text-white/30 font-light italic">No projects found in this category.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {groups.map((group, gi) => (
+              <ProjectSection
+                key={`group-${gi}-${group.map((p) => p.id).join("-")}`}
+                group={group}
+                groupIndex={gi}
+                startIndex={gi * 4}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
-      {!loading && filteredProjects.length === 0 && (
-        <div className="py-40 text-center px-8">
-          <p className="text-neutral-400 font-light italic">No projects found in this category.</p>
-        </div>
-      )}
     </main>
   );
 }

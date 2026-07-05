@@ -40,6 +40,28 @@ model ProjectContent {
   projectId String
   project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
   type      ContentType
-  content   String      // URL for IMAGE, text for TEXT
+  content   String // URL for IMAGE, text for TEXT
   order     Int
+}
+
+model Collaboration {
+  id              String                      @id @default(cuid())
+  name            String
+  category        String
+  description     String
+  fullDescription String
+  image           String
+  slug            String                      @unique
+  sortOrder       Int                         @default(0)
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+  gallery         CollaborationGalleryImage[]
+}
+
+model CollaborationGalleryImage {
+  id              String        @id @default(cuid())
+  collaborationId String
+  collaboration   Collaboration @relation(fields: [collaborationId], references: [id], onDelete: Cascade)
+  image           String
+  order           Int
 }

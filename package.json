@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "firebase:migrate:sqlite": "ts-node --compiler-options {\"module\":\"CommonJS\"} scripts/migrate-sqlite-to-firestore.ts",
     "start": "next start",
     "lint": "eslint",
     "images:svg:convert": "node scripts/convert-project-images-to-svg.js",

@@ -1,12 +1,58 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   ROOT FONT SCALING — The single source of truth for all display sizes.
+   
+   Reference viewport: 1707px (15.6" laptop at 100% OS zoom, 1920×1080)
+   At 1707px → 0.937vw = 16px (standard base)
+   
+   Display coverage:
+   ┌─────────────────────────────────────────────────────────────┐
+   │  10"  Tab    ~1280px  →  13.5px (clamp min)               │
+   │  13"  Laptop ~1440px  →  13.5px (still min)               │
+   │  15.6" Ref   ~1707px  →  16.0px (preferred = reference)   │
+   │  18"  Laptop ~1920px  →  18.0px                            │
+   │  21"  Monitor ~1920px →  18.0px                            │
+   │  24"  Monitor ~2560px →  22.0px (clamp max)               │
+   │  27"  Monitor ~2560px →  22.0px (clamp max)               │
+   └─────────────────────────────────────────────────────────────┘
+   
+   All Tailwind spacing (rem-based), all font sizes using rem,
+   and all clamp() expressions using rem will scale proportionally.
+═══════════════════════════════════════════════════════════════════════════ */
+html {
+  font-size: clamp(13.5px, 0.937vw, 22px);
+}
+
 :root {
   /* Brand Colors */
-  --primary: #1e3a8a; /* Deep Blue from Logo */
-  --secondary: #d4af37; /* Soft Gold/Brass */
-  --neutral-light: #f9f9f7; /* Warm White */
+  --primary: #1e3a8a;
+  --secondary: #d4af37;
+  --neutral-light: #f9f9f7;
   --neutral-dark: #1a1a1a;
-  --brand-red: #7a0016; /* Deep Red for Footer */
+  --brand-red: #7a0016;
+
+  /* ── Responsive text scale (all em-relative to html font-size) ──────── */
+  /* Use var(--text-*) in inline styles instead of raw px values */
+  --text-2xs:  0.5625rem;   /* ~9px  @ 16px base */
+  --text-xs:   0.625rem;    /* ~10px @ 16px base */
+  --text-sm:   0.6875rem;   /* ~11px @ 16px base */
+  --text-base: 0.75rem;     /* ~12px @ 16px base */
+  --text-md:   0.8125rem;   /* ~13px @ 16px base */
+  --text-body: 0.875rem;    /* ~14px @ 16px base */
+  --text-lg:   1rem;        /* ~16px @ 16px base */
+
+  /* ── Responsive spacing ─────────────────────────────────────────────── */
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2.5rem;
+  --space-2xl: 4rem;
+
+  /* ── Site-wide max content width ────────────────────────────────────── */
+  /* Grows with viewport so large screens feel full, not narrow */
+  --content-width: min(90vw, 112rem); /* 112rem = 1792px @ 16px base */
 }
 
 @theme inline {
@@ -19,19 +65,19 @@
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
   --font-script: var(--font-script);
-  
+
   /* Animation Utilities */
   --animate-fade-in: fade-in 0.8s ease-out forwards;
   --animate-slide-up: slide-up 0.8s ease-out forwards;
-  
+
   @keyframes fade-in {
     from { opacity: 0; }
-    to { opacity: 1; }
+    to   { opacity: 1; }
   }
-  
+
   @keyframes slide-up {
     from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 }
 
@@ -46,3 +92,46 @@ body {
   font-weight: 400;
   line-height: 1.05;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SITE-WIDE CONTAINER
+   Use class="site-container" anywhere you want content max-width capped
+   and auto-centered with responsive side padding.
+───────────────────────────────────────────────────────────────────────── */
+.site-container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(2rem, 4vw, 5rem);
+  padding-right: clamp(2rem, 4vw, 5rem);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   VIEWPORT-RESPONSIVE SECTION PADDING
+   These utility classes replace hardcoded py-20 md:py-28 patterns.
+───────────────────────────────────────────────────────────────────────── */
+.section-pad {
+  padding-top:    clamp(3.5rem, 5.5vw, 7rem);
+  padding-bottom: clamp(3.5rem, 5.5vw, 7rem);
+  padding-left:   clamp(2rem, 4vw, 5rem);
+  padding-right:  clamp(2rem, 4vw, 5rem);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   TAILWIND OVERRIDE — Fix max-w-screen-xl and max-w-screen-2xl
+   to grow proportionally with the viewport on large monitors.
+───────────────────────────────────────────────────────────────────────── */
+.max-w-screen-xl,
+.max-w-screen-2xl {
+  max-width: var(--content-width) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   TAILWIND OVERRIDE — Scale key fixed px values to rem so they benefit
+   from the root font scaling above.
+───────────────────────────────────────────────────────────────────────── */
+
+/* Navbar logo */
+.lg\:w-48 { width: 12rem; }
+.lg\:h-12 { height: 3rem; }

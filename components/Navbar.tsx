@@ -10,13 +10,15 @@ import { Container } from "@/components/Container";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
+    { href: "/", label: "Home" },
     { href: "/projects", label: "Portfolio" },
+    { href: "/raw-canvas", label: "Raw Canvas" },
     { href: "/collaborations", label: "Collaboration" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact Us" },
 ];
 
-// Pages that start with a dark full-bleed hero image — navbar should be transparent/white text
+// Pages where the navbar starts fully transparent (dark hero behind it)
 const darkHeroPages = ["/", "/about", "/contact"];
 
 export const Navbar = () => {
@@ -25,9 +27,6 @@ export const Navbar = () => {
     const pathname = usePathname();
 
     const hasDarkHero = darkHeroPages.includes(pathname);
-    // If no dark hero (e.g. /projects, /journal), start dark regardless of scroll
-    // Force dark text when mobile menu is open (white bg)
-    const useLightText = hasDarkHero && !isScrolled && !isMobileMenuOpen;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -47,28 +46,28 @@ export const Navbar = () => {
         return () => { document.body.style.overflow = ""; };
     }, [isMobileMenuOpen]);
 
+    if (pathname === "/raw-canvas") return null;
+
     return (
         <nav
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out",
                 isScrolled
-                    ? "bg-white/95 backdrop-blur-md shadow-sm py-4"
+                    ? "bg-white/10 backdrop-blur-2xl border-b border-white/15 py-4"
                     : hasDarkHero
                         ? "bg-transparent py-6"
-                        : "bg-white/95 backdrop-blur-md py-5 border-b border-neutral-100"
+                        : "bg-white/10 backdrop-blur-2xl border-b border-white/15 py-5"
             )}
         >
             <Container className="flex items-center justify-between">
-                <Link href="/" className="relative z-50">
-                    <div className="relative h-10 w-40 lg:h-12 lg:w-48">
+                <Link href="/" className="relative z-50 flex items-center">
+                    {/* Logo is oversized vertically but uses -my margins to stay within navbar flow */}
+                    <div className="relative h-16 w-52 lg:h-20 lg:w-64 -my-4">
                         <Image
                             src="/logo.png"
                             alt="Interior Designer Logo"
                             fill
-                            className={cn(
-                                "object-contain transition-all duration-500",
-                                useLightText ? "brightness-0 invert" : "brightness-100"
-                            )}
+                            className="object-contain object-left brightness-0 invert"
                             priority
                         />
                     </div>
@@ -80,29 +79,21 @@ export const Navbar = () => {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className={cn(
-                                "text-[11px] font-medium tracking-widest uppercase transition-colors",
-                                useLightText
-                                    ? "text-white/90 hover:text-white"
-                                    : "text-neutral-700 hover:text-primary"
-                            )}
+                            className="text-[11px] font-medium tracking-widest uppercase text-white/90 hover:text-white transition-colors"
                         >
                             {link.label}
                         </Link>
                     ))}
                 </div>
 
-            {/* Mobile Menu Toggle */}
-            <button
-                className={cn(
-                    "lg:hidden z-[1000] relative p-2 transition-colors",
-                    isMobileMenuOpen ? "text-neutral-900" : useLightText ? "text-white" : "text-neutral-800"
-                )}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+                {/* Mobile Menu Toggle */}
+                <button
+                    className="lg:hidden z-[1000] relative p-2 text-white transition-colors"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </Container>
 
             {/* Mobile Menu Overlay */}

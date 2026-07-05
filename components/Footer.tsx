@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export const Footer = () => {
+    const pathname = usePathname();
+    if (pathname === "/raw-canvas") return null;
+
     return (
         <footer className="bg-brand-red text-white/80 font-sans">
             <div className="max-w-screen-2xl mx-auto px-8 md:px-16 py-16 md:py-24">
@@ -38,6 +44,7 @@ export const Footer = () => {
                         <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
                         <Link href="/collaborations" className="hover:text-white transition-colors">Collaboration</Link>
                         <Link href="/projects" className="hover:text-white transition-colors">Portfolio</Link>
+                        <Link href="/raw-canvas" className="hover:text-white transition-colors">Raw Canvas</Link>
                     </div>
 
                     {/* Column 3: Social Links */}

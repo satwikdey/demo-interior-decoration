@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { deleteProject, getProjectById, getProjectBySlug, updateProject } from "@/lib/firestore-data";
+import { authOptions } from "@/lib/auth";
+import { deleteProject, getProjectById, getProjectBySlug, updateProject } from "@/lib/data-store";
 
 export async function GET(
-  request: Request,
+  _request: Request,
   props: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -15,14 +16,14 @@ export async function GET(
     }
 
     return NextResponse.json(project);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
   }
 }
 
 // Special route for slug-based fetching (public)
 export async function PATCH(
-  request: Request,
+  _request: Request,
   props: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -34,7 +35,7 @@ export async function PATCH(
     }
 
     return NextResponse.json(project);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
   }
 }
@@ -43,7 +44,7 @@ export async function PUT(
   request: Request,
   props: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -82,20 +83,24 @@ export async function PUT(
     }
 
     return NextResponse.json(updatedProject);
-  } catch (error: any) {
+  } catch (error) {
+    const updateError = error as { code?: string; message?: string };
     console.error("Update error:", error);
-    if (error.code === "SLUG_EXISTS") {
+    if (updateError.code === "SLUG_EXISTS") {
       return NextResponse.json({ error: "Slug already exists. Please choose a unique URL slug." }, { status: 400 });
     }
-    return NextResponse.json({ error: "Failed to update project", details: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update project", details: updateError.message ?? "Unknown error" },
+      { status: 500 }
+    );
   }
 }
 
 export async function DELETE(
-  request: Request,
+  _request: Request,
   props: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -107,7 +112,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
     return NextResponse.json({ message: "Project deleted" });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });
   }
 }

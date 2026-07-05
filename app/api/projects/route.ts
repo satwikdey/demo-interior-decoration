@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { createProject, listProjects } from "@/lib/firestore-data";
+import { authOptions } from "@/lib/auth";
+import { createProject, listProjects } from "@/lib/data-store";
 
 interface ContentBlockInput {
   type: "IMAGE" | "TEXT";
@@ -23,22 +24,12 @@ export async function GET() {
     return NextResponse.json(projects);
   } catch (error) {
     console.error("Fetch projects error:", error);
-    const message = error instanceof Error ? error.message : "";
-    if (
-      message.includes("Could not load the default credentials") ||
-      message.includes("Firebase Admin is not configured")
-    ) {
-      return NextResponse.json([], {
-        status: 200,
-        headers: { "x-data-source": "fallback-empty-no-firebase-credentials" },
-      });
-    }
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

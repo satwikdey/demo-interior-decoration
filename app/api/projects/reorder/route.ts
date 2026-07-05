@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { countExistingProjectsByIds, reorderProjects } from "@/lib/firestore-data";
+import { authOptions } from "@/lib/auth";
+import { countExistingProjectsByIds, reorderProjects } from "@/lib/data-store";
 
 interface ReorderPayload {
   projectIds: string[];
 }
 
 export async function PATCH(request: Request) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

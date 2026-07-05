@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getProjectBySlug } from "@/lib/firestore-data";
+import { getProjectBySlug } from "@/lib/data-store";
 
 export async function GET(
-  request: Request,
+  _request: Request,
   props: { params: Promise<{ slug: string }> }
 ) {
   try {
@@ -14,7 +14,7 @@ export async function GET(
     }
 
     return NextResponse.json(project);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
   }
 }

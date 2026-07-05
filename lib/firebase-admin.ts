@@ -1,5 +1,6 @@
 import { App, cert, getApps, initializeApp } from "firebase-admin/app";
 import { Firestore, getFirestore } from "firebase-admin/firestore";
+import { getStorage } from "firebase-admin/storage";
 
 let firebaseApp: App | null = null;
 
@@ -21,6 +22,7 @@ export function getFirebaseAdminApp(): App {
   const projectId = getEnv("FIREBASE_PROJECT_ID") ?? getEnv("NEXT_PUBLIC_FIREBASE_PROJECT_ID");
   const clientEmail = getEnv("FIREBASE_CLIENT_EMAIL");
   const privateKey = getEnv("FIREBASE_PRIVATE_KEY")?.replace(/\\n/g, "\n");
+  const storageBucket = getEnv("FIREBASE_STORAGE_BUCKET") ?? getEnv("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET");
 
   if (projectId && clientEmail && privateKey) {
     firebaseApp = initializeApp({
@@ -30,12 +32,13 @@ export function getFirebaseAdminApp(): App {
         privateKey,
       }),
       projectId,
+      storageBucket,
     });
     return firebaseApp;
   }
 
   if (projectId) {
-    firebaseApp = initializeApp({ projectId });
+    firebaseApp = initializeApp({ projectId, storageBucket });
     return firebaseApp;
   }
 
@@ -46,4 +49,20 @@ export function getFirebaseAdminApp(): App {
 
 export function getFirebaseDb(): Firestore {
   return getFirestore(getFirebaseAdminApp());
+}
+
+export function getFirebaseStorageBucket() {
+  const app = getFirebaseAdminApp();
+  const bucketName =
+    getEnv("FIREBASE_STORAGE_BUCKET") ??
+    getEnv("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET") ??
+    app.options.storageBucket;
+
+  if (!bucketName) {
+    throw new Error(
+      "Firebase Storage is not configured. Add FIREBASE_STORAGE_BUCKET or NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET to .env.local."
+    );
+  }
+
+  return getStorage(app).bucket(bucketName);
 }
