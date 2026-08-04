@@ -5,6 +5,8 @@ const FALLBACK_FIREBASE_MESSAGES = [
   "Could not load the default credentials",
   "Could not load the default Google application credentials",
   "Firebase Storage is not configured",
+  "Cloud Firestore API has not been used",
+  "SERVICE_DISABLED",
 ];
 
 function normalizeMode(value: string | undefined): DataBackendMode {

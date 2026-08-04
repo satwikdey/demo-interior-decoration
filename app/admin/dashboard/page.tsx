@@ -87,30 +87,30 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="min-h-screen bg-white py-32">
+    <main className="min-h-screen bg-[#DFD6CD] py-32">
       <Container>
-        <div className="flex justify-between items-end mb-12 pb-8 border-b border-neutral-100">
+        <div className="flex justify-between items-end mb-12 pb-8 border-b border-[#9A8E84]/20">
           <div>
             <h1 className="font-serif text-4xl mb-2">Portfolio Management</h1>
-            <p className="text-neutral-400 text-[10px] uppercase tracking-widest">Admin Dashboard</p>
-            <p className="text-neutral-400 text-[10px] uppercase tracking-widest mt-2">
+            <p className="text-[#9A8E84] text-[10px] uppercase tracking-widest">Admin Dashboard</p>
+            <p className="text-[#9A8E84] text-[10px] uppercase tracking-widest mt-2">
               Use arrows to set portfolio order
               {reordering ? " - saving..." : ""}
             </p>
           </div>
           <Link
             href="/admin/projects/new"
-            className="bg-neutral-900 text-white px-8 py-3 text-[11px] uppercase tracking-widest flex items-center gap-2 hover:bg-neutral-800 transition-colors"
+            className="bg-[#B08E68] text-[#DFD6CD] px-8 py-3 text-[11px] uppercase tracking-widest flex items-center gap-2 hover:bg-[#9A8E84] transition-colors"
           >
             <Plus size={14} /> Add Project
           </Link>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-neutral-400 uppercase tracking-widest text-[11px]">Loading projects...</div>
+          <div className="text-center py-20 text-[#9A8E84] uppercase tracking-widest text-[11px]">Loading projects...</div>
         ) : projects.length === 0 ? (
-          <div className="text-center py-20 border-2 border-dashed border-neutral-100">
-            <p className="text-neutral-400 mb-6">No projects found</p>
+          <div className="text-center py-20 border-2 border-dashed border-[#9A8E84]/20">
+            <p className="text-[#9A8E84] mb-6">No projects found</p>
             <Link href="/admin/projects/new" className="text-primary uppercase tracking-widest text-[11px] font-bold">
               Create your first project
             </Link>
@@ -118,25 +118,25 @@ export default function Dashboard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <div key={project.id} className="group bg-neutral-50 border border-neutral-100 overflow-hidden transition-all hover:shadow-lg">
+              <div key={project.id} className="group bg-[#DFD6CD] border border-[#9A8E84]/20 overflow-hidden transition-all hover:shadow-lg">
                 <div className="relative h-64 w-full overflow-hidden">
                   <img
                     src={project.mainImage}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+                  <div className="absolute inset-0 bg-[#6A5A49]/0 group-hover:bg-[#6A5A49]/20 transition-colors duration-500" />
                 </div>
                 <div className="p-8">
-                  <p className="text-[10px] uppercase tracking-widest text-neutral-400 mb-2">{project.category}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">{project.category}</p>
                   <h3 className="font-serif text-2xl mb-4">{project.title}</h3>
                   <div className="flex items-center justify-between mb-4">
-                    <p className="text-[10px] uppercase tracking-widest text-neutral-400">Position {index + 1}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-[#9A8E84]">Position {index + 1}</p>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => moveProject(index, "up")}
                         disabled={reordering || index === 0}
-                        className="flex items-center justify-center border border-neutral-200 h-8 w-8 text-neutral-500 hover:bg-white hover:text-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="flex items-center justify-center border border-[#9A8E84]/35 h-8 w-8 text-[#6A5A49]/70 hover:bg-[#DFD6CD] hover:text-[#6A5A49] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                         title="Move up"
                         aria-label={`Move ${project.title} up`}
                       >
@@ -145,7 +145,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => moveProject(index, "down")}
                         disabled={reordering || index === projects.length - 1}
-                        className="flex items-center justify-center border border-neutral-200 h-8 w-8 text-neutral-500 hover:bg-white hover:text-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="flex items-center justify-center border border-[#9A8E84]/35 h-8 w-8 text-[#6A5A49]/70 hover:bg-[#DFD6CD] hover:text-[#6A5A49] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                         title="Move down"
                         aria-label={`Move ${project.title} down`}
                       >
@@ -156,20 +156,20 @@ export default function Dashboard() {
                   <div className="flex items-center gap-4">
                     <Link
                       href={`/admin/projects/${project.id}`}
-                      className="flex-1 flex items-center justify-center gap-2 border border-neutral-200 py-3 text-[10px] uppercase tracking-widest hover:bg-white transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 border border-[#9A8E84]/35 py-3 text-[10px] uppercase tracking-widest hover:bg-[#DFD6CD] transition-colors"
                     >
                       <Edit size={12} /> Edit
                     </Link>
                     <button
                       onClick={() => deleteProject(project.id)}
-                      className="flex items-center justify-center gap-2 border border-neutral-200 py-3 px-4 text-[10px] uppercase tracking-widest hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-colors"
+                      className="flex items-center justify-center gap-2 border border-[#9A8E84]/35 py-3 px-4 text-[10px] uppercase tracking-widest hover:bg-[#9A8E84]/15 hover:text-[#6A5A49] hover:border-[#9A8E84] transition-colors"
                     >
                       <Trash2 size={12} />
                     </button>
                     <Link
                       href={`/projects/${project.slug}`}
                       target="_blank"
-                      className="flex items-center justify-center gap-2 border border-neutral-200 py-3 px-4 text-[10px] uppercase tracking-widest hover:bg-white transition-colors"
+                      className="flex items-center justify-center gap-2 border border-[#9A8E84]/35 py-3 px-4 text-[10px] uppercase tracking-widest hover:bg-[#DFD6CD] transition-colors"
                     >
                       <ExternalLink size={12} />
                     </Link>

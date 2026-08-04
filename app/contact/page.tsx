@@ -13,7 +13,7 @@ export default function Contact() {
     }
 
     return (
-        <main className="min-h-screen" style={{ background: "#181818" }}>
+        <main className="min-h-screen bg-[#DFD6CD]">
 
             {/* ── HERO — Full bleed image with heading overlay ────── */}
             <section className="relative w-full overflow-hidden" style={{ minHeight: "55vh" }}>
@@ -29,21 +29,21 @@ export default function Contact() {
                 <div
                     className="absolute inset-0"
                     style={{
-                        background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(24,24,24,0.95) 100%)",
+                        background: "linear-gradient(to bottom, rgba(106,90,73,0.3) 0%, rgba(106,90,73,0.95) 100%)",
                     }}
                 />
 
                 {/* Hero text */}
                 <div className="relative z-10 site-container h-full flex flex-col justify-end pb-14 pt-36">
                     <p
-                        className="uppercase text-[#a08060] mb-5"
+                        className="uppercase text-[#9A8E84] mb-5"
                         style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
                     >
                         Let&apos;s Talk
                     </p>
                     <h1 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
                         <span
-                            className="block text-[#e8e0d0] font-light"
+                            className="block text-[#DFD6CD] font-light"
                             style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)" }}
                         >
                             Get in
@@ -53,14 +53,14 @@ export default function Contact() {
                             style={{
                                 fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)",
                                 fontWeight: 300,
-                                color: "#c4b89a",
+                                color: "#9A8E84",
                             }}
                         >
                             Touch.
                         </span>
                     </h1>
                     <p
-                        className="text-[#6e6e62] font-light leading-relaxed mt-8 max-w-lg"
+                        className="text-[#DFD6CD]/70 font-light leading-relaxed mt-8 max-w-lg"
                         style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                     >
                         We are currently accepting new projects for 2026. Fill out the form below
@@ -70,7 +70,7 @@ export default function Contact() {
             </section>
 
             {/* ── FORM + INFO GRID ────────────────────────────────── */}
-            <section style={{ background: "#181818" }}>
+            <section style={{ background: "#DFD6CD" }}>
                 <Container className="py-20 md:py-28">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 max-w-5xl mx-auto">
 
@@ -78,17 +78,17 @@ export default function Contact() {
                         <div className="space-y-10">
                             <div>
                                 <p
-                                    className="uppercase text-[#a08060] mb-6"
+                                    className="uppercase text-[#9A8E84] mb-6"
                                     style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
                                 >
                                     Studio Information
                                 </p>
                                 <h2
-                                    className="text-[#e8e0d0] font-light leading-[0.95] mb-6"
+                                    className="text-[#6A5A49] font-light leading-[0.95] mb-6"
                                     style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.6rem, 2.8vw, 2.5rem)" }}
                                 >
                                     Design One<br />
-                                    <span className="italic" style={{ color: "#c4b89a" }}>Studio</span>
+                                    <span className="italic" style={{ color: "#9A8E84" }}>Studio</span>
                                 </h2>
                             </div>
 
@@ -112,10 +112,9 @@ export default function Contact() {
                                 <div
                                     key={label}
                                     className="py-5"
-                                    style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
                                 >
                                     <p
-                                        className="uppercase text-[#5a5a52] mb-2"
+                                        className="uppercase text-[#6A5A49]/65 mb-2"
                                         style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
                                     >
                                         {label}
@@ -123,14 +122,14 @@ export default function Contact() {
                                     {href ? (
                                         <a
                                             href={href}
-                                            className="text-[#c4b89a] font-light hover:text-[#e8e0d0] transition-colors duration-300"
+                                            className="text-[#6A5A49] font-light hover:text-[#9A8E84] transition-colors duration-300"
                                             style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                                         >
                                             {value}
                                         </a>
                                     ) : (
                                         <p
-                                            className="text-[#9a9488] font-light leading-relaxed whitespace-pre-line"
+                                            className="text-[#6A5A49]/70 font-light leading-relaxed whitespace-pre-line"
                                             style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                                         >
                                             {value}
@@ -142,10 +141,9 @@ export default function Contact() {
                             {/* Socials */}
                             <div
                                 className="py-5"
-                                style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
                             >
                                 <p
-                                    className="uppercase text-[#5a5a52] mb-4"
+                                    className="uppercase text-[#6A5A49]/65 mb-4"
                                     style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
                                 >
                                     Follow
@@ -155,7 +153,7 @@ export default function Contact() {
                                         <a
                                             key={s}
                                             href="#"
-                                            className="text-[#6e6e62] hover:text-[#c4b89a] transition-colors duration-300 font-light"
+                                            className="text-[#6A5A49]/70 hover:text-[#9A8E84] transition-colors duration-300 font-light"
                                             style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                                         >
                                             {s}
@@ -168,7 +166,7 @@ export default function Contact() {
                         {/* ── Inquiry Form ── */}
                         <div>
                             <p
-                                className="uppercase text-[#a08060] mb-8"
+                                className="uppercase text-[#9A8E84] mb-8"
                                 style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
                             >
                                 Inquiry Form
@@ -177,29 +175,32 @@ export default function Contact() {
                             {submitted ? (
                                 <div
                                     className="flex flex-col items-start justify-center py-16"
-                                    style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                                    style={{ borderTop: "1px solid rgba(154,142,132,0.35)" }}
                                 >
                                     <p
-                                        className="text-[#c4b89a] mb-3"
+                                        className="text-[#9A8E84] mb-3"
                                         style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontStyle: "italic" }}
                                     >
                                         Thank you.
                                     </p>
                                     <p
-                                        className="text-[#6e6e62] font-light"
+                                        className="text-[#6A5A49]/70 font-light"
                                         style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                                     >
                                         Your inquiry has been received. We will be in touch within 48 hours.
                                     </p>
                                 </div>
                             ) : (
-                                <form onSubmit={handleSubmit} className="space-y-8">
+                                <form onSubmit={handleSubmit} className="space-y-0">
                                     {/* Name row */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div
+                                        className="grid grid-cols-1 gap-6 border-b border-[#9A8E84]/35 pb-6 md:grid-cols-2 md:gap-8"
+                                        style={{ minHeight: "6.25rem" }}
+                                    >
                                         {["First Name", "Last Name"].map((field) => (
-                                            <div key={field} className="space-y-2">
+                                            <div key={field} className="flex flex-col justify-between">
                                                 <label
-                                                    className="block uppercase text-[#5a5a52]"
+                                                    className="block uppercase text-[#6A5A49]/65"
                                                     style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
                                                 >
                                                     {field}
@@ -207,24 +208,24 @@ export default function Contact() {
                                                 <input
                                                     type="text"
                                                     required
-                                                    className="w-full py-3 bg-transparent focus:outline-none transition-colors"
+                                                    className="w-full bg-transparent py-3 transition-colors focus:outline-none"
                                                     style={{
-                                                        borderBottom: "1px solid rgba(255,255,255,0.12)",
-                                                        color: "#e8e0d0",
+                                                        color: "#6A5A49",
                                                         fontSize: "var(--text-md)",
                                                         fontFamily: "var(--font-sans)",
                                                     }}
-                                                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = "#c4b89a")}
-                                                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = "rgba(255,255,255,0.12)")}
                                                 />
                                             </div>
                                         ))}
                                     </div>
 
                                     {/* Email */}
-                                    <div className="space-y-2">
+                                    <div
+                                        className="flex flex-col justify-between border-b border-[#9A8E84]/35 py-6"
+                                        style={{ minHeight: "6.25rem" }}
+                                    >
                                         <label
-                                            className="block uppercase text-[#5a5a52]"
+                                            className="block uppercase text-[#6A5A49]/65"
                                             style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
                                         >
                                             Email Address
@@ -232,51 +233,48 @@ export default function Contact() {
                                         <input
                                             type="email"
                                             required
-                                            className="w-full py-3 bg-transparent focus:outline-none transition-colors"
+                                            className="w-full bg-transparent py-3 transition-colors focus:outline-none"
                                             style={{
-                                                borderBottom: "1px solid rgba(255,255,255,0.12)",
-                                                color: "#e8e0d0",
+                                                color: "#6A5A49",
                                                 fontSize: "var(--text-md)",
                                                 fontFamily: "var(--font-sans)",
                                             }}
-                                            onFocus={(e) => (e.currentTarget.style.borderBottomColor = "#c4b89a")}
-                                            onBlur={(e) => (e.currentTarget.style.borderBottomColor = "rgba(255,255,255,0.12)")}
                                         />
                                     </div>
 
                                     {/* Project type */}
-                                    <div className="space-y-2">
+                                    <div
+                                        className="flex flex-col justify-between border-b border-[#9A8E84]/35 py-6"
+                                        style={{ minHeight: "6.25rem" }}
+                                    >
                                         <label
-                                            className="block uppercase text-[#5a5a52]"
+                                            className="block uppercase text-[#6A5A49]/65"
                                             style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
                                         >
                                             Project Type
                                         </label>
                                         <select
-                                            className="w-full py-3 bg-transparent focus:outline-none transition-colors appearance-none cursor-pointer"
+                                            className="w-full cursor-pointer appearance-none bg-transparent py-3 transition-colors focus:outline-none"
                                             style={{
-                                                borderBottom: "1px solid rgba(255,255,255,0.12)",
-                                                color: "#9a9488",
+                                                color: "#6A5A49",
                                                 fontSize: "var(--text-md)",
                                                 fontFamily: "var(--font-sans)",
                                                 background: "transparent",
                                             }}
-                                            onFocus={(e) => (e.currentTarget.style.borderBottomColor = "#c4b89a")}
-                                            onBlur={(e) => (e.currentTarget.style.borderBottomColor = "rgba(255,255,255,0.12)")}
                                         >
-                                            <option value="" style={{ background: "#242424" }}>Select a category</option>
-                                            <option value="residential" style={{ background: "#242424" }}>Residential Interior</option>
-                                            <option value="commercial" style={{ background: "#242424" }}>Commercial Space</option>
-                                            <option value="hospitality" style={{ background: "#242424" }}>Hospitality</option>
-                                            <option value="styling" style={{ background: "#242424" }}>Styling & Decoration</option>
-                                            <option value="other" style={{ background: "#242424" }}>Other</option>
+                                            <option value="" style={{ background: "#DFD6CD" }}>Select a category</option>
+                                            <option value="residential" style={{ background: "#DFD6CD" }}>Residential Interior</option>
+                                            <option value="commercial" style={{ background: "#DFD6CD" }}>Commercial Space</option>
+                                            <option value="hospitality" style={{ background: "#DFD6CD" }}>Hospitality</option>
+                                            <option value="styling" style={{ background: "#DFD6CD" }}>Styling & Decoration</option>
+                                            <option value="other" style={{ background: "#DFD6CD" }}>Other</option>
                                         </select>
                                     </div>
 
                                     {/* Message */}
-                                    <div className="space-y-2">
+                                    <div className="flex flex-col justify-between border-b border-[#9A8E84]/35 py-6">
                                         <label
-                                            className="block uppercase text-[#5a5a52]"
+                                            className="block uppercase text-[#6A5A49]/65"
                                             style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
                                         >
                                             Message
@@ -285,25 +283,22 @@ export default function Contact() {
                                             rows={4}
                                             required
                                             placeholder="Tell us about your project..."
-                                            className="w-full py-3 bg-transparent focus:outline-none transition-colors resize-none"
+                                            className="w-full resize-none bg-transparent py-3 transition-colors focus:outline-none"
                                             style={{
-                                                borderBottom: "1px solid rgba(255,255,255,0.12)",
-                                                color: "#e8e0d0",
+                                                color: "#6A5A49",
                                                 fontSize: "var(--text-md)",
                                                 fontFamily: "var(--font-sans)",
                                             }}
-                                            onFocus={(e) => (e.currentTarget.style.borderBottomColor = "#c4b89a")}
-                                            onBlur={(e) => (e.currentTarget.style.borderBottomColor = "rgba(255,255,255,0.12)")}
                                         />
                                     </div>
 
                                     {/* Submit */}
                                     <button
                                         type="submit"
-                                        className="inline-flex items-center gap-3 px-10 py-4 font-medium transition-all duration-300 hover:opacity-90 active:scale-[0.98]"
+                                        className="mt-10 inline-flex items-center gap-3 px-10 py-4 font-medium transition-all duration-300 hover:opacity-90 active:scale-[0.98]"
                                         style={{
-                                            background: "#c4b89a",
-                                            color: "#181818",
+                                            background: "#B08E68",
+                                            color: "#6A5A49",
                                             fontSize: "var(--text-sm)",
                                             letterSpacing: "0.2em",
                                             textTransform: "uppercase",

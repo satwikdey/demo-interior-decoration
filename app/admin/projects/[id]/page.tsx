@@ -11,6 +11,16 @@ interface ContentBlock {
   content: string;
 }
 
+interface ProjectData {
+  title: string;
+  slug: string;
+  location: string;
+  category: string;
+  description: string;
+  mainImage: string;
+  content?: ContentBlock[];
+}
+
 export default function EditProject() {
   const router = useRouter();
   const params = useParams();
@@ -18,7 +28,7 @@ export default function EditProject() {
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [projectData, setProjectData] = useState<any>(null);
+  const [projectData, setProjectData] = useState<ProjectData | null>(null);
   const [mainImage, setMainImage] = useState("");
   const [blocks, setBlocks] = useState<ContentBlock[]>([]);
 
@@ -26,7 +36,7 @@ export default function EditProject() {
     const fetchProject = async () => {
       try {
         const res = await fetch(`/api/projects/${id}`);
-        const data = await res.json();
+        const data = (await res.json()) as ProjectData;
         setProjectData(data);
         setMainImage(data.mainImage);
         setBlocks(data.content || []);
@@ -114,14 +124,18 @@ export default function EditProject() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center uppercase tracking-widest text-neutral-400 text-[11px]">Loading Project...</div>;
+    return <div className="min-h-screen flex items-center justify-center uppercase tracking-widest text-[#9A8E84] text-[11px]">Loading Project...</div>;
+  }
+
+  if (!projectData) {
+    return <div className="min-h-screen flex items-center justify-center uppercase tracking-widest text-[#9A8E84] text-[11px]">Project not found.</div>;
   }
 
   return (
-    <main className="min-h-screen bg-neutral-50 py-32">
+    <main className="min-h-screen bg-[#DFD6CD] py-32">
       <Container>
         <div className="mb-12">
-          <Link href="/admin/dashboard" className="inline-flex items-center text-[10px] uppercase tracking-widest text-neutral-400 hover:text-black transition-colors mb-6">
+          <Link href="/admin/dashboard" className="inline-flex items-center text-[10px] uppercase tracking-widest text-[#9A8E84] hover:text-[#6A5A49] transition-colors mb-6">
             <ArrowLeft size={14} className="mr-2" /> Back to Dashboard
           </Link>
           <h1 className="font-serif text-4xl">Edit Project: {projectData.title}</h1>
@@ -130,24 +144,24 @@ export default function EditProject() {
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-12">
             {/* Basic Info */}
-            <section className="bg-white p-10 border border-neutral-100 shadow-sm space-y-8">
-              <h2 className="text-[10px] uppercase tracking-widest text-neutral-400 border-b border-neutral-100 pb-4">General Information</h2>
+            <section className="bg-[#DFD6CD] p-10 border border-[#9A8E84]/20 shadow-sm space-y-8">
+              <h2 className="text-[10px] uppercase tracking-widest text-[#9A8E84] border-b border-[#9A8E84]/20 pb-4">General Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Project Title</label>
-                  <input name="title" defaultValue={projectData.title} required className="w-full border-b border-neutral-100 py-2 focus:border-black outline-none transition-colors" />
+                  <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Project Title</label>
+                  <input name="title" defaultValue={projectData.title} required className="w-full border-b border-[#9A8E84]/20 py-2 focus:border-[#6A5A49] outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Slug (URL)</label>
-                  <input name="slug" defaultValue={projectData.slug} required className="w-full border-b border-neutral-100 py-2 focus:border-black outline-none transition-colors" />
+                  <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Slug (URL)</label>
+                  <input name="slug" defaultValue={projectData.slug} required className="w-full border-b border-[#9A8E84]/20 py-2 focus:border-[#6A5A49] outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Location</label>
-                  <input name="location" defaultValue={projectData.location} required className="w-full border-b border-neutral-100 py-2 focus:border-black outline-none transition-colors" />
+                  <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Location</label>
+                  <input name="location" defaultValue={projectData.location} required className="w-full border-b border-[#9A8E84]/20 py-2 focus:border-[#6A5A49] outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Category</label>
-                  <select name="category" defaultValue={projectData.category} required className="w-full border-b border-neutral-100 py-2 focus:border-black outline-none bg-transparent">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Category</label>
+                  <select name="category" defaultValue={projectData.category} required className="w-full border-b border-[#9A8E84]/20 py-2 focus:border-[#6A5A49] outline-none bg-transparent">
                     <option value="Private Residential">Private Residential</option>
                     <option value="Hospitality">Hospitality</option>
                     <option value="Heritage & Commercial">Heritage & Commercial</option>
@@ -155,20 +169,20 @@ export default function EditProject() {
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Short Description</label>
-                <textarea name="description" defaultValue={projectData.description} rows={3} required className="w-full border border-neutral-100 p-4 focus:border-black outline-none transition-colors font-light text-sm" />
+                <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Short Description</label>
+                <textarea name="description" defaultValue={projectData.description} rows={3} required className="w-full border border-[#9A8E84]/20 p-4 focus:border-[#6A5A49] outline-none transition-colors font-light text-sm" />
               </div>
             </section>
 
             {/* Dynamic Content Blocks */}
-            <section className="bg-white p-10 border border-neutral-100 shadow-sm space-y-8">
-              <div className="flex justify-between items-center border-b border-neutral-100 pb-4">
-                <h2 className="text-[10px] uppercase tracking-widest text-neutral-400">Project Detail Blocks</h2>
+            <section className="bg-[#DFD6CD] p-10 border border-[#9A8E84]/20 shadow-sm space-y-8">
+              <div className="flex justify-between items-center border-b border-[#9A8E84]/20 pb-4">
+                <h2 className="text-[10px] uppercase tracking-widest text-[#9A8E84]">Project Detail Blocks</h2>
                 <div className="flex gap-4">
-                  <button type="button" onClick={() => addBlock("TEXT")} className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-neutral-500 hover:text-black transition-colors">
+                  <button type="button" onClick={() => addBlock("TEXT")} className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-[#6A5A49]/70 hover:text-[#6A5A49] transition-colors">
                     <Type size={14} /> Add Text
                   </button>
-                  <button type="button" onClick={() => addBlock("IMAGE")} className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-neutral-500 hover:text-black transition-colors">
+                  <button type="button" onClick={() => addBlock("IMAGE")} className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-[#6A5A49]/70 hover:text-[#6A5A49] transition-colors">
                     <ImageIcon size={14} /> Add Image
                   </button>
                 </div>
@@ -176,46 +190,46 @@ export default function EditProject() {
 
               <div className="space-y-8">
                 {blocks.map((block, index) => (
-                  <div key={index} className="group relative border border-neutral-50 p-6 bg-neutral-50/30 hover:border-neutral-200 transition-colors">
+                  <div key={index} className="group relative border border-[#DFD6CD]/40 p-6 bg-[#DFD6CD]/30 hover:border-[#9A8E84]/35 transition-colors">
                     <button
                       type="button"
                       onClick={() => removeBlock(index)}
-                      className="absolute top-4 right-4 text-neutral-300 hover:text-red-500 transition-colors"
+                      className="absolute top-4 right-4 text-[#9A8E84] hover:text-[#6A5A49] transition-colors"
                     >
                       <Trash2 size={16} />
                     </button>
                     
                     {block.type === "TEXT" ? (
                       <div>
-                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-neutral-400 mb-4">
+                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#9A8E84] mb-4">
                           <Type size={12} /> Text Block
                         </div>
                         <textarea
                           value={block.content}
                           onChange={(e) => updateBlock(index, e.target.value)}
                           rows={6}
-                          className="w-full border border-neutral-100 p-4 focus:border-black outline-none bg-white font-light leading-relaxed"
+                          className="w-full border border-[#9A8E84]/20 p-4 focus:border-[#6A5A49] outline-none bg-[#DFD6CD] font-light leading-relaxed"
                           placeholder="Write project details here..."
                         />
                       </div>
                     ) : (
                       <div>
-                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-neutral-400 mb-4">
+                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#9A8E84] mb-4">
                           <ImageIcon size={12} /> Image Block
                         </div>
                         {block.content ? (
-                          <div className="relative aspect-video w-full overflow-hidden bg-neutral-100">
+                          <div className="relative aspect-video w-full overflow-hidden bg-[#DFD6CD]/45">
                             <img src={block.content} alt="Block" className="w-full h-full object-cover" />
                             <button
                               type="button"
                               onClick={() => updateBlock(index, "")}
-                              className="absolute inset-0 bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-[10px] uppercase tracking-widest"
+                              className="absolute inset-0 bg-[#6A5A49]/40 text-[#DFD6CD] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-[10px] uppercase tracking-widest"
                             >
                               Replace Image
                             </button>
                           </div>
                         ) : (
-                          <div className="aspect-video w-full border-2 border-dashed border-neutral-200 flex flex-col items-center justify-center bg-white">
+                          <div className="aspect-video w-full border-2 border-dashed border-[#9A8E84]/35 flex flex-col items-center justify-center bg-[#DFD6CD]">
                             <input
                               type="file"
                               accept="image/*"
@@ -224,8 +238,8 @@ export default function EditProject() {
                               id={`block-image-${index}`}
                             />
                             <label htmlFor={`block-image-${index}`} className="cursor-pointer flex flex-col items-center">
-                              <Plus size={24} className="text-neutral-300 mb-2" />
-                              <span className="text-[10px] uppercase tracking-widest text-neutral-400">Upload Block Image</span>
+                              <Plus size={24} className="text-[#9A8E84] mb-2" />
+                              <span className="text-[10px] uppercase tracking-widest text-[#9A8E84]">Upload Block Image</span>
                             </label>
                           </div>
                         )}
@@ -239,21 +253,21 @@ export default function EditProject() {
 
           {/* Sidebar */}
           <div className="space-y-8">
-            <section className="bg-white p-10 border border-neutral-100 shadow-sm space-y-6 sticky top-32">
-              <h2 className="text-[10px] uppercase tracking-widest text-neutral-400 border-b border-neutral-100 pb-4">Thumbnail</h2>
+            <section className="bg-[#DFD6CD] p-10 border border-[#9A8E84]/20 shadow-sm space-y-6 sticky top-32">
+              <h2 className="text-[10px] uppercase tracking-widest text-[#9A8E84] border-b border-[#9A8E84]/20 pb-4">Thumbnail</h2>
               {mainImage ? (
-                <div className="relative aspect-square w-full overflow-hidden bg-neutral-100">
+                <div className="relative aspect-square w-full overflow-hidden bg-[#DFD6CD]/45">
                   <img src={mainImage} alt="Thumbnail" className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={() => setMainImage("")}
-                    className="absolute inset-0 bg-black/40 text-white opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-[10px] uppercase tracking-widest"
+                    className="absolute inset-0 bg-[#6A5A49]/40 text-[#DFD6CD] opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-[10px] uppercase tracking-widest"
                   >
                     Change Image
                   </button>
                 </div>
               ) : (
-                <div className="aspect-square w-full border-2 border-dashed border-neutral-200 flex flex-col items-center justify-center">
+                <div className="aspect-square w-full border-2 border-dashed border-[#9A8E84]/35 flex flex-col items-center justify-center">
                   <input
                     type="file"
                     accept="image/*"
@@ -262,8 +276,8 @@ export default function EditProject() {
                     id="main-image"
                   />
                   <label htmlFor="main-image" className="cursor-pointer flex flex-col items-center">
-                    <Plus size={24} className="text-neutral-300 mb-2" />
-                    <span className="text-[10px] uppercase tracking-widest text-neutral-400 text-center px-4">Upload Portfolio Thumbnail</span>
+                    <Plus size={24} className="text-[#9A8E84] mb-2" />
+                    <span className="text-[10px] uppercase tracking-widest text-[#9A8E84] text-center px-4">Upload Portfolio Thumbnail</span>
                   </label>
                 </div>
               )}
@@ -272,7 +286,7 @@ export default function EditProject() {
                 <button
                   type="submit"
                   disabled={saving || !mainImage}
-                  className="w-full bg-neutral-900 text-white py-4 text-[11px] uppercase tracking-widest hover:bg-neutral-800 transition-colors flex items-center justify-center gap-2 disabled:bg-neutral-200"
+                  className="w-full bg-[#B08E68] text-[#DFD6CD] py-4 text-[11px] uppercase tracking-widest hover:bg-[#9A8E84] transition-colors flex items-center justify-center gap-2 disabled:bg-[#9A8E84]/25"
                 >
                   <Save size={14} /> {saving ? "Saving..." : "Update Project"}
                 </button>

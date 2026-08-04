@@ -53,10 +53,10 @@ export const Navbar = () => {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out",
                 isScrolled
-                    ? "bg-white/10 backdrop-blur-2xl border-b border-white/15 py-4"
+                    ? "bg-[#6A5A49]/20 backdrop-blur-2xl border-b border-[#DFD6CD]/20 py-4"
                     : hasDarkHero
                         ? "bg-transparent py-6"
-                        : "bg-white/10 backdrop-blur-2xl border-b border-white/15 py-5"
+                        : "bg-[#6A5A49]/20 backdrop-blur-2xl border-b border-[#DFD6CD]/20 py-5"
             )}
         >
             <Container className="flex items-center justify-between">
@@ -79,7 +79,7 @@ export const Navbar = () => {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className="text-[11px] font-medium tracking-widest uppercase text-white/90 hover:text-white transition-colors"
+                            className="text-[11px] font-medium tracking-widest uppercase text-[#DFD6CD]/90 hover:text-[#DFD6CD] transition-colors"
                         >
                             {link.label}
                         </Link>
@@ -88,7 +88,7 @@ export const Navbar = () => {
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="lg:hidden z-[1000] relative p-2 text-white transition-colors"
+                    className="lg:hidden z-[1000] relative p-2 text-[#DFD6CD] transition-colors"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 >
@@ -104,10 +104,10 @@ export const Navbar = () => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed inset-0 w-screen h-screen bg-white !opacity-100 z-[999] flex flex-col lg:hidden"
+                        className="fixed inset-0 w-screen h-screen bg-[#DFD6CD] !opacity-100 z-[999] flex flex-col lg:hidden"
                     >
                         {/* Mobile Menu Header */}
-                        <div className="flex items-center justify-between px-8 py-6 border-b border-neutral-100 bg-white">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-[#9A8E84]/30 bg-[#DFD6CD]">
                             <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                                 <div className="relative h-10 w-32">
                                     <Image
@@ -122,7 +122,7 @@ export const Navbar = () => {
                         </div>
 
                         {/* Mobile Menu Links */}
-                        <div className="flex-1 flex flex-col px-10 py-12 space-y-8 overflow-y-auto bg-white">
+                        <div className="flex-1 flex flex-col px-10 py-12 space-y-8 overflow-y-auto bg-[#DFD6CD]">
                             {navLinks.map((link, idx) => (
                                 <motion.div
                                     key={link.href}
@@ -134,7 +134,7 @@ export const Navbar = () => {
                                         href={link.href}
                                         className={cn(
                                             "text-4xl font-serif transition-colors block",
-                                            pathname === link.href ? "text-primary" : "text-neutral-900 hover:text-primary"
+                                            pathname === link.href ? "text-primary" : "text-[#6A5A49] hover:text-primary"
                                         )}
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
@@ -151,7 +151,7 @@ export const Navbar = () => {
                             >
                                 <Link
                                     href="/contact"
-                                    className="block w-full text-center py-5 bg-primary text-white text-xs font-bold uppercase tracking-[0.2em]"
+                                    className="block w-full text-center py-5 bg-primary text-[#DFD6CD] text-xs font-bold uppercase tracking-[0.2em]"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     Inquire Now

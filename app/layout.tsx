@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${cormorant.variable} ${montserrat.variable} ${greatVibes.variable} antialiased bg-neutral-50 text-slate-900 font-sans`}
+        className={`${cormorant.variable} ${montserrat.variable} ${greatVibes.variable} antialiased bg-[#DFD6CD] text-[#6A5A49] font-sans`}
       >
         <Navbar />
         {children}

@@ -28,9 +28,9 @@ const founders = [
     id: 3,
     image: "/founders/founder-3.jpg",
     name: "Yusuf Hussain",
-    role: "Principal Designer & Founder",
-    title: "Concept Director · Material Curator · Lead Stylist",
-    bio: "Arjun specialises in translating client aspirations into cohesive spatial narratives. His mastery of material language and light transforms every room into an understated statement of intent.",
+    role: "Principal Designer & Co-Founder",
+    title: "Spatial Planning · Material Expertise · Construction Precision",
+    bio: "Yusuf Hussain is the Principal Designer and Co-Founder of Design One Studio. With nearly three decades of experience, he leads every project with a strong emphasis on spatial planning, material understanding and construction precision. His approach balances creative vision with practical execution, ensuring every design is thoughtful, buildable and refined to the finest detail.",
   },
   {
     id: 4,
@@ -44,17 +44,17 @@ const founders = [
     id: 5,
     image: "/founders/founder-5.jpg",
     name: "Vidhisha Nimuchwala",
-    role: "Senior Principal · Execution",
-    title: "Project Director · Site Supervisor · BOQ Lead",
-    bio: "Rahul oversees the full lifecycle of execution — from procurement and contractor briefing to on-site quality assurance. His attention to detail ensures every design vision is realised faithfully.",
+    role: "Operations Director & Co-Founder",
+    title: "Client Experience · Material Selection · Studio Operations",
+    bio: "As Co-Founder of Design One Studio, Vidhisha Nimuchwala leads the client experience, material selection and operational management of the practice. Her intuitive understanding of materials, finishes and lifestyle requirements allows her to curate interiors that are both timeless and deeply personal. By seamlessly coordinating client interactions and studio operations, she ensures every project progresses with clarity, precision and exceptional attention to detail.",
   },
   {
     id: 6,
     image: "/founders/founder-6.jpg",
     name: "Aziz Nimuchwala",
-    role: "Design Associate · Co-Principal",
-    title: "Styling Director · Textiles Lead · Final Review",
-    bio: "Ananya leads the studio's styling and finishing direction. Her editorial eye for textiles, art and accessory curation brings the final layer of personality to each completed space.",
+    role: "Business Development & Marketing",
+    title: "Architecture · Digital Presence · Brand Development",
+    bio: "Aziz Nimuchwala is an Architect and represents the next generation of Design One Studio. He leads the firm's marketing initiatives, digital presence and brand development while supporting internal operations through technology-driven systems and process optimisation. By introducing efficient workflows and modern tools, he helps the studio enhance productivity, strengthen communication and continuously evolve the way projects are delivered.",
   },
 ];
 
@@ -62,6 +62,12 @@ const founders = [
    FOUNDING MEMBERS CAROUSEL COMPONENT
 ───────────────────────────────────────────────────────────────────────────── */
 const featuredFounders = founders.filter(({ id }) => [3, 5, 6].includes(id));
+
+const founderPortraitPositions: Record<number, string> = {
+  3: "center 22%",
+  5: "center 41%",
+  6: "center top",
+};
 
 function FoundingMembersCarousel() {
   const [current, setCurrent] = useState(0);
@@ -112,7 +118,7 @@ function FoundingMembersCarousel() {
   return (
     <section
       className="relative w-full overflow-hidden"
-      style={{ background: "#1e1e1b" }}
+      style={{ background: "#6A5A49" }}
     >
       <div
         className="max-w-screen-xl mx-auto flex flex-col lg:flex-row"
@@ -133,7 +139,10 @@ function FoundingMembersCarousel() {
               alt={member.name}
               fill
               className="object-cover"
-              style={{ objectPosition: "center top" }}
+              style={{
+                objectPosition:
+                  founderPortraitPositions[member.id] ?? "center top",
+              }}
               priority
             />
             {/* Gradient overlay */}
@@ -141,14 +150,14 @@ function FoundingMembersCarousel() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to right, transparent 60%, #1e1e1b 100%)",
+                  "linear-gradient(to right, transparent 60%, #6A5A49 100%)",
               }}
             />
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to top, #1e1e1b 0%, transparent 30%)",
+                  "linear-gradient(to top, #6A5A49 0%, transparent 30%)",
               }}
             />
           </div>
@@ -161,13 +170,13 @@ function FoundingMembersCarousel() {
             <button
               onClick={prev}
               aria-label="Previous member"
-              className="w-10 h-10 flex items-center justify-center border border-white/20 text-white/60 hover:border-white/70 hover:text-white transition-all duration-300"
-              style={{ fontSize: "var(--text-body)", background: "rgba(0,0,0,0.35)" }}
+              className="w-10 h-10 flex items-center justify-center border border-[#DFD6CD]/20 text-[#DFD6CD]/60 hover:border-[#DFD6CD]/70 hover:text-[#DFD6CD] transition-all duration-300"
+              style={{ fontSize: "var(--text-body)", background: "rgba(106,90,73,0.55)" }}
             >
               ←
             </button>
             <span
-              className="text-white/40 font-mono"
+              className="text-[#DFD6CD]/40 font-mono"
               style={{ fontSize: "var(--text-sm)", letterSpacing: "0.2em" }}
             >
               {String(current + 1).padStart(2, "0")} /{" "}
@@ -176,8 +185,8 @@ function FoundingMembersCarousel() {
             <button
               onClick={next}
               aria-label="Next member"
-              className="w-10 h-10 flex items-center justify-center border border-white/20 text-white/60 hover:border-white/70 hover:text-white transition-all duration-300"
-              style={{ fontSize: "var(--text-body)", background: "rgba(0,0,0,0.35)" }}
+              className="w-10 h-10 flex items-center justify-center border border-[#DFD6CD]/20 text-[#DFD6CD]/60 hover:border-[#DFD6CD]/70 hover:text-[#DFD6CD] transition-all duration-300"
+              style={{ fontSize: "var(--text-body)", background: "rgba(106,90,73,0.55)" }}
             >
               →
             </button>
@@ -199,8 +208,8 @@ function FoundingMembersCarousel() {
                   height: "6px",
                   background:
                     i === current
-                      ? "rgba(196,184,154,0.9)"
-                      : "rgba(255,255,255,0.25)",
+                      ? "rgba(154,142,132,0.9)"
+                      : "rgba(223,214,205,0.25)",
                   border: "none",
                   cursor: "pointer",
                   borderRadius: "3px",
@@ -217,7 +226,7 @@ function FoundingMembersCarousel() {
         >
           {/* Section label */}
           <p
-            className="uppercase text-[#8a8a7a] mb-8"
+            className="uppercase text-[#9A8E84] mb-8"
             style={{
               fontSize: "var(--text-xs)",
               letterSpacing: "0.3em",
@@ -233,7 +242,7 @@ function FoundingMembersCarousel() {
             style={{ fontFamily: "var(--font-serif)" }}
           >
             <span
-              className="block text-[#e8e0d0] font-light"
+              className="block text-[#DFD6CD] font-light"
               style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)" }}
             >
               Guided by
@@ -243,7 +252,7 @@ function FoundingMembersCarousel() {
               style={{
                 fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
                 fontWeight: 300,
-                color: "#c4b89a",
+                color: "#9A8E84",
               }}
             >
               design clarity.
@@ -261,7 +270,7 @@ function FoundingMembersCarousel() {
             }}
           >
             <p
-              className="text-[#9a9488] font-light leading-relaxed"
+              className="text-[#DFD6CD]/68 font-light leading-relaxed"
               style={{
                 fontSize: "var(--text-body)",
                 maxWidth: "30rem",
@@ -277,7 +286,7 @@ function FoundingMembersCarousel() {
             key={`meta-${displayed}`}
             className="border-t"
             style={{
-              borderColor: "rgba(255,255,255,0.08)",
+              borderColor: "rgba(223,214,205,0.14)",
               opacity: isEntering ? 1 : 0,
               transition: "opacity 0.6s ease 0.1s",
             }}
@@ -291,11 +300,11 @@ function FoundingMembersCarousel() {
                 key={label}
                 className="flex items-start gap-4 py-4"
                 style={{
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  borderBottom: "1px solid rgba(223,214,205,0.12)",
                 }}
               >
                 <span
-                  className="flex-shrink-0 text-[#5a5a52] uppercase"
+                  className="flex-shrink-0 text-[#DFD6CD]/68 uppercase"
                   style={{
                     fontSize: "var(--text-2xs)",
                     letterSpacing: "0.25em",
@@ -307,7 +316,7 @@ function FoundingMembersCarousel() {
                   {label}
                 </span>
                 <span
-                  className="text-[#c4b89a] font-light"
+                  className="text-[#9A8E84] font-light"
                   style={{
                     fontSize: "var(--text-sm)",
                     letterSpacing: "0.12em",
@@ -331,14 +340,14 @@ function FoundingMembersCarousel() {
 ───────────────────────────────────────────────────────────────────────────── */
 export default function About() {
   return (
-    <main className="bg-[#181818] min-h-screen">
+    <main className="bg-[#6A5A49] min-h-screen">
 
       {/* ══════════════════════════════════════════════════════════════════════
           HERO — "Designing spaces that feel personal."
       ══════════════════════════════════════════════════════════════════════ */}
       <section
         className="relative w-full overflow-hidden"
-        style={{ minHeight: "90vh", background: "#181818" }}
+        style={{ minHeight: "90vh", background: "#6A5A49" }}
       >
         <div className="absolute inset-0 z-0">
           <Image
@@ -349,16 +358,13 @@ export default function About() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-[#181818]/70" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#181818] via-[#181818]/80 to-[#181818]/35" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-[#181818]/30" />
         </div>
 
         {/* Left: headline area */}
         <div className="site-container relative z-10 flex min-h-[90vh] flex-col justify-end lg:justify-center pt-36 pb-16 lg:py-28">
           {/* Small label */}
           <p
-            className="uppercase text-[#a08060] mb-6"
+            className="uppercase text-[#9A8E84] mb-6"
             style={{ fontSize: "10px", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
           >
             About Design One
@@ -370,13 +376,13 @@ export default function About() {
             style={{ fontFamily: "var(--font-serif)" }}
           >
             <span
-              className="block text-[#e8e0d0] font-light"
+              className="block text-[#DFD6CD] font-light"
               style={{ fontSize: "clamp(3.2rem, 7vw, 6.5rem)" }}
             >
               Designing
             </span>
             <span
-              className="block text-[#e8e0d0] font-light"
+              className="block text-[#DFD6CD] font-light"
               style={{ fontSize: "clamp(3.2rem, 7vw, 6.5rem)" }}
             >
               spaces
@@ -386,7 +392,7 @@ export default function About() {
               style={{
                 fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
                 fontWeight: 300,
-                color: "#c4a052",
+                color: "#DFD6CD",
                 fontFamily: "var(--font-serif)",
               }}
             >
@@ -397,7 +403,7 @@ export default function About() {
               style={{
                 fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
                 fontWeight: 300,
-                color: "#c4a052",
+                color: "#B08E68",
                 fontFamily: "var(--font-serif)",
               }}
             >
@@ -408,16 +414,16 @@ export default function About() {
           {/* Body columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5 max-w-xl">
             <p
-              className="text-[#6e6e62] font-light leading-relaxed"
+              className="text-[#DFD6CD]/68 font-light leading-relaxed"
               style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
             >
-              Design One is an interior studio focused on creating spaces that feel elegant, comfortable and deeply personal. We start by understanding the family — its rhythms, aspirations, preferences, and passions.
+              Design One Studio is a multidisciplinary design practice creating refined residential, hospitality and commercial environments. Every project begins with understanding the people who will experience the space, shaping interiors that are timeless, functional and deeply personal.
             </p>
             <p
-              className="text-[#6e6e62] font-light leading-relaxed"
+              className="text-[#DFD6CD]/68 font-light leading-relaxed"
               style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
             >
-              Our commitment is to complete a design language and find what makes your space uniquely personal — making your home feel intimate and complete.
+              For over three decades, we have combined thoughtful planning, material expertise and meticulous execution to deliver spaces with lasting value. Our work is guided by design clarity, craftsmanship and an uncompromising attention to detail.
             </p>
           </div>
         </div>
@@ -436,17 +442,17 @@ export default function About() {
             <div
               className="absolute bottom-0 left-0 right-0 px-6 py-5"
               style={{
-                background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)",
+                background: "linear-gradient(to top, rgba(106,90,73,0.82) 0%, transparent 100%)",
               }}
             >
               <p
-                className="text-white/50 uppercase"
+                className="text-[#DFD6CD]/50 uppercase"
                 style={{ fontSize: "9px", letterSpacing: "0.25em", fontFamily: "var(--font-sans)", marginBottom: "4px" }}
               >
                 Interior Studio
               </p>
               <p
-                className="text-white font-light"
+                className="text-[#DFD6CD] font-light"
                 style={{ fontSize: "13px", fontFamily: "var(--font-serif)", fontStyle: "italic" }}
               >
                 Refined design, guided by real living.
@@ -461,54 +467,54 @@ export default function About() {
       ══════════════════════════════════════════════════════════════════════ */}
       <section
         className="w-full py-20 md:py-28"
-        style={{ background: "#181818" }}
+        style={{ background: "#DFD6CD" }}
       >
         <div className="site-container">
 
           {/* Header row */}
-          <div className="flex flex-col lg:flex-row lg:items-end mb-14 gap-8">
-            <div className="lg:w-1/3">
+          <div className="grid gap-8 lg:grid-cols-5 mb-14">
+            <div className="lg:col-span-3">
               <p
-                className="uppercase text-[#a08060] mb-4"
+                className="uppercase text-[#9A8E84] mb-4"
                 style={{ fontSize: "10px", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
               >
                 Our Process
               </p>
-              <h2 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
+              <h2 className="whitespace-nowrap" style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
                 <span
-                  className="block text-[#e8e0d0] font-light"
+                  className="inline text-[#6A5A49] font-light"
                   style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)" }}
                 >
-                  How We
+                  How We{" "}
                 </span>
                 <span
-                  className="block italic"
+                  className="inline italic"
                   style={{
                     fontSize: "clamp(2.6rem, 5.5vw, 5rem)",
                     fontWeight: 300,
-                    color: "#c4a052",
+                    color: "#B08E68",
                   }}
                 >
                   Work
                 </span>
               </h2>
             </div>
-            <div className="lg:w-2/3 lg:pl-16">
+            <div className="lg:col-start-4 lg:col-span-2 lg:pt-5">
               <p
-                className="text-[#6e6e62] font-light leading-relaxed"
-                style={{ fontSize: "var(--text-md)", maxWidth: "31rem", fontFamily: "var(--font-sans)" }}
+                className="w-full text-justify text-[#6A5A49]/68 font-light leading-relaxed"
+                style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
               >
-                We process a dream, every time we are invisible. We move from understanding the client&apos;s life to creating a complete design language and final execution process.
+                Every project follows a carefully considered journey. From understanding your lifestyle to the final installation, each stage is designed to ensure clarity, precision and a seamless execution experience.
               </p>
             </div>
           </div>
 
           {/* 4-column process grid */}
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 overflow-hidden"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-0 overflow-hidden"
             style={{
-              background: "#1b1b18",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(106,90,73,0.16)",
+              border: "1px solid rgba(154,142,132,0.35)",
             }}
           >
             {[
@@ -516,55 +522,61 @@ export default function About() {
                 num: "01",
                 title: "Understand",
                 description:
-                  "We begin by understanding the family, lifestyle, requirements, preferences, the big dreams, and the smallest details.",
+                  "Every successful project begins with listening. We take time to understand your lifestyle, aspirations, routines and functional requirements before a single design decision is made.",
               },
               {
                 num: "02",
                 title: "Conceptualise",
                 description:
-                  "We create a design template through reflection, location, nature. Deliberately. Fully, step by step, and small moments.",
+                  "Ideas are translated into clear design concepts through layouts, material palettes and spatial planning, creating a strong foundation for every project.",
               },
               {
                 num: "03",
                 title: "Detail",
                 description:
-                  "We execute the design at blueprint, at little nuance to every corner, to every surface, and material choices.",
+                  "Every junction, finish and material is carefully resolved before execution begins, ensuring precision and consistency throughout the project.",
               },
               {
                 num: "04",
-                title: "Execute & Style",
+                title: "Execute",
                 description:
-                  "We coordinate the full execution, all tradespeople, manufacturers and contractors, and bring quality. We make it final.",
+                  "Working closely with craftsmen, consultants and contractors, we oversee the transformation of design into reality with uncompromising quality and attention to detail.",
+              },
+              {
+                num: "05",
+                title: "Deliver",
+                description:
+                  "The final stage is more than handover. Every space is carefully inspected, styled and refined, ensuring it is ready to be experienced exactly as it was envisioned.",
               },
             ].map((step, i) => (
               <div
                 key={step.num}
                 className={[
-                  "flex flex-col p-8 md:p-10",
-                  i >= 1 ? "border-t border-white/[0.06] sm:border-t-0" : "",
-                  i >= 2 ? "sm:border-t sm:border-white/[0.06] lg:border-t-0" : "",
-                  i % 2 === 1 ? "sm:border-l sm:border-white/[0.06]" : "",
-                  i > 0 ? "lg:border-l lg:border-white/[0.06]" : "",
+                  "flex flex-col bg-[#DFD6CD] p-8 md:p-10",
+                  i >= 1 ? "border-t border-[#9A8E84]/35 sm:border-t-0" : "",
+                  i >= 2 ? "sm:border-t sm:border-[#9A8E84]/35 lg:border-t-0" : "",
+                  i % 2 === 1 ? "sm:border-l sm:border-[#9A8E84]/35" : "",
+                  i > 0 ? "lg:border-l lg:border-[#9A8E84]/35" : "",
                 ].join(" ")}
               >
-                <p
-                  className="text-[#c4a052] font-mono mb-6"
-                  style={{ fontSize: "var(--text-sm)", letterSpacing: "0.2em" }}
-                >
-                  {step.num}
-                </p>
                 <h3
-                  className="text-[#e8e0d0] mb-4"
+                  className="text-[#6A5A49] mb-4 flex items-baseline gap-3"
                   style={{
                     fontFamily: "var(--font-serif)",
                     fontSize: "clamp(1.1rem, 2vw, 1.4rem)",
                     fontWeight: 400,
                   }}
                 >
-                  {step.title}
+                  <span
+                    className="text-[#9A8E84] font-mono"
+                    style={{ fontSize: "var(--text-sm)", letterSpacing: "0.12em" }}
+                  >
+                    {step.num}
+                  </span>
+                  <span>{step.title}</span>
                 </h3>
                 <p
-                  className="text-[#6e6e62] font-light leading-relaxed"
+                  className="text-[#6A5A49]/68 font-light leading-relaxed"
                   style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                 >
                   {step.description}
@@ -585,21 +597,21 @@ export default function About() {
       ══════════════════════════════════════════════════════════════════════ */}
       <section
         className="w-full py-20 md:py-28"
-        style={{ background: "#181818" }}
+        style={{ background: "#DFD6CD" }}
       >
         <div className="site-container">
 
           {/* Header */}
           <div className="mb-14">
             <p
-              className="uppercase text-[#a08060] mb-4"
+              className="uppercase text-[#9A8E84] mb-4"
               style={{ fontSize: "10px", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
             >
               Studio Gallery
             </p>
             <h2 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
               <span
-                className="block text-[#e8e0d0] font-light"
+                className="block text-[#6A5A49] font-light"
                 style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)" }}
               >
                 Our Journey
@@ -609,7 +621,7 @@ export default function About() {
                 style={{
                   fontSize: "clamp(2.6rem, 5.5vw, 5rem)",
                   fontWeight: 300,
-                  color: "#c4a052",
+                  color: "#B08E68",
                 }}
               >
                 So Far
@@ -621,36 +633,37 @@ export default function About() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               {
-                value: "48+",
+                value: "1000+",
                 label: "Projects Designed",
-                desc: "Across residential, hospitality, and institutional categories — each project designed with a bespoke design story.",
+                desc: "Across residential, hospitality, commercial and retail sectors, each project is tailored to its context with a commitment to timeless design and meticulous execution.",
               },
               {
-                value: "12+",
+                value: "25+",
                 label: "Cities Reached",
-                desc: "Our portfolio spans multiple cities across diverse climates, urban contexts and design locations.",
+                desc: "Our work extends across South-East Asia, delivering thoughtful design solutions while adapting to diverse cultures, locations and project requirements.",
               },
               {
-                value: "7+",
-                label: "Years Practice",
-                desc: "A decade of studio practice, developing strong and focused, disciplined and very clear design solutions.",
+                value: "30+",
+                label: "Years of Practice",
+                desc: "Three decades of experience have shaped our design philosophy, combining creativity, technical expertise and craftsmanship into every project.",
               },
               {
                 value: "360°",
                 label: "Design Support",
-                desc: "A proven and trained team of project and honest design planning, and final fitting and styling.",
+                desc: "From concept development and material selection to execution and final handover, we provide a complete, end-to-end design experience.",
               },
             ].map((stat) => (
               <div
                 key={stat.label}
                 className="flex flex-col p-8 md:p-10"
                 style={{
-                  background: "#242424",
+                  background: "#DFD6CD",
+                  border: "1px solid rgba(154,142,132,0.28)",
                   borderRadius: "2px",
                 }}
               >
                 <p
-                  className="text-[#e8e0d0] mb-2"
+                  className="text-[#6A5A49] mb-2"
                   style={{
                     fontFamily: "var(--font-serif)",
                     fontSize: "clamp(2rem, 4vw, 3rem)",
@@ -661,7 +674,7 @@ export default function About() {
                   {stat.value}
                 </p>
                 <p
-                  className="text-[#c4b89a] mb-3"
+                  className="text-[#9A8E84] mb-3"
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontSize: "var(--text-sm)",
@@ -673,7 +686,7 @@ export default function About() {
                   {stat.label}
                 </p>
                 <p
-                  className="text-[#6e6e62] font-light leading-relaxed"
+                  className="text-[#6A5A49]/68 font-light leading-relaxed"
                   style={{ fontSize: "var(--text-base)", fontFamily: "var(--font-sans)" }}
                 >
                   {stat.desc}
@@ -689,7 +702,7 @@ export default function About() {
       ══════════════════════════════════════════════════════════════════════ */}
       <section
         className="relative w-full overflow-hidden"
-        style={{ background: "#1e1e1b", minHeight: "420px" }}
+        style={{ background: "#9A8E84", minHeight: "420px" }}
       >
         {/* Background image */}
         <div className="absolute inset-0 z-0">
@@ -697,7 +710,7 @@ export default function About() {
             src="/projects/living-luxe-4.jpg"
             alt="DesignOne luxury interior"
             fill
-            className="object-cover opacity-30"
+            className="object-cover"
           />
         </div>
 
@@ -705,13 +718,13 @@ export default function About() {
           className="site-container relative z-10 flex flex-col justify-center py-24 md:py-32"
         >
           <p
-            className="uppercase text-[#a08060] mb-8"
+            className="uppercase text-[#DFD6CD]/70 mb-8"
             style={{ fontSize: "var(--text-xs)", letterSpacing: "0.35em", fontFamily: "var(--font-sans)" }}
           >
             Philosophy
           </p>
           <h2
-            className="text-[#e8e0d0] font-light leading-[1.05] mb-10 max-w-2xl"
+            className="text-[#1F4A3E] font-light leading-[1.05] mb-10 max-w-2xl"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(2.6rem, 5.5vw, 5rem)",
@@ -719,21 +732,21 @@ export default function About() {
             }}
           >
             Luxury is not about excess. It is about{" "}
-            <span className="italic" style={{ color: "#c4b89a" }}>
+            <span className="italic" style={{ color: "#B08E68" }}>
               balance.
             </span>
           </h2>
           <p
-            className="text-[#9a9488] font-light leading-relaxed mb-10 max-w-lg"
+            className="text-[#1F4A3E] font-light leading-relaxed mb-10 max-w-lg"
             style={{ fontSize: "var(--text-body)", fontFamily: "var(--font-sans)" }}
           >
             We believe that the most enduring spaces are those that respect proportion, living, and restraint. Design One creates environments for the way people actually live — with comfort, curiosity, and quiet luxury.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-3 self-start px-8 py-4 text-[#1e1e1b] hover:bg-[#c4b89a]/90 transition-all duration-300"
+            className="inline-flex items-center gap-3 self-start rounded-full px-8 py-4 text-[#DFD6CD] hover:bg-[#9A8E84] transition-all duration-300"
             style={{
-              background: "#c4b89a",
+              background: "#B08E68",
               fontSize: "var(--text-sm)",
               letterSpacing: "0.2em",
               textTransform: "uppercase",

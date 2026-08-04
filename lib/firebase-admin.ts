@@ -1,12 +1,44 @@
 import { App, cert, getApps, initializeApp } from "firebase-admin/app";
 import { Firestore, getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
+import fs from "fs";
 
 let firebaseApp: App | null = null;
 
 function getEnv(name: string): string | undefined {
   const value = process.env[name];
   return typeof value === "string" && value.trim().length > 0 ? value : undefined;
+}
+
+function getServiceAccountFromFile(): {
+  projectId: string;
+  clientEmail: string;
+  privateKey: string;
+} | null {
+  const serviceAccountPath =
+    getEnv("FIREBASE_SERVICE_ACCOUNT_PATH") ?? getEnv("GOOGLE_APPLICATION_CREDENTIALS");
+
+  if (!serviceAccountPath) {
+    return null;
+  }
+
+  const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8")) as {
+    project_id?: string;
+    client_email?: string;
+    private_key?: string;
+  };
+
+  if (!serviceAccount.project_id || !serviceAccount.client_email || !serviceAccount.private_key) {
+    throw new Error(
+      "Firebase service account file is missing project_id, client_email, or private_key."
+    );
+  }
+
+  return {
+    projectId: serviceAccount.project_id,
+    clientEmail: serviceAccount.client_email,
+    privateKey: serviceAccount.private_key,
+  };
 }
 
 export function getFirebaseAdminApp(): App {
@@ -19,9 +51,11 @@ export function getFirebaseAdminApp(): App {
     return firebaseApp;
   }
 
-  const projectId = getEnv("FIREBASE_PROJECT_ID") ?? getEnv("NEXT_PUBLIC_FIREBASE_PROJECT_ID");
-  const clientEmail = getEnv("FIREBASE_CLIENT_EMAIL");
-  const privateKey = getEnv("FIREBASE_PRIVATE_KEY")?.replace(/\\n/g, "\n");
+  const serviceAccount = getServiceAccountFromFile();
+  const projectId =
+    serviceAccount?.projectId ?? getEnv("FIREBASE_PROJECT_ID") ?? getEnv("NEXT_PUBLIC_FIREBASE_PROJECT_ID");
+  const clientEmail = serviceAccount?.clientEmail ?? getEnv("FIREBASE_CLIENT_EMAIL");
+  const privateKey = serviceAccount?.privateKey ?? getEnv("FIREBASE_PRIVATE_KEY")?.replace(/\\n/g, "\n");
   const storageBucket = getEnv("FIREBASE_STORAGE_BUCKET") ?? getEnv("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET");
 
   if (projectId && clientEmail && privateKey) {
@@ -43,7 +77,7 @@ export function getFirebaseAdminApp(): App {
   }
 
   throw new Error(
-    "Firebase Admin is not configured. Add FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY to .env.local."
+    "Firebase Admin is not configured. Add FIREBASE_SERVICE_ACCOUNT_PATH or FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY to .env.local."
   );
 }
 

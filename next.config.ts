@@ -6,6 +6,13 @@ const nextConfig: NextConfig = {
   },
   images: {
     qualities: [25, 50, 75, 90, 95, 100],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
   },
 };
 

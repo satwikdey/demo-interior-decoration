@@ -75,7 +75,7 @@ const demoProjects: Project[] = [
 
 const baseCategories = ["All", "Private Residential", "Hospitality", "Heritage & Commercial"];
 
-/* ── Card component ─────────────────────────────────────────── */
+/* -- Card component ------------------------------------------- */
 function ProjectCard({
   project,
   index,
@@ -92,7 +92,7 @@ function ProjectCard({
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, delay: (index % 6) * 0.07 }}
       className={cn(
-        "group relative overflow-hidden rounded-2xl bg-neutral-200",
+        "group relative overflow-hidden rounded-2xl bg-[#9A8E84]/25",
         className
       )}
     >
@@ -107,18 +107,18 @@ function ProjectCard({
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#6A5A49]/60 via-[#6A5A49]/10 to-transparent" />
         </div>
 
         {/* Bottom label */}
         <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-10">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/60 mb-1">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#DFD6CD]/60 mb-1">
             {project.location}
           </p>
-          <h3 className="font-serif text-xl md:text-2xl text-white leading-tight">
+          <h3 className="font-serif text-xl md:text-2xl text-[#DFD6CD] leading-tight">
             {project.title}
           </h3>
-          <p className="text-[10px] uppercase tracking-widest text-white/50 mt-1">
+          <p className="text-[10px] uppercase tracking-widest text-[#DFD6CD]/50 mt-1">
             {project.category}
           </p>
         </div>
@@ -127,7 +127,7 @@ function ProjectCard({
   );
 }
 
-/* ── Masonry-style grid group (alternating layout) ──────────── */
+/* -- Masonry-style grid group (alternating layout) ------------ */
 function ProjectGroup({
   group,
   groupIndex,
@@ -219,7 +219,7 @@ function FourUpGroup({
   );
 }
 
-/* ── Dispatcher ─────────────────────────────────────────────── */
+/* -- Dispatcher ----------------------------------------------- */
 function ProjectSection({
   group,
   groupIndex,
@@ -235,7 +235,7 @@ function ProjectSection({
   return <ProjectGroup group={group} groupIndex={groupIndex} startIndex={startIndex} />;
 }
 
-/* ── Page ───────────────────────────────────────────────────── */
+/* -- Page ----------------------------------------------------- */
 function chunkProjects(projects: Project[], size = 4): Project[][] {
   const out: Project[][] = [];
   for (let i = 0; i < projects.length; i += size) out.push(projects.slice(i, i + size));
@@ -263,7 +263,7 @@ export default function Projects() {
 
   const active = projects.length > 0 ? projects : demoProjects;
   const categories = [...new Set([...baseCategories, ...active.map((p) => p.category)])];
-  const featured = active[0]; // pinned to hero — never appears in the grid
+  const featured = active[0]; // pinned to hero � never appears in the grid
 
   // Grid excludes the featured project so it only shows at the top
   const gridProjects = active.slice(1);
@@ -273,71 +273,64 @@ export default function Projects() {
   const groups = chunkProjects(filtered, 4);
 
   return (
-    <main className="min-h-screen bg-[#1a1714]">
+    <main className="min-h-screen bg-[#DFD6CD]">
 
-      {/* ── Hero Header ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#1a1714] pt-28 pb-10">
-        <div className="site-container grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
+      {/* -- Hero Header ------------------------------------------- */}
+      <section className="relative overflow-hidden bg-[#372E24] pt-28 pb-10">
+        <div className="site-container">
+          <div className="relative h-[420px] md:h-[520px] overflow-hidden">
 
           {/* Left: Title + description */}
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#b5904a] mb-6">
+          <div className="absolute left-8 top-1/2 z-10 max-w-xl -translate-y-1/2 md:left-14">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#DFD6CD]/55 mb-6">
               Our Portfolio
             </p>
             <h1 className="leading-[0.9] mb-8">
               <span
-                className="block font-sans font-light text-[#e8e0d0]"
+                className="block font-sans font-light text-[#DFD6CD]"
                 style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}
               >
                 Interior
               </span>
               <span
-                className="block font-serif italic text-[#b5904a]"
+                className="block font-serif italic text-[#B08E68]"
                 style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)", fontWeight: 300 }}
               >
                 Portfolio
               </span>
             </h1>
-            <p className="text-[#9a9488] font-light text-sm leading-relaxed max-w-sm">
+            <p className="text-[#DFD6CD]/75 font-light text-sm leading-relaxed max-w-sm">
               A curated selection of completed projects across residential,
-              hospitality, and heritage contexts — each shaped by proportion,
+              hospitality, and heritage contexts � each shaped by proportion,
               lifestyle and light.
             </p>
           </div>
 
-          {/* Right: Featured image + badge */}
+          {/* Featured image */}
           {featured && (
-            <div className="relative">
-              <div className="relative h-[300px] md:h-[360px] w-full rounded-2xl overflow-hidden">
-                <Image
-                  src={featured.mainImage}
-                  alt={featured.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              {/* Floating badge */}
-              <div className="absolute bottom-5 left-5 bg-[#2a2824]/90 backdrop-blur-sm rounded-xl px-5 py-3 shadow-lg max-w-[200px] border border-white/10">
-                <p className="text-[9px] uppercase tracking-widest text-[#b5904a] mb-1">Design One</p>
-                <p className="font-serif text-sm text-[#e8e0d0] leading-snug">
-                  Curated by Space, Mood &amp; Detail
-                </p>
-              </div>
+            <div className="absolute inset-0 z-0">
+              <Image
+                src={featured.mainImage}
+                alt={featured.title}
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
           )}
+          </div>
         </div>
       </section>
 
-      {/* ── Filter bar ──────────────────────────────────────────── */}
-      <div className="site-container flex flex-wrap justify-center gap-3 pt-4 pb-8">
+      {/* -- Filter bar -------------------------------------------- */}
+      <div className="site-container flex flex-wrap justify-center gap-3 bg-[#DFD6CD] pt-8 pb-8">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
             className={`text-[10px] sm:text-[11px] uppercase tracking-[0.15em] px-5 py-2.5 rounded-full border transition-all duration-300 ${filter === cat
-                ? "bg-[#b5904a] border-[#b5904a] text-[#1a1714] font-medium"
-                : "bg-transparent border-white/20 text-white/50 hover:border-white/50 hover:text-white"
+                ? "bg-[#B08E68] border-[#B08E68] text-[#DFD6CD] font-medium"
+                : "bg-transparent border-[#9A8E84]/45 text-[#6A5A49]/65 hover:bg-[#B08E68] hover:border-[#B08E68] hover:text-[#DFD6CD]"
               }`}
           >
             {cat}
@@ -345,15 +338,15 @@ export default function Projects() {
         ))}
       </div>
 
-      {/* ── Project Grid ────────────────────────────────────────── */}
+      {/* -- Project Grid ------------------------------------------ */}
       <div className="site-container pb-20">
         {loading ? (
-          <div className="py-40 text-center text-[10px] uppercase tracking-widest text-white/30">
-            Loading Portfolio…
+          <div className="py-40 text-center text-[10px] uppercase tracking-widest text-[#6A5A49]/45">
+            Loading Portfolio...
           </div>
         ) : filtered.length === 0 ? (
           <div className="py-40 text-center">
-            <p className="text-white/30 font-light italic">No projects found in this category.</p>
+            <p className="text-[#6A5A49]/55 font-light italic">No projects found in this category.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">

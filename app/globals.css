@@ -26,11 +26,16 @@ html {
 
 :root {
   /* Brand Colors */
-  --primary: #1e3a8a;
-  --secondary: #d4af37;
-  --neutral-light: #f9f9f7;
-  --neutral-dark: #1a1a1a;
-  --brand-red: #7a0016;
+  --palette-light: #DFD6CD;
+  --palette-medium: #9A8E84;
+  --palette-dark: #6A5A49;
+  --palette-deep: #372E24;
+  --accent: #B08E68;
+  --primary: var(--accent);
+  --secondary: var(--palette-medium);
+  --neutral-light: var(--palette-light);
+  --neutral-dark: var(--palette-dark);
+  --brand-red: var(--palette-deep);
 
   /* ── Responsive text scale (all em-relative to html font-size) ──────── */
   /* Use var(--text-*) in inline styles instead of raw px values */
@@ -58,6 +63,7 @@ html {
 @theme inline {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --color-background: var(--neutral-light);
   --color-foreground: var(--neutral-dark);
   --color-brand-red: var(--brand-red);

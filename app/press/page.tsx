@@ -35,11 +35,11 @@ const pressMap = [
 
 export default function Press() {
     return (
-        <main className="pt-32 pb-24 bg-neutral-50 min-h-screen">
+        <main className="pt-32 pb-24 bg-[#DFD6CD] min-h-screen">
             <Container>
                 <div className="text-center mb-12">
                     <h1 className="font-serif text-5xl md:text-6xl mb-4">Press</h1>
-                    <p className="text-neutral-500 font-light max-w-2xl mx-auto">
+                    <p className="text-[#6A5A49]/70 font-light max-w-2xl mx-auto">
                         Features, accolades, and editorial coverage from around the globe.
                     </p>
                 </div>
@@ -49,8 +49,8 @@ export default function Press() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
                     {pressMap.map((item, index) => (
                         <Link href={`/press/${item.slug}`} key={index} className="block group">
-                            <article className="bg-white p-0 h-full flex flex-col justify-between">
-                                <div className="relative h-[450px] md:h-[600px] w-full mb-8 overflow-hidden bg-neutral-100">
+                            <article className="bg-[#DFD6CD] text-[#6A5A49] p-0 h-full flex flex-col justify-between">
+                                <div className="relative h-[450px] md:h-[600px] w-full mb-8 overflow-hidden bg-[#DFD6CD]/45">
                                     <Image
                                         src={item.image}
                                         alt={item.title}
@@ -61,7 +61,7 @@ export default function Press() {
                                 <div className="space-y-4 p-10">
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-primary">{item.publication}</p>
                                     <h3 className="font-serif text-2xl leading-tight group-hover:underline decoration-1">{item.title}</h3>
-                                    <p className="text-neutral-400 text-sm font-light">{item.date}</p>
+                                    <p className="text-[#9A8E84] text-sm font-light">{item.date}</p>
                                 </div>
                             </article>
                         </Link>

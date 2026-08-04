@@ -33,44 +33,44 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-50 flex items-center justify-center py-20">
+    <main className="min-h-screen bg-[#DFD6CD] flex items-center justify-center py-20">
       <Container>
-        <div className="max-w-md mx-auto bg-white p-12 shadow-sm border border-neutral-100">
+        <div className="max-w-md mx-auto bg-[#DFD6CD] p-12 shadow-sm border border-[#9A8E84]/20">
           <div className="text-center mb-10">
             <h1 className="font-serif text-3xl mb-2">Admin Login</h1>
-            <p className="text-neutral-400 text-sm uppercase tracking-widest">DesignOne Studio</p>
+            <p className="text-[#9A8E84] text-sm uppercase tracking-widest">DesignOne Studio</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 text-red-500 p-4 text-sm border border-red-100">
+              <div className="bg-[#9A8E84]/15 text-[#6A5A49] p-4 text-sm border border-[#9A8E84]/35">
                 {error}
               </div>
             )}
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Email Address</label>
+              <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Email Address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border-b border-neutral-200 py-3 focus:border-neutral-900 outline-none transition-colors font-light"
+                className="w-full border-b border-[#9A8E84]/35 py-3 focus:border-[#6A5A49] outline-none transition-colors font-light"
                 required
               />
             </div>
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Password</label>
+              <label className="block text-[10px] uppercase tracking-widest text-[#9A8E84] mb-2">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border-b border-neutral-200 py-3 focus:border-neutral-900 outline-none transition-colors font-light"
+                className="w-full border-b border-[#9A8E84]/35 py-3 focus:border-[#6A5A49] outline-none transition-colors font-light"
                 required
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-neutral-900 text-white py-4 text-[11px] uppercase tracking-widest hover:bg-neutral-800 transition-colors disabled:bg-neutral-400"
+              className="w-full bg-[#B08E68] text-[#DFD6CD] py-4 text-[11px] uppercase tracking-widest hover:bg-[#9A8E84] transition-colors disabled:bg-[#9A8E84]"
             >
               {loading ? "Authenticating..." : "Login"}
             </button>

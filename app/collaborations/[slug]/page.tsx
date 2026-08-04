@@ -76,12 +76,12 @@ export default function CollaborationDetail() {
     }, [slug]);
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center uppercase tracking-widest text-neutral-400 text-[11px]">Loading...</div>;
+        return <div className="min-h-screen flex items-center justify-center uppercase tracking-widest text-[#9A8E84] text-[11px]">Loading...</div>;
     }
 
     if (!collab) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD]">
                 <div className="text-center">
                     <h1 className="text-2xl font-serif mb-4">Collaboration Not Found</h1>
                     <Link href="/collaborations" className="text-primary hover:underline">Return to Collaborations</Link>
@@ -95,18 +95,18 @@ export default function CollaborationDetail() {
     const secondImage = gallery[2] ?? gallery[1] ?? gallery[0] ?? collab.image;
 
     return (
-        <main className="bg-white min-h-screen pt-24 lg:pt-0">
+        <main className="bg-[#DFD6CD] min-h-screen pt-24 lg:pt-0">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 px-2 min-h-screen">
                 {/* Column 1: Text Content */}
                 <div className="flex flex-col justify-center px-12 md:px-20 lg:px-24 py-24 order-last lg:order-first">
-                    <Link href="/collaborations" className="inline-flex items-center text-[10px] uppercase tracking-widest text-neutral-400 hover:text-black mb-20 transition-colors">
+                    <Link href="/collaborations" className="inline-flex items-center text-[10px] uppercase tracking-widest text-[#9A8E84] hover:text-[#6A5A49] mb-20 transition-colors">
                         <ArrowLeft size={14} className="mr-2" /> Back to Collaborations
                     </Link>
                     <h2 className="text-4xl font-serif mb-8 leading-tight">
                         &ldquo;{collab.description}&rdquo;
                     </h2>
-                    <div className="w-12 h-0.5 bg-primary mb-12"></div>
-                    <p className="text-neutral-500 font-light text-lg leading-relaxed">
+                    <div className="w-12 h-0.5 bg-[#9A8E84] mb-12"></div>
+                    <p className="text-[#6A5A49]/70 font-light text-lg leading-relaxed">
                         {collab.fullDescription}
                     </p>
                 </div>

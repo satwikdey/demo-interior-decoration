@@ -143,18 +143,15 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
   };
 
   const project = projects[current]!;
-  // Neighbouring indices
-  const prevIdx = (current - 1 + projects.length) % projects.length;
-  const nextIdx = (current + 1) % projects.length;
 
   return (
-    <section className="relative w-full bg-[#1a1714] overflow-hidden pt-16 md:pt-24 pb-16 md:pb-24">
+    <section className="relative w-full bg-[#DFD6CD] overflow-hidden pt-16 md:pt-24 pb-16 md:pb-24">
       {/* ── Header row: label left, view-all right — same baseline */}
       <div className="site-container flex items-center justify-between mb-4">
-        <p className="text-[length:var(--text-xs)] uppercase tracking-[0.3em] text-[#b5904a]">Our Portfolio</p>
+        <p className="text-[length:var(--text-xs)] uppercase tracking-[0.3em] text-[#9A8E84]">Our Portfolio</p>
         <Link
           href="/projects"
-          className="hidden md:flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-white/50 hover:text-white transition-colors group"
+          className="hidden md:flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#6A5A49]/55 hover:text-[#6A5A49] transition-colors group"
         >
           View All Projects
           <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -163,9 +160,9 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
 
       {/* ── Interior Archive heading */}
       <div className="site-container mb-8 md:mb-12">
-        <h2 className="font-sans font-light text-white leading-[0.9]" style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)" }}>
+        <h2 className="font-sans font-light text-[#6A5A49] leading-[0.9]" style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)" }}>
           Interior{" "}
-          <span className="font-serif italic text-[#b5904a]">Archive</span>
+          <span className="font-serif italic text-[#B08E68]">Archive</span>
         </h2>
       </div>
 
@@ -197,15 +194,15 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
               />
 
               {/* Dark gradient overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#6A5A49]/80 via-[#6A5A49]/20 to-[#6A5A49]/30" />
 
               {/* Counter pill */}
-              <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 text-white/80 text-[10px] tracking-[0.25em] uppercase">
+              <div className="absolute top-6 left-6 bg-[#DFD6CD]/10 backdrop-blur-md border border-[#DFD6CD]/20 rounded-full px-4 py-1.5 text-[#DFD6CD]/80 text-[10px] tracking-[0.25em] uppercase">
                 {String(current + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
               </div>
 
               {/* Category badge */}
-              <div className="absolute top-6 right-6 bg-[#b5904a]/20 backdrop-blur-md border border-[#b5904a]/30 rounded-full px-4 py-1.5 text-[#b5904a] text-[9px] tracking-[0.2em] uppercase">
+              <div className="absolute top-6 right-6 bg-[#9A8E84]/20 backdrop-blur-md border border-[#9A8E84]/30 rounded-full px-4 py-1.5 text-[#9A8E84] text-[9px] tracking-[0.2em] uppercase">
                 {project.category}
               </div>
 
@@ -215,7 +212,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-white/50 text-[9px] uppercase tracking-[0.3em] mb-2"
+                  className="text-[#DFD6CD]/50 text-[9px] uppercase tracking-[0.3em] mb-2"
                 >
                   {project.location}
                 </motion.p>
@@ -224,7 +221,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25, duration: 0.55 }}
-                  className="font-serif text-white leading-[1] mb-3"
+                  className="font-serif text-[#DFD6CD] leading-[1] mb-3"
                   style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
                 >
                   {project.title}
@@ -234,7 +231,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.35, duration: 0.5 }}
-                  className="text-white/60 text-sm font-light leading-relaxed max-w-md mb-6 hidden md:block"
+                  className="text-[#DFD6CD]/60 text-sm font-light leading-relaxed max-w-md mb-6 hidden md:block"
                 >
                   {project.description}
                 </motion.p>
@@ -246,7 +243,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
                 >
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 hover:border-white/40 text-white text-[10px] uppercase tracking-[0.2em] px-6 py-3 rounded-full transition-all duration-300 group"
+                    className="inline-flex items-center gap-2 bg-[#DFD6CD]/10 hover:bg-[#DFD6CD]/20 backdrop-blur-md border border-[#DFD6CD]/20 hover:border-[#DFD6CD]/40 text-[#DFD6CD] text-[10px] uppercase tracking-[0.2em] px-6 py-3 rounded-full transition-all duration-300 group"
                   >
                     Open Project
                     <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -263,7 +260,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
           <button
             onClick={() => go(-1)}
             aria-label="Previous project"
-            className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300"
+            className="w-11 h-11 rounded-full border border-[#6A5A49]/20 hover:border-[#6A5A49]/50 bg-[#6A5A49]/5 hover:bg-[#6A5A49]/10 flex items-center justify-center text-[#6A5A49]/70 hover:text-[#6A5A49] transition-all duration-300"
           >
             <ChevronLeft size={18} />
           </button>
@@ -276,12 +273,12 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
                 onClick={() => goTo(i)}
                 aria-label={`Go to project ${i + 1}`}
                 className="relative h-[3px] rounded-full overflow-hidden transition-all duration-300"
-                style={{ width: i === current ? 28 : 10, background: "rgba(255,255,255,0.2)" }}
+                style={{ width: i === current ? 28 : 10, background: "rgba(106,90,73,0.22)" }}
               >
                 {i === current && (
                   <motion.span
                     layoutId="dot-fill"
-                    className="absolute inset-0 rounded-full bg-[#b5904a]"
+                    className="absolute inset-0 rounded-full bg-[#9A8E84]"
                   />
                 )}
               </button>
@@ -292,7 +289,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
           <button
             onClick={() => go(1)}
             aria-label="Next project"
-            className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300"
+            className="w-11 h-11 rounded-full border border-[#6A5A49]/20 hover:border-[#6A5A49]/50 bg-[#6A5A49]/5 hover:bg-[#6A5A49]/10 flex items-center justify-center text-[#6A5A49]/70 hover:text-[#6A5A49] transition-all duration-300"
           >
             <ChevronRight size={18} />
           </button>
@@ -302,7 +299,7 @@ function PortfolioCarousel({ projects }: { projects: Project[] }) {
         <div className="flex justify-center mt-8 md:hidden">
           <Link
             href="/projects"
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-white/50 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#6A5A49]/55 hover:text-[#6A5A49] transition-colors"
           >
             View All Projects <ArrowUpRight size={12} />
           </Link>
@@ -346,16 +343,16 @@ export default function Home() {
             priority
             quality={95}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#6A5A49]/5 via-[#6A5A49]/5 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#6A5A49]/5 via-transparent to-transparent" />
         </div>
 
-        {/* Stats row – top right */}
-        <div className="site-container absolute top-0 left-0 right-0 z-20 flex items-start justify-end gap-10 md:gap-14 pt-28 md:pt-32">
+        {/* Stats row */}
+        <div className="site-container absolute bottom-28 md:bottom-32 left-0 right-0 z-20 flex items-end justify-end gap-8 md:gap-14">
           {[
-            { value: "48", label: "PROJECTS" },
-            { value: "12", label: "CITIES" },
-            { value: "7", label: "AWARDS" },
+            { value: "1000+", label: "Projects" },
+            { value: "25+", label: "Cities" },
+            { value: "30+", label: "years" },
           ].map((stat) => (
             <motion.div
               key={stat.label}
@@ -364,21 +361,21 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.6 }}
             >
-              <p className="text-white text-3xl md:text-4xl font-serif leading-none">{stat.value}</p>
-              <p className="text-white/60 text-[length:var(--text-2xs)] tracking-[0.2em] uppercase mt-1">{stat.label}</p>
+              <p className="text-[#DFD6CD] text-3xl md:text-4xl font-serif leading-none">{stat.value}</p>
+              <p className="text-[#DFD6CD]/60 text-[length:var(--text-2xs)] tracking-[0.2em] mt-1">{stat.label}</p>
             </motion.div>
           ))}
         </div>
 
         {/* Main headline – bottom left */}
-        <div className="site-container relative z-10 h-full flex flex-col justify-end pb-20 md:pb-28">
+        <div className="site-container relative z-10 h-full flex flex-col justify-start pt-36 md:pt-44">
           <div className="space-y-0">
             <motion.h1
               custom={0.2}
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="text-white font-serif font-light leading-[0.95] tracking-tight select-none"
+              className="text-[#DFD6CD] font-serif font-light leading-[0.95] tracking-tight select-none"
               style={{ fontSize: "clamp(3.5rem,10vw,8.5rem)" }}
             >
               Crafting
@@ -388,7 +385,7 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="text-white font-serif font-light leading-[0.95] tracking-tight select-none"
+              className="text-[#DFD6CD] font-serif font-light leading-[0.95] tracking-tight select-none"
               style={{ fontSize: "clamp(3.5rem,10vw,8.5rem)" }}
             >
               Experiences
@@ -398,7 +395,7 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="block italic leading-[1] select-none text-[#b5904a]"
+              className="block italic leading-[1] select-none text-[#B08E68]"
               style={{
                 fontFamily: "var(--font-script), serif",
                 fontSize: "clamp(3rem,9vw,7.5rem)",
@@ -413,25 +410,12 @@ export default function Home() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="mt-8 text-white/75 text-sm md:text-base font-light leading-relaxed max-w-xs md:max-w-sm"
+            className="mt-8 text-[#DFD6CD]/75 text-sm md:text-base font-light leading-relaxed max-w-xs md:max-w-sm"
           >
             For over two decades, Design One has been crafting timeless interiors, architecture and environments that are deeply personal, meticulously detailed and beautifully executed.
           </motion.p>
         </div>
 
-        {/* Vertical side links */}
-        <div className="hidden lg:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-6">
-          {["SERVICES", "CONTACT"].map((label) => (
-            <Link
-              key={label}
-              href={label === "SERVICES" ? "/projects" : "/contact"}
-              className="text-white/50 hover:text-white transition-colors text-[9px] uppercase"
-              style={{ writingMode: "vertical-rl", letterSpacing: "0.25em" }}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
       </section>
 
       {/* ── Portfolio Carousel ────────────────────────────── */}
@@ -441,31 +425,31 @@ export default function Home() {
       <section className="flex flex-col lg:flex-row min-h-[90vh]">
 
         {/* Left: Dark editorial panel */}
-        <div className="relative flex flex-col justify-between bg-[#2a2a27] lg:w-[55%] w-full px-12 md:px-16 lg:px-20 pt-20 pb-16">
+        <div className="relative flex flex-col justify-between bg-[#6A5A49] lg:w-[55%] w-full px-12 md:px-16 lg:px-20 pt-20 pb-16">
 
           {/* Label */}
-          <p className="text-[length:var(--text-xs)] uppercase tracking-[0.25em] text-[#8a8a7a] mb-10">
+          <p className="text-[length:var(--text-xs)] uppercase tracking-[0.25em] text-[#B08E68] mb-10">
             The Principals
           </p>
 
           {/* Editorial Headline */}
           <div className="mb-auto">
-            <h2 className="leading-[0.95] mb-16">
+            <h2 className="flex flex-wrap items-baseline gap-x-5 leading-[0.95] mb-16">
               <span
-                className="block text-[#e8e0d0] font-sans font-light"
-                style={{ fontSize: "clamp(3rem, 7vw, 6rem)" }}
+                className="text-[#DFD6CD] font-sans font-light"
+                style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)" }}
               >
                 Yusuf
               </span>
               <span
-                className="block text-[#c4b89a] font-serif italic"
-                style={{ fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 300 }}
+                className="text-[#B08E68] font-serif italic"
+                style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)", fontWeight: 300 }}
               >
                 &amp;
               </span>
               <span
-                className="block text-[#e8e0d0] font-sans font-light"
-                style={{ fontSize: "clamp(3rem, 7vw, 6rem)" }}
+                className="text-[#DFD6CD] font-sans font-light"
+                style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)" }}
               >
                 Vidhisha
               </span>
@@ -473,7 +457,7 @@ export default function Home() {
 
             {/* Single bio paragraph */}
             <div className="max-w-xl">
-              <p className="text-[#9a9488] font-light text-base md:text-lg leading-relaxed">
+              <p className="text-[#DFD6CD]/70 font-light text-base md:text-lg leading-relaxed">
                 For over three decades, Yusuf Hussain and Vidhisha Nimuchwala have led Design One with a shared belief that great design begins with understanding people. While Yusuf brings a strong focus on planning, detailing and the technical aspects of execution, Vidhisha contributes her intuitive understanding of spaces, materials and client relationships. Together, they have shaped a practice built on thoughtful design, meticulous execution and lasting client partnerships, creating homes, hospitality spaces and commercial environments that remain relevant long after trends have passed.
               </p>
             </div>
@@ -493,29 +477,29 @@ export default function Home() {
       </section>
 
       {/* ── Our Services ─────────────────────────────────── */}
-      <section className="bg-[#f7f4ef] py-20 md:py-28">
+      <section className="bg-[#DFD6CD] py-20 md:py-28">
         <div className="site-container">
 
           {/* Header row */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-14 md:mb-16 pb-10 border-b border-neutral-300/60">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-14 md:mb-16 pb-10 border-b border-[#9A8E84]/45">
             <div>
               <h2 className="leading-[0.92]">
                 <span
-                  className="block text-neutral-900 font-sans font-light"
+                  className="block text-[#6A5A49] font-sans font-light"
                   style={{ fontSize: "clamp(2.8rem, 6vw, 5.5rem)" }}
                 >
                   Our
                 </span>
                 <span
-                  className="block text-[#a08060] font-serif italic"
+                  className="block text-[#B08E68] font-serif italic"
                   style={{ fontSize: "clamp(2.8rem, 6vw, 5.5rem)", fontWeight: 300 }}
                 >
                   Services
                 </span>
               </h2>
             </div>
-            <p className="text-neutral-400 font-light text-sm leading-relaxed max-w-xs mt-6 lg:mt-0 lg:text-right">
-              A full range of interior design disciplines —<br />
+            <p className="text-[#9A8E84] font-light text-sm leading-relaxed max-w-xs mt-6 lg:mt-0 lg:text-right">
+              A full range of interior design disciplines<br />
               from concept to complete delivery, curated<br />
               for every space.
             </p>
@@ -558,21 +542,23 @@ export default function Home() {
               <Link
                 key={service.num}
                 href="/contact"
-                className="group relative flex flex-col justify-between bg-[#f0ede6] hover:bg-white border border-neutral-200 hover:border-neutral-300 p-6 lg:p-5 min-h-[220px] lg:min-h-[190px] transition-all duration-300 overflow-hidden"
+                className="group relative flex flex-col justify-between bg-[#DFD6CD] hover:bg-[#9A8E84]/15 border border-[#9A8E84]/30 hover:border-[#9A8E84] p-6 lg:p-5 min-h-[220px] lg:min-h-[190px] transition-all duration-300 overflow-hidden"
               >
                 <div>
-                  <p className="text-[length:var(--text-2xs)] tracking-[0.24em] text-neutral-300 mb-5 font-mono">
-                    {service.num}
-                  </p>
-                  <h3 className="font-serif text-neutral-900 text-lg lg:text-base xl:text-lg leading-tight mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-neutral-500 font-light text-xs leading-relaxed">
+                  <div className="flex items-baseline gap-3 mb-3">
+                    <p className="text-[length:var(--text-2xs)] text-[#B08E68] font-mono shrink-0">
+                      {service.num}
+                    </p>
+                    <h3 className="font-serif text-[#6A5A49] text-lg lg:text-base xl:text-lg leading-tight">
+                      {service.title}
+                    </h3>
+                  </div>
+                  <p className="text-[#6A5A49]/70 font-light text-xs leading-relaxed">
                     {service.description}
                   </p>
                 </div>
 
-                <div className="mt-5 text-neutral-400 group-hover:text-neutral-700 transition-colors duration-300">
+                <div className="mt-5 text-[#B08E68] group-hover:text-[#6A5A49] transition-colors duration-300">
                   <span className="text-lg leading-none transition-transform duration-300 inline-block group-hover:translate-x-1">→</span>
                 </div>
               </Link>

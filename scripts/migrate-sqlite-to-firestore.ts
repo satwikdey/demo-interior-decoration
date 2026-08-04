@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
+import { loadEnvConfig } from "@next/env";
 import { getFirebaseDb } from "../lib/firebase-admin";
+
+loadEnvConfig(process.cwd());
 
 const prisma = new PrismaClient();
 const MAX_BATCH_OPERATIONS = 400;
@@ -18,9 +21,13 @@ async function commitBatch(
 async function main() {
   const db = getFirebaseDb();
 
-  const [projects, users] = await Promise.all([
+  const [projects, collaborations, users] = await Promise.all([
     prisma.project.findMany({
       include: { content: true },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+    }),
+    prisma.collaboration.findMany({
+      include: { gallery: true },
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     }),
     prisma.user.findMany(),
@@ -62,6 +69,34 @@ async function main() {
     }
   }
 
+  for (const collaboration of collaborations) {
+    const ref = db.collection("collaborations").doc(collaboration.id);
+    batch.set(
+      ref,
+      {
+        name: collaboration.name,
+        category: collaboration.category,
+        description: collaboration.description,
+        fullDescription: collaboration.fullDescription,
+        image: collaboration.image,
+        slug: collaboration.slug,
+        sortOrder: collaboration.sortOrder,
+        createdAt: collaboration.createdAt.toISOString(),
+        updatedAt: collaboration.updatedAt.toISOString(),
+        gallery: collaboration.gallery
+          .sort((a, b) => a.order - b.order)
+          .map((item) => item.image),
+      },
+      { merge: true }
+    );
+
+    operationCount += 1;
+    if (operationCount >= MAX_BATCH_OPERATIONS) {
+      batch = await commitBatch(batch, operationCount);
+      operationCount = 0;
+    }
+  }
+
   for (const user of users) {
     const timestamp = new Date().toISOString();
     const ref = db.collection("users").doc(user.id);
@@ -87,7 +122,9 @@ async function main() {
     await batch.commit();
   }
 
-  console.log(`Migrated ${projects.length} projects and ${users.length} users from SQLite to Firestore.`);
+  console.log(
+    `Migrated ${projects.length} projects, ${collaborations.length} collaborations, and ${users.length} users from SQLite to Firestore.`
+  );
 }
 
 main()

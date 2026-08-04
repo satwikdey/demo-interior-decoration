@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "firebase:migrate:sqlite": "ts-node --compiler-options {\"module\":\"CommonJS\"} scripts/migrate-sqlite-to-firestore.ts",
+    "firebase:migrate:sqlite": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" scripts/migrate-sqlite-to-firestore.ts",
     "start": "next start",
     "lint": "eslint",
     "images:svg:convert": "node scripts/convert-project-images-to-svg.js",
@@ -16,7 +16,7 @@
     "firebase:images:rewrite-raster": "node scripts/update-firestore-image-urls-to-raster.js"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" prisma/seed.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
@@ -24,13 +24,11 @@
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
-    "firebase-admin": "^13.9.0",
+    "firebase-admin": "^13.6.0",
     "framer-motion": "^12.33.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "next-auth": "^4.24.14",
-    "firebase-admin": "^13.6.0",
-    "@image-tracer-ts/nodejs": "^1.0.4",
     "prisma": "^6.19.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",

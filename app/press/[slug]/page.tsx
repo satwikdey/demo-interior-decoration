@@ -56,7 +56,7 @@ export default function PressDetail() {
 
     if (!article) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD]">
                 <div className="text-center">
                     <h1 className="text-2xl font-serif mb-4">Article Not Found</h1>
                     <Link href="/press" className="text-primary hover:underline">Return to Press</Link>
@@ -66,7 +66,7 @@ export default function PressDetail() {
     }
 
     return (
-        <main className="bg-white min-h-screen">
+        <main className="bg-[#DFD6CD] min-h-screen">
             <div className="relative h-[50vh] w-full">
                 <Image
                     src={article.image}
@@ -75,11 +75,11 @@ export default function PressDetail() {
                     className="object-cover"
                     priority
                 />
-                <div className="absolute inset-0 bg-neutral-900/50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#6A5A49]/50 flex items-center justify-center">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-center text-white px-4 max-w-4xl"
+                        className="text-center text-[#DFD6CD] px-4 max-w-4xl"
                     >
                         <p className="text-sm uppercase tracking-widest font-bold mb-4 bg-primary inline-block px-3 py-1">{article.publication}</p>
                         <h1 className="text-4xl md:text-6xl font-serif leading-tight">{article.title}</h1>
@@ -89,7 +89,7 @@ export default function PressDetail() {
             </div>
 
             <Container className="py-24">
-                <Link href="/press" className="inline-flex items-center text-sm uppercase tracking-widest text-neutral-500 hover:text-black mb-16 transition-colors">
+                <Link href="/press" className="inline-flex items-center text-sm uppercase tracking-widest text-[#6A5A49]/70 hover:text-[#6A5A49] mb-16 transition-colors">
                     <ArrowLeft size={16} className="mr-2" /> Back to Press
                 </Link>
 
@@ -99,7 +99,7 @@ export default function PressDetail() {
                     </p>
 
                     {/* Placeholder for more content */}
-                    <div className="space-y-6 text-neutral-600 font-light text-lg leading-relaxed mb-12">
+                    <div className="space-y-6 text-[#6A5A49]/80 font-light text-lg leading-relaxed mb-12">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

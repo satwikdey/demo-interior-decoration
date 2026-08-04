@@ -17,7 +17,7 @@ const demoCollaborations: Collaboration[] = [
     {
         name: "THG Paris",
         category: "Bathroom Fittings",
-        description: "Handcrafted precision fittings from Paris — where engineering meets haute couture.",
+        description: "Handcrafted precision fittings from Paris � where engineering meets haute couture.",
         image: "/projects/living-1.jpeg",
         slug: "thg-paris"
     },
@@ -31,7 +31,7 @@ const demoCollaborations: Collaboration[] = [
     {
         name: "SA Baxter",
         category: "Hardware",
-        description: "Architecturally refined hardware — door pulls, handles, and fixtures in solid brass and bronze.",
+        description: "Architecturally refined hardware � door pulls, handles, and fixtures in solid brass and bronze.",
         image: "/projects/urbana-living.jpg",
         slug: "sa-baxter"
     }
@@ -56,31 +56,31 @@ export default function Collaborations() {
         collaborations.length > 0 ? collaborations : demoCollaborations;
 
     return (
-        <main className="min-h-screen" style={{ background: "#181818" }}>
+        <main className="min-h-screen bg-[#DFD6CD]">
 
-            {/* ── HERO HEADER ─────────────────────────────────────── */}
+            {/* -- HERO HEADER --------------------------------------- */}
             <section
                 className="relative w-full flex flex-col justify-end overflow-hidden"
-                style={{ minHeight: "42vh", background: "#111110" }}
+                style={{ minHeight: "42vh", background: "#6A5A49" }}
             >
                 {/* Subtle background texture */}
                 <div
                     className="absolute inset-0 opacity-20"
                     style={{
-                        backgroundImage: "radial-gradient(circle at 70% 50%, #c4b89a22 0%, transparent 60%)",
+                        backgroundImage: "radial-gradient(circle at 70% 50%, rgba(154,142,132,0.13) 0%, transparent 60%)",
                     }}
                 />
 
                 <div className="relative z-10 site-container pb-14 pt-36">
                     <p
-                        className="uppercase text-[#a08060] mb-5"
+                        className="uppercase text-[#9A8E84] mb-5"
                         style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
                     >
                         Studio Partnerships
                     </p>
                     <h1 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
                         <span
-                            className="block text-[#e8e0d0] font-light"
+                            className="block text-[#DFD6CD] font-light"
                             style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)" }}
                         >
                             Our
@@ -90,27 +90,27 @@ export default function Collaborations() {
                             style={{
                                 fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)",
                                 fontWeight: 300,
-                                color: "#c4b89a",
+                                color: "#9A8E84",
                             }}
                         >
                             Collaborations
                         </span>
                     </h1>
                     <p
-                        className="text-[#6e6e62] font-light leading-relaxed mt-8 max-w-lg"
+                        className="text-[#DFD6CD] font-light leading-relaxed mt-8 max-w-lg"
                         style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
                     >
                         Partnering with the world&apos;s finest artisans and specialist brands to create
-                        curated collections that embody our design ethos — refined, lasting, personal.
+                        curated collections that embody our design ethos � refined, lasting, personal.
                     </p>
                 </div>
 
                 {/* Hairline bottom border */}
-                <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
+                <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: "rgba(223,214,205,0.12)" }} />
             </section>
 
-            {/* ── COLLABORATION GRID ──────────────────────────────── */}
-            <section style={{ background: "#181818" }}>
+            {/* -- COLLABORATION GRID -------------------------------- */}
+            <section className="bg-[#DFD6CD]">
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     {activeCollaborations.map((collab, index) => (
                         <Link
@@ -134,13 +134,13 @@ export default function Collaborations() {
                                 <div
                                     className="absolute inset-0"
                                     style={{
-                                        background: "linear-gradient(to top, rgba(24,24,24,0.9) 0%, transparent 50%)",
+                                        background: "linear-gradient(to top, rgba(106,90,73,0.9) 0%, transparent 50%)",
                                     }}
                                 />
                                 {/* Hover accent line */}
                                 <div
                                     className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
-                                    style={{ background: "#c4b89a" }}
+                                    style={{ background: "#9A8E84" }}
                                 />
                             </div>
 
@@ -148,36 +148,36 @@ export default function Collaborations() {
                             <div
                                 className="px-8 py-7 flex items-start justify-between"
                                 style={{
-                                    borderBottom: "1px solid rgba(255,255,255,0.06)",
-                                    borderRight: index < activeCollaborations.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                                    background: "#181818",
+                                    borderBottom: "1px solid rgba(154,142,132,0.35)",
+                                    borderRight: index < activeCollaborations.length - 1 ? "1px solid rgba(154,142,132,0.35)" : "none",
+                                    background: "#DFD6CD",
                                 }}
                             >
                                 <div>
                                     <p
-                                        className="uppercase text-[#5a5a52] mb-2"
+                                        className="uppercase text-[#9A8E84] mb-2"
                                         style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
                                     >
                                         {collab.category}
                                     </p>
                                     <h2
-                                        className="text-[#e8e0d0] font-light group-hover:text-[#c4b89a] transition-colors duration-300"
+                                        className="text-[#6A5A49] font-light group-hover:text-[#9A8E84] transition-colors duration-300"
                                         style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.3rem, 2.2vw, 1.9rem)" }}
                                     >
                                         {collab.name}
                                     </h2>
                                     <p
-                                        className="text-[#6e6e62] font-light leading-relaxed mt-2"
+                                        className="text-[#6A5A49]/72 font-light leading-relaxed mt-2"
                                         style={{ fontSize: "var(--text-base)", fontFamily: "var(--font-sans)", maxWidth: "22rem" }}
                                     >
                                         {collab.description}
                                     </p>
                                 </div>
                                 <span
-                                    className="text-[#5a5a52] group-hover:text-[#c4b89a] transition-all duration-300 mt-1 group-hover:translate-x-1 inline-block"
+                                    className="text-[#9A8E84] group-hover:text-[#9A8E84] transition-all duration-300 mt-1 group-hover:translate-x-1 inline-block"
                                     style={{ fontSize: "1.1rem" }}
                                 >
-                                    →
+                                    ?
                                 </span>
                             </div>
                         </Link>
@@ -185,24 +185,24 @@ export default function Collaborations() {
                 </div>
             </section>
 
-            {/* ── BOTTOM CTA ──────────────────────────────────────── */}
+            {/* -- BOTTOM CTA ---------------------------------------- */}
             <section
                 className="site-container py-24 md:py-32 flex flex-col md:flex-row md:items-end justify-between gap-10"
-                style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                style={{ background: "#9A8E84", borderTop: "1px solid rgba(106,90,73,0.16)" }}
             >
                 <div>
                     <p
-                        className="uppercase text-[#a08060] mb-5"
+                        className="uppercase text-[#DFD6CD]/70 mb-5"
                         style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
                     >
                         Work With Us
                     </p>
                     <h2
-                        className="text-[#e8e0d0] font-light leading-[0.95]"
+                        className="text-[#DFD6CD] font-light leading-[0.95]"
                         style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(2rem, 4vw, 3.8rem)" }}
                     >
                         Interested in a{" "}
-                        <span className="italic" style={{ color: "#c4b89a" }}>
+                        <span className="italic" style={{ color: "#6A5A49" }}>
                             partnership?
                         </span>
                     </h2>
@@ -211,8 +211,8 @@ export default function Collaborations() {
                     href="/contact"
                     className="inline-flex items-center gap-3 self-start md:self-auto px-8 py-4 hover:opacity-90 transition-all duration-300 flex-shrink-0"
                     style={{
-                        background: "#c4b89a",
-                        color: "#181818",
+                        background: "#B08E68",
+                        color: "#DFD6CD",
                         fontSize: "var(--text-sm)",
                         letterSpacing: "0.2em",
                         textTransform: "uppercase",
@@ -221,7 +221,7 @@ export default function Collaborations() {
                     }}
                 >
                     Get in Touch
-                    <span>→</span>
+                    <span>?</span>
                 </Link>
             </section>
 
