@@ -1,6 +1,5 @@
 import { App, cert, getApps, initializeApp } from "firebase-admin/app";
 import { Firestore, getFirestore } from "firebase-admin/firestore";
-import { getStorage } from "firebase-admin/storage";
 import fs from "fs";
 
 let firebaseApp: App | null = null;
@@ -92,20 +91,4 @@ export function getFirebaseAdminApp(): App {
 
 export function getFirebaseDb(): Firestore {
   return getFirestore(getFirebaseAdminApp());
-}
-
-export function getFirebaseStorageBucket() {
-  const app = getFirebaseAdminApp();
-  const bucketName =
-    getEnv("FIREBASE_STORAGE_BUCKET") ??
-    getEnv("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET") ??
-    app.options.storageBucket;
-
-  if (!bucketName) {
-    throw new Error(
-      "Firebase Storage is not configured. Add FIREBASE_STORAGE_BUCKET or NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET to .env.local."
-    );
-  }
-
-  return getStorage(app).bucket(bucketName);
 }

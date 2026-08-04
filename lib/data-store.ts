@@ -1,6 +1,5 @@
 import { getDataBackendMode, shouldFallbackFromFirebase } from "@/lib/backend-mode";
 import * as firestoreData from "@/lib/firestore-data";
-import * as prismaData from "@/lib/prisma-data";
 
 export type {
   CollaborationRecord,
@@ -19,11 +18,15 @@ const fallbackWarnings = new Set<string>();
 async function runWithBackendFallback<T>(
   action: string,
   firebaseOperation: () => Promise<T>,
-  sqliteOperation: () => Promise<T>
+  sqliteOperation?: () => Promise<T>
 ): Promise<T> {
   const mode = getDataBackendMode();
 
   if (mode === "sqlite") {
+    if (!sqliteOperation) {
+      throw new Error("SQLite/Prisma backend is not available in this production bundle.");
+    }
+
     return sqliteOperation();
   }
 
@@ -39,99 +42,89 @@ async function runWithBackendFallback<T>(
       console.warn(`[data-store] Falling back to SQLite for ${action}:`, error);
     }
 
+    if (!sqliteOperation) {
+      throw error;
+    }
+
     return sqliteOperation();
   }
 }
 
 export async function listProjects() {
-  return runWithBackendFallback("listProjects", firestoreData.listProjects, prismaData.listProjects);
+  return runWithBackendFallback("listProjects", firestoreData.listProjects);
 }
 
 export async function getProjectById(id: string) {
   return runWithBackendFallback(
     "getProjectById",
-    () => firestoreData.getProjectById(id),
-    () => prismaData.getProjectById(id)
+    () => firestoreData.getProjectById(id)
   );
 }
 
 export async function getProjectBySlug(slug: string) {
   return runWithBackendFallback(
     "getProjectBySlug",
-    () => firestoreData.getProjectBySlug(slug),
-    () => prismaData.getProjectBySlug(slug)
+    () => firestoreData.getProjectBySlug(slug)
   );
 }
 
 export async function createProject(input: firestoreData.CreateProjectInput) {
   return runWithBackendFallback(
     "createProject",
-    () => firestoreData.createProject(input),
-    () => prismaData.createProject(input)
+    () => firestoreData.createProject(input)
   );
 }
 
 export async function updateProject(id: string, input: firestoreData.UpdateProjectInput) {
   return runWithBackendFallback(
     "updateProject",
-    () => firestoreData.updateProject(id, input),
-    () => prismaData.updateProject(id, input)
+    () => firestoreData.updateProject(id, input)
   );
 }
 
 export async function deleteProject(id: string) {
   return runWithBackendFallback(
     "deleteProject",
-    () => firestoreData.deleteProject(id),
-    () => prismaData.deleteProject(id)
+    () => firestoreData.deleteProject(id)
   );
 }
 
 export async function countExistingProjectsByIds(projectIds: string[]) {
   return runWithBackendFallback(
     "countExistingProjectsByIds",
-    () => firestoreData.countExistingProjectsByIds(projectIds),
-    () => prismaData.countExistingProjectsByIds(projectIds)
+    () => firestoreData.countExistingProjectsByIds(projectIds)
   );
 }
 
 export async function reorderProjects(projectIds: string[]) {
   return runWithBackendFallback(
     "reorderProjects",
-    () => firestoreData.reorderProjects(projectIds),
-    () => prismaData.reorderProjects(projectIds)
+    () => firestoreData.reorderProjects(projectIds)
   );
 }
 
 export async function listCollaborations() {
-  return runWithBackendFallback(
-    "listCollaborations",
-    firestoreData.listCollaborations,
-    prismaData.listCollaborations
-  );
+  return runWithBackendFallback("listCollaborations", firestoreData.listCollaborations);
 }
 
 export async function getCollaborationById(id: string) {
   return runWithBackendFallback(
     "getCollaborationById",
-    () => firestoreData.getCollaborationById(id),
-    () => prismaData.getCollaborationById(id)
+    () => firestoreData.getCollaborationById(id)
   );
 }
 
 export async function getCollaborationBySlug(slug: string) {
   return runWithBackendFallback(
     "getCollaborationBySlug",
-    () => firestoreData.getCollaborationBySlug(slug),
-    () => prismaData.getCollaborationBySlug(slug)
+    () => firestoreData.getCollaborationBySlug(slug)
   );
 }
 
 export async function createCollaboration(input: firestoreData.CreateCollaborationInput) {
   return runWithBackendFallback(
     "createCollaboration",
-    () => firestoreData.createCollaboration(input),
-    () => prismaData.createCollaboration(input)
+    () => firestoreData.createCollaboration(input)
   );
 }
 
@@ -141,51 +134,45 @@ export async function updateCollaboration(
 ) {
   return runWithBackendFallback(
     "updateCollaboration",
-    () => firestoreData.updateCollaboration(id, input),
-    () => prismaData.updateCollaboration(id, input)
+    () => firestoreData.updateCollaboration(id, input)
   );
 }
 
 export async function deleteCollaboration(id: string) {
   return runWithBackendFallback(
     "deleteCollaboration",
-    () => firestoreData.deleteCollaboration(id),
-    () => prismaData.deleteCollaboration(id)
+    () => firestoreData.deleteCollaboration(id)
   );
 }
 
 export async function countExistingCollaborationsByIds(collaborationIds: string[]) {
   return runWithBackendFallback(
     "countExistingCollaborationsByIds",
-    () => firestoreData.countExistingCollaborationsByIds(collaborationIds),
-    () => prismaData.countExistingCollaborationsByIds(collaborationIds)
+    () => firestoreData.countExistingCollaborationsByIds(collaborationIds)
   );
 }
 
 export async function reorderCollaborations(collaborationIds: string[]) {
   return runWithBackendFallback(
     "reorderCollaborations",
-    () => firestoreData.reorderCollaborations(collaborationIds),
-    () => prismaData.reorderCollaborations(collaborationIds)
+    () => firestoreData.reorderCollaborations(collaborationIds)
   );
 }
 
 export async function findUserByEmail(email: string) {
   return runWithBackendFallback(
     "findUserByEmail",
-    () => firestoreData.findUserByEmail(email),
-    () => prismaData.findUserByEmail(email)
+    () => firestoreData.findUserByEmail(email)
   );
 }
 
 export async function countUsers() {
-  return runWithBackendFallback("countUsers", firestoreData.countUsers, prismaData.countUsers);
+  return runWithBackendFallback("countUsers", firestoreData.countUsers);
 }
 
 export async function createUser(email: string, password: string) {
   return runWithBackendFallback(
     "createUser",
-    () => firestoreData.createUser(email, password),
-    () => prismaData.createUser(email, password)
+    () => firestoreData.createUser(email, password)
   );
 }

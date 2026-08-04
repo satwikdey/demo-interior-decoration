@@ -1,8 +1,7 @@
 import { mkdir, writeFile } from "fs/promises";
 import { randomUUID } from "crypto";
 import { join } from "path";
-import { getDataBackendMode, shouldFallbackFromFirebase } from "@/lib/backend-mode";
-import { getFirebaseStorageBucket } from "@/lib/firebase-admin";
+import { getDataBackendMode } from "@/lib/backend-mode";
 
 type UploadStorageBackend = "firebase" | "supabase" | "local";
 
@@ -39,36 +38,10 @@ function getUploadStorageBackend(): UploadStorageBackend | null {
   throw new Error("UPLOAD_STORAGE_BACKEND must be firebase, supabase, or local.");
 }
 
-function buildFirebaseUrl(bucketName: string, objectPath: string, token: string): string {
-  return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodeURIComponent(objectPath)}?alt=media&token=${token}`;
-}
-
 function buildSupabasePublicUrl(supabaseUrl: string, bucketName: string, objectPath: string): string {
   const baseUrl = supabaseUrl.replace(/\/+$/, "");
   const encodedPath = objectPath.split("/").map(encodeURIComponent).join("/");
   return `${baseUrl}/storage/v1/object/public/${encodeURIComponent(bucketName)}/${encodedPath}`;
-}
-
-async function uploadToFirebaseStorage(file: File): Promise<string> {
-  const bucket = getFirebaseStorageBucket();
-  const token = randomUUID();
-  const filename = `${Date.now()}-${randomUUID()}-${sanitizeFileName(file.name)}`;
-  const objectPath = `uploads/${filename}`;
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  await bucket.file(objectPath).save(buffer, {
-    resumable: false,
-    metadata: {
-      contentType: file.type || "application/octet-stream",
-      cacheControl: "public, max-age=31536000, immutable",
-      metadata: {
-        firebaseStorageDownloadTokens: token,
-      },
-    },
-  });
-
-  return buildFirebaseUrl(bucket.name, objectPath, token);
 }
 
 async function uploadToSupabaseStorage(file: File): Promise<string> {
@@ -128,8 +101,7 @@ export async function uploadProjectImage(file: File): Promise<{ url: string; sto
   }
 
   if (storageBackend === "firebase") {
-    const url = await uploadToFirebaseStorage(file);
-    return { url, storage: "firebase" };
+    throw new Error("Firebase Storage uploads are disabled. Use UPLOAD_STORAGE_BACKEND=supabase.");
   }
 
   const mode = getDataBackendMode();
@@ -139,16 +111,10 @@ export async function uploadProjectImage(file: File): Promise<{ url: string; sto
     return { url, storage: "local" };
   }
 
-  try {
-    const url = await uploadToFirebaseStorage(file);
-    return { url, storage: "firebase" };
-  } catch (error) {
-    if (mode === "firestore" || !shouldFallbackFromFirebase(error)) {
-      throw error;
-    }
-
-    console.warn("[upload-storage] Falling back to local uploads:", error);
-    const url = await uploadToLocalStorage(file);
-    return { url, storage: "local" };
+  if (mode === "firestore") {
+    const url = await uploadToSupabaseStorage(file);
+    return { url, storage: "supabase" };
   }
+
+  throw new Error("No upload storage backend is configured. Set UPLOAD_STORAGE_BACKEND=supabase.");
 }
