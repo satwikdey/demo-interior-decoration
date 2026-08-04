@@ -44,3 +44,6 @@ image_optimization_report.json
 # Temporary files
 *.tmp
 *.temp
+
+# Local Netlify folder
+.netlify

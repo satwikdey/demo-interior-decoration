@@ -10,6 +10,15 @@ function getEnv(name: string): string | undefined {
   return typeof value === "string" && value.trim().length > 0 ? value : undefined;
 }
 
+function getFirebasePrivateKey(): string | undefined {
+  const privateKeyBase64 = getEnv("FIREBASE_PRIVATE_KEY_BASE64");
+  if (privateKeyBase64) {
+    return Buffer.from(privateKeyBase64, "base64").toString("utf8");
+  }
+
+  return getEnv("FIREBASE_PRIVATE_KEY")?.replace(/\\n/g, "\n");
+}
+
 function getServiceAccountFromFile(): {
   projectId: string;
   clientEmail: string;
@@ -55,7 +64,7 @@ export function getFirebaseAdminApp(): App {
   const projectId =
     serviceAccount?.projectId ?? getEnv("FIREBASE_PROJECT_ID") ?? getEnv("NEXT_PUBLIC_FIREBASE_PROJECT_ID");
   const clientEmail = serviceAccount?.clientEmail ?? getEnv("FIREBASE_CLIENT_EMAIL");
-  const privateKey = serviceAccount?.privateKey ?? getEnv("FIREBASE_PRIVATE_KEY")?.replace(/\\n/g, "\n");
+  const privateKey = serviceAccount?.privateKey ?? getFirebasePrivateKey();
   const storageBucket = getEnv("FIREBASE_STORAGE_BUCKET") ?? getEnv("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET");
 
   if (projectId && clientEmail && privateKey) {
