@@ -16,79 +16,73 @@ export default function Contact() {
         <main className="min-h-screen bg-[#DFD6CD]">
 
             {/* ── HERO — Full bleed image with heading overlay ────── */}
-            <section className="relative w-full overflow-hidden" style={{ minHeight: "55vh" }}>
+            <section className="relative w-full overflow-hidden bg-[#1E1712]" style={{ minHeight: "55vh" }}>
                 <Image
-                    src="/projects/living-luxe-5.jpg"
+                    src="/projects/contact-hero.jpg"
                     alt="DesignOne Studio — Contact"
                     fill
                     className="object-cover"
-                    style={{ filter: "brightness(0.45)" }}
                     priority
                 />
-                {/* Gradient fade to page bg at bottom */}
+                {/* Gradient fade overlay */}
                 <div
-                    className="absolute inset-0"
-                    style={{
-                        background: "linear-gradient(to bottom, rgba(106,90,73,0.3) 0%, rgba(106,90,73,0.95) 100%)",
-                    }}
+                    className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/40"
                 />
 
                 {/* Hero text */}
-                <div className="relative z-10 site-container h-full flex flex-col justify-end pb-14 pt-36">
+                <div className="relative z-10 site-container h-full flex flex-col justify-end pb-16 pt-36">
                     <p
-                        className="uppercase text-[#9A8E84] mb-5"
-                        style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
+                        className="uppercase text-[#A67B48] font-bold mb-4 text-xs tracking-[0.3em]"
+                        style={{ fontFamily: "var(--font-sans)" }}
                     >
                         Let&apos;s Talk
                     </p>
-                    <h1 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
+                    <h1 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }} className="text-scrim-dark">
                         <span
-                            className="block text-[#DFD6CD] font-light"
+                            className="block text-[#FAF7F2] font-light"
                             style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)" }}
                         >
                             Get in
                         </span>
                         <span
-                            className="block italic"
+                            className="block italic text-[#D4A373] font-normal"
                             style={{
                                 fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)",
-                                fontWeight: 300,
-                                color: "#9A8E84",
                             }}
                         >
                             Touch.
                         </span>
                     </h1>
                     <p
-                        className="text-[#DFD6CD]/70 font-light leading-relaxed mt-8 max-w-lg"
-                        style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
+                        className="text-[#FAF7F2]/90 font-normal leading-relaxed mt-6 max-w-lg text-base md:text-lg text-scrim-subtle"
+                        style={{ fontFamily: "var(--font-sans)" }}
                     >
-                        We are currently accepting new projects for 2026. Fill out the form below
-                        or email us directly to discuss your vision.
+                        We are currently accepting new projects. Fill out the form below
+                        or email us directly to discuss your spatial vision.
                     </p>
                 </div>
             </section>
 
             {/* ── FORM + INFO GRID ────────────────────────────────── */}
-            <section style={{ background: "#DFD6CD" }}>
+            <section className="bg-[#DFD6CD]">
                 <Container className="py-20 md:py-28">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 max-w-5xl mx-auto">
+                    <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-16 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-20">
 
                         {/* ── Contact Info ── */}
-                        <div className="space-y-10">
+                        <div className="max-w-sm space-y-0">
                             <div>
                                 <p
-                                    className="uppercase text-[#9A8E84] mb-6"
-                                    style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
+                                    className="uppercase text-[#5C4F44] font-bold mb-4 text-xs tracking-[0.3em]"
+                                    style={{ fontFamily: "var(--font-sans)" }}
                                 >
                                     Studio Information
                                 </p>
                                 <h2
-                                    className="text-[#6A5A49] font-light leading-[0.95] mb-6"
-                                    style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.6rem, 2.8vw, 2.5rem)" }}
+                                    className="text-[#2A211B] font-light leading-[0.95] mb-8 font-serif"
+                                    style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)" }}
                                 >
                                     Design One<br />
-                                    <span className="italic" style={{ color: "#9A8E84" }}>Studio</span>
+                                    <span className="italic text-[#A67B48] font-normal">Studio</span>
                                 </h2>
                             </div>
 
@@ -111,26 +105,26 @@ export default function Contact() {
                             ].map(({ label, value, href }) => (
                                 <div
                                     key={label}
-                                    className="py-5"
+                                    className="flex min-h-[6.25rem] flex-col justify-between border-b border-[#5C4F44]/30 py-5"
                                 >
                                     <p
-                                        className="uppercase text-[#6A5A49]/65 mb-2"
-                                        style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
+                                        className="uppercase text-[#5C4F44] font-bold mb-2 text-xs tracking-[0.2em]"
+                                        style={{ fontFamily: "var(--font-sans)" }}
                                     >
                                         {label}
                                     </p>
                                     {href ? (
                                         <a
                                             href={href}
-                                            className="text-[#6A5A49] font-light hover:text-[#9A8E84] transition-colors duration-300"
-                                            style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
+                                            className="font-medium text-[#2A211B] hover:text-[#A67B48] transition-colors duration-300 text-base md:text-lg"
+                                            style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             {value}
                                         </a>
                                     ) : (
                                         <p
-                                            className="text-[#6A5A49]/70 font-light leading-relaxed whitespace-pre-line"
-                                            style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
+                                            className="whitespace-pre-line font-normal leading-relaxed text-[#2A211B] text-base md:text-lg"
+                                            style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             {value}
                                         </p>
@@ -139,12 +133,10 @@ export default function Contact() {
                             ))}
 
                             {/* Socials */}
-                            <div
-                                className="py-5"
-                            >
+                            <div className="py-6">
                                 <p
-                                    className="uppercase text-[#6A5A49]/65 mb-4"
-                                    style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
+                                    className="uppercase text-[#5C4F44] font-bold mb-4 text-xs tracking-[0.2em]"
+                                    style={{ fontFamily: "var(--font-sans)" }}
                                 >
                                     Follow
                                 </p>
@@ -153,8 +145,8 @@ export default function Contact() {
                                         <a
                                             key={s}
                                             href="#"
-                                            className="text-[#6A5A49]/70 hover:text-[#9A8E84] transition-colors duration-300 font-light"
-                                            style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
+                                            className="text-[#2A211B] hover:text-[#A67B48] font-medium transition-colors duration-300 text-base"
+                                            style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             {s}
                                         </a>
@@ -164,10 +156,10 @@ export default function Contact() {
                         </div>
 
                         {/* ── Inquiry Form ── */}
-                        <div>
+                        <div className="bg-[#FAF7F2] p-8 md:p-12 rounded-3xl border border-[#5C4F44]/25 shadow-sm">
                             <p
-                                className="uppercase text-[#9A8E84] mb-8"
-                                style={{ fontSize: "var(--text-xs)", letterSpacing: "0.3em", fontFamily: "var(--font-sans)" }}
+                                className="uppercase text-[#A67B48] font-bold mb-8 text-xs tracking-[0.3em]"
+                                style={{ fontFamily: "var(--font-sans)" }}
                             >
                                 Inquiry Form
                             </p>
@@ -175,43 +167,36 @@ export default function Contact() {
                             {submitted ? (
                                 <div
                                     className="flex flex-col items-start justify-center py-16"
-                                    style={{ borderTop: "1px solid rgba(154,142,132,0.35)" }}
                                 >
                                     <p
-                                        className="text-[#9A8E84] mb-3"
-                                        style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontStyle: "italic" }}
+                                        className="text-[#A67B48] mb-3 font-serif italic text-3xl font-medium"
                                     >
                                         Thank you.
                                     </p>
                                     <p
-                                        className="text-[#6A5A49]/70 font-light"
-                                        style={{ fontSize: "var(--text-md)", fontFamily: "var(--font-sans)" }}
+                                        className="text-[#2A211B] font-normal text-lg"
+                                        style={{ fontFamily: "var(--font-sans)" }}
                                     >
                                         Your inquiry has been received. We will be in touch within 48 hours.
                                     </p>
                                 </div>
                             ) : (
-                                <form onSubmit={handleSubmit} className="space-y-0">
+                                <form onSubmit={handleSubmit} className="space-y-6">
                                     {/* Name row */}
-                                    <div
-                                        className="grid grid-cols-1 gap-6 border-b border-[#9A8E84]/35 pb-6 md:grid-cols-2 md:gap-8"
-                                        style={{ minHeight: "6.25rem" }}
-                                    >
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         {["First Name", "Last Name"].map((field) => (
-                                            <div key={field} className="flex flex-col justify-between">
+                                            <div key={field} className="flex flex-col">
                                                 <label
-                                                    className="block uppercase text-[#6A5A49]/65"
-                                                    style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
+                                                    className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
+                                                    style={{ fontFamily: "var(--font-sans)" }}
                                                 >
                                                     {field}
                                                 </label>
                                                 <input
                                                     type="text"
                                                     required
-                                                    className="w-full bg-transparent py-3 transition-colors focus:outline-none"
+                                                    className="w-full bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none placeholder-[#5C4F44]/50"
                                                     style={{
-                                                        color: "#6A5A49",
-                                                        fontSize: "var(--text-md)",
                                                         fontFamily: "var(--font-sans)",
                                                     }}
                                                 />
@@ -220,73 +205,60 @@ export default function Contact() {
                                     </div>
 
                                     {/* Email */}
-                                    <div
-                                        className="flex flex-col justify-between border-b border-[#9A8E84]/35 py-6"
-                                        style={{ minHeight: "6.25rem" }}
-                                    >
+                                    <div className="flex flex-col">
                                         <label
-                                            className="block uppercase text-[#6A5A49]/65"
-                                            style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
+                                            className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
+                                            style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             Email Address
                                         </label>
                                         <input
                                             type="email"
                                             required
-                                            className="w-full bg-transparent py-3 transition-colors focus:outline-none"
+                                            className="w-full bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none placeholder-[#5C4F44]/50"
                                             style={{
-                                                color: "#6A5A49",
-                                                fontSize: "var(--text-md)",
                                                 fontFamily: "var(--font-sans)",
                                             }}
                                         />
                                     </div>
 
                                     {/* Project type */}
-                                    <div
-                                        className="flex flex-col justify-between border-b border-[#9A8E84]/35 py-6"
-                                        style={{ minHeight: "6.25rem" }}
-                                    >
+                                    <div className="flex flex-col">
                                         <label
-                                            className="block uppercase text-[#6A5A49]/65"
-                                            style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
+                                            className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
+                                            style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             Project Type
                                         </label>
                                         <select
-                                            className="w-full cursor-pointer appearance-none bg-transparent py-3 transition-colors focus:outline-none"
+                                            className="w-full cursor-pointer appearance-none bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none"
                                             style={{
-                                                color: "#6A5A49",
-                                                fontSize: "var(--text-md)",
                                                 fontFamily: "var(--font-sans)",
-                                                background: "transparent",
                                             }}
                                         >
-                                            <option value="" style={{ background: "#DFD6CD" }}>Select a category</option>
-                                            <option value="residential" style={{ background: "#DFD6CD" }}>Residential Interior</option>
-                                            <option value="commercial" style={{ background: "#DFD6CD" }}>Commercial Space</option>
-                                            <option value="hospitality" style={{ background: "#DFD6CD" }}>Hospitality</option>
-                                            <option value="styling" style={{ background: "#DFD6CD" }}>Styling & Decoration</option>
-                                            <option value="other" style={{ background: "#DFD6CD" }}>Other</option>
+                                            <option value="" className="bg-[#FAF7F2] text-[#2A211B]">Select a category</option>
+                                            <option value="residential" className="bg-[#FAF7F2] text-[#2A211B]">Residential Interior</option>
+                                            <option value="commercial" className="bg-[#FAF7F2] text-[#2A211B]">Commercial Space</option>
+                                            <option value="hospitality" className="bg-[#FAF7F2] text-[#2A211B]">Hospitality</option>
+                                            <option value="styling" className="bg-[#FAF7F2] text-[#2A211B]">Styling & Decoration</option>
+                                            <option value="other" className="bg-[#FAF7F2] text-[#2A211B]">Other</option>
                                         </select>
                                     </div>
 
                                     {/* Message */}
-                                    <div className="flex flex-col justify-between border-b border-[#9A8E84]/35 py-6">
+                                    <div className="flex flex-col">
                                         <label
-                                            className="block uppercase text-[#6A5A49]/65"
-                                            style={{ fontSize: "var(--text-2xs)", letterSpacing: "0.25em", fontFamily: "var(--font-sans)" }}
+                                            className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
+                                            style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             Message
                                         </label>
                                         <textarea
                                             rows={4}
                                             required
-                                            placeholder="Tell us about your project..."
-                                            className="w-full resize-none bg-transparent py-3 transition-colors focus:outline-none"
+                                            placeholder="Tell us about your project, timeline, and location..."
+                                            className="w-full resize-none bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none placeholder-[#5C4F44]/50"
                                             style={{
-                                                color: "#6A5A49",
-                                                fontSize: "var(--text-md)",
                                                 fontFamily: "var(--font-sans)",
                                             }}
                                         />
@@ -295,19 +267,13 @@ export default function Contact() {
                                     {/* Submit */}
                                     <button
                                         type="submit"
-                                        className="mt-10 inline-flex items-center gap-3 px-10 py-4 font-medium transition-all duration-300 hover:opacity-90 active:scale-[0.98]"
+                                        className="mt-6 inline-flex items-center gap-3 px-10 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] font-semibold text-xs uppercase tracking-[0.2em] rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-[0.98]"
                                         style={{
-                                            background: "#B08E68",
-                                            color: "#6A5A49",
-                                            fontSize: "var(--text-sm)",
-                                            letterSpacing: "0.2em",
-                                            textTransform: "uppercase",
                                             fontFamily: "var(--font-sans)",
-                                            fontWeight: 500,
                                         }}
                                     >
                                         Send Inquiry
-                                        <span>→</span>
+                                        <span className="text-sm">→</span>
                                     </button>
                                 </form>
                             )}

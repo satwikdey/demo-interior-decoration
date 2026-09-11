@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getJournalArticleBySlug, getJournalArticles } from "@/lib/journal-data";
+import { ArrowLeft } from "lucide-react";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -103,45 +104,48 @@ export default async function JournalArticlePage({ params }: PageProps) {
   const sections = article.body.slice(introEnd).map(formatArticleSection);
 
   return (
-    <main className="bg-[#DFD6CD] pt-28 text-[#6A5A49]">
-      <article className="mx-auto max-w-[58rem] px-7 pb-24 pt-12 md:px-12 lg:px-0">
+    <main className="bg-[#DFD6CD] pt-28 text-[#2A211B] min-h-screen">
+      <article className="mx-auto max-w-4xl px-6 pb-24 pt-12 md:px-12">
         <Link
           href="/journal"
-          className="mb-10 inline-block text-[0.58rem] font-semibold uppercase tracking-[0.25em] text-[#9A8E84]"
+          className="inline-flex items-center text-xs uppercase tracking-[0.2em] font-semibold text-[#5C4F44] hover:text-[#2A211B] mb-12 transition-colors group"
         >
-          Interior Study
+          <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Journal
         </Link>
 
-        <header className="mb-12 max-w-[45rem]">
-          <h1 className="font-serif text-4xl font-medium leading-[1.02] tracking-[0.01em] text-[#6A5A49] md:text-5xl lg:text-6xl">
+        <header className="mb-12">
+          <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#A67B48] mb-4">
+            Interior Study
+          </p>
+          <h1 className="font-serif text-4xl font-normal leading-tight text-[#2A211B] md:text-5xl lg:text-6xl">
             {article.title}
           </h1>
         </header>
 
-        <section className="max-w-[45rem] space-y-5 border-b border-[#9A8E84]/40 pb-11">
+        <section className="space-y-6 border-b border-[#5C4F44]/25 pb-12">
           {intro.map((paragraph) => (
-            <p key={paragraph} className="font-sans text-[0.78rem] leading-relaxed text-[#6A5A49]">
+            <p key={paragraph} className="font-sans text-lg md:text-xl leading-relaxed text-[#2A211B] font-normal">
               {paragraph}
             </p>
           ))}
         </section>
 
-        <section className="max-w-[45rem]">
+        <section className="space-y-4">
           {sections.map((section, index) => {
             const headingOnly = !section.heading && isStandaloneHeading(section.body);
 
             return (
-              <div key={`${section.heading ?? section.body}-${index}`} className="border-b border-[#9A8E84]/40 py-7">
+              <div key={`${section.heading ?? section.body}-${index}`} className="border-b border-[#5C4F44]/20 py-8">
                 {section.heading || headingOnly ? (
-                  <h2 className="font-serif text-xl font-medium leading-tight text-[#9A8E84] md:text-2xl">
+                  <h2 className="font-serif text-2xl md:text-3xl font-medium leading-tight text-[#2A211B]">
                     {section.heading ?? section.body}
                   </h2>
                 ) : null}
 
                 {!headingOnly && section.body ? (
                   <p
-                    className={`font-sans text-[0.76rem] leading-relaxed text-[#6A5A49] ${
-                      section.heading ? "mt-3" : ""
+                    className={`font-sans text-base md:text-lg leading-relaxed text-[#4A3E34] font-normal ${
+                      section.heading ? "mt-4" : ""
                     }`}
                   >
                     {section.body}
@@ -152,10 +156,10 @@ export default async function JournalArticlePage({ params }: PageProps) {
           })}
         </section>
 
-        <div className="max-w-[45rem] pt-10">
+        <div className="pt-14">
           <Link
             href="/journal"
-            className="inline-block border-b border-[#9A8E84] pb-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#6A5A49]"
+            className="inline-block px-8 py-3.5 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.2em] rounded-full transition-colors shadow-md"
           >
             Back to Journal
           </Link>

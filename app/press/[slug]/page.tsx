@@ -58,61 +58,56 @@ export default function PressDetail() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD]">
                 <div className="text-center">
-                    <h1 className="text-2xl font-serif mb-4">Article Not Found</h1>
-                    <Link href="/press" className="text-primary hover:underline">Return to Press</Link>
+                    <h1 className="text-3xl font-serif text-[#2A211B] mb-4">Article Not Found</h1>
+                    <Link href="/press" className="text-xs uppercase tracking-widest font-bold border-b-2 border-[#2A211B] pb-1 text-[#2A211B] hover:text-[#A67B48] transition-colors">Return to Press</Link>
                 </div>
             </div>
         );
     }
 
     return (
-        <main className="bg-[#DFD6CD] min-h-screen">
-            <div className="relative h-[50vh] w-full">
+        <main className="bg-[#DFD6CD] min-h-screen text-[#2A211B]">
+            {/* Hero */}
+            <div className="relative h-[60vh] w-full bg-[#1E1712]">
                 <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    className="object-cover"
+                    className="object-cover opacity-75"
                     priority
                 />
-                <div className="absolute inset-0 bg-[#6A5A49]/50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/50 to-transparent flex items-end">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-center text-[#DFD6CD] px-4 max-w-4xl"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="site-container pb-16 pt-36 max-w-4xl text-[#FAF7F2]"
                     >
-                        <p className="text-sm uppercase tracking-widest font-bold mb-4 bg-primary inline-block px-3 py-1">{article.publication}</p>
-                        <h1 className="text-4xl md:text-6xl font-serif leading-tight">{article.title}</h1>
-                        <p className="text-lg font-light mt-6 opacity-80">{article.date}</p>
+                        <span className="text-xs uppercase tracking-[0.25em] font-bold mb-4 bg-[#A67B48] text-[#FAF7F2] inline-block px-4 py-1.5 rounded-full">{article.publication}</span>
+                        <h1 className="text-4xl md:text-6xl font-serif font-normal leading-tight text-scrim-dark mt-2">{article.title}</h1>
+                        <p className="text-sm font-semibold uppercase tracking-widest mt-4 text-[#D4A373]">{article.date}</p>
                     </motion.div>
                 </div>
             </div>
 
-            <Container className="py-24">
-                <Link href="/press" className="inline-flex items-center text-sm uppercase tracking-widest text-[#6A5A49]/70 hover:text-[#6A5A49] mb-16 transition-colors">
-                    <ArrowLeft size={16} className="mr-2" /> Back to Press
+            <Container className="py-20 md:py-24">
+                <Link href="/press" className="inline-flex items-center text-xs uppercase tracking-[0.2em] font-semibold text-[#5C4F44] hover:text-[#2A211B] mb-16 transition-colors group">
+                    <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Press
                 </Link>
 
-                <div className="max-w-3xl mx-auto">
-                    <p className="text-2xl font-serif leading-relaxed mb-12 first-letter:text-5xl first-letter:font-bold first-letter:mr-1 first-letter:float-left">
+                <div className="max-w-3xl mx-auto bg-[#FAF7F2] p-8 md:p-14 rounded-3xl border border-[#5C4F44]/25 shadow-sm">
+                    <p className="text-2xl md:text-3xl font-serif leading-relaxed mb-10 text-[#2A211B] font-normal first-letter:text-5xl first-letter:font-serif first-letter:text-[#A67B48] first-letter:mr-2 first-letter:float-left">
                         {article.content}
                     </p>
 
-                    {/* Placeholder for more content */}
-                    <div className="space-y-6 text-[#6A5A49]/80 font-light text-lg leading-relaxed mb-12">
+                    <div className="space-y-6 text-[#4A3E34] font-normal text-lg leading-relaxed mb-12 border-t border-[#5C4F44]/20 pt-8">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </p>
-                        <p>
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            Every architectural endeavor at Design One Studio is grounded in rigorous context analysis, acoustic refinement, and bespoke material curation.
                         </p>
                     </div>
 
                     {article.link && (
-                        <a href={article.link} className="inline-flex items-center text-primary font-bold hover:underline">
-                            Read Full Article on {article.publication} <ExternalLink size={16} className="ml-2" />
+                        <a href={article.link} className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-colors shadow-md">
+                            Read Full Feature on {article.publication} <ExternalLink size={16} />
                         </a>
                     )}
                 </div>

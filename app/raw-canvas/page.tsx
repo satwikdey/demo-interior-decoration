@@ -90,19 +90,19 @@ function TextLink({ href, children, light = false }: { href: string; children: R
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 text-[0.62rem] font-semibold uppercase tracking-[0.24em] transition-colors ${
-        light ? "text-[#DFD6CD] hover:text-[#B08E68]" : "text-[#B08E68] hover:text-[#6A5A49]"
+      className={`group inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] transition-colors ${
+        light ? "text-[#FAF7F2] hover:text-[#D4A373]" : "text-[#2A211B] hover:text-[#A67B48]"
       }`}
     >
       <span>{children}</span>
-      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5" strokeWidth={1.6} />
+      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" strokeWidth={2} />
     </Link>
   );
 }
 
 function SectionLabel({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
-    <p className={`text-[0.62rem] font-semibold uppercase tracking-[0.26em] ${light ? "text-[#DFD6CD]/55" : "text-[#9A8E84]"}`}>
+    <p className={`text-xs font-bold uppercase tracking-[0.26em] ${light ? "text-[#D4A373]" : "text-[#A67B48]"}`}>
       {children}
     </p>
   );
@@ -110,16 +110,17 @@ function SectionLabel({ children, light = false }: { children: ReactNode; light?
 
 export default function RawCanvasPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#DFD6CD] font-sans text-[#6A5A49] selection:bg-[#6A5A49] selection:text-[#DFD6CD]">
-      <section className="relative overflow-hidden bg-[#6A5A49] text-[#DFD6CD]">
-        <div className="mx-auto flex min-h-[40rem] w-full max-w-[120rem] flex-col px-5 py-5 sm:px-8 lg:min-h-[34rem] lg:px-12 lg:py-6">
-          <header className="relative z-20 flex items-center justify-between border-b border-[#DFD6CD]/10 pb-4">
-            <Link href="/" className="relative block h-10 w-40">
+    <main className="min-h-screen overflow-hidden bg-[#DFD6CD] font-sans text-[#2A211B]">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-[#1E1712] text-[#FAF7F2]">
+        <div className="mx-auto flex min-h-[42rem] w-full max-w-[120rem] flex-col px-6 py-6 sm:px-10 lg:min-h-[38rem] lg:px-16 lg:py-8">
+          <header className="relative z-20 flex items-center justify-between border-b border-[#FAF7F2]/15 pb-6">
+            <Link href="/" className="relative block h-10 w-44">
               <Image
                 src="/raw-canvas-logo.png"
                 alt="Raw Canvas"
                 fill
-                className="object-contain object-left"
+                className="object-contain object-left brightness-200"
                 priority
               />
             </Link>
@@ -129,8 +130,8 @@ export default function RawCanvasPage() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[11px] font-medium uppercase tracking-widest transition-colors ${
-                    link.href === "/raw-canvas" ? "text-[#DFD6CD]" : "text-[#DFD6CD]/90 hover:text-[#DFD6CD]"
+                  className={`text-xs font-semibold uppercase tracking-widest transition-colors ${
+                    link.href === "/raw-canvas" ? "text-[#FAF7F2] border-b-2 border-[#A67B48] pb-1" : "text-[#FAF7F2]/80 hover:text-[#FAF7F2]"
                   }`}
                 >
                   {link.label}
@@ -139,64 +140,64 @@ export default function RawCanvasPage() {
             </nav>
           </header>
 
-          <div className="flex min-h-[35rem] flex-1 items-start py-12 lg:min-h-[39rem] lg:py-24">
-            <div className="relative z-10 max-w-[34rem]">
-              <h1 className="font-serif text-[4rem] font-light leading-[0.86] tracking-normal text-[#DFD6CD] sm:text-[5.25rem] lg:text-[5.6rem] xl:text-[6.25rem]">
+          <div className="flex min-h-[35rem] flex-1 items-start py-14 lg:min-h-[39rem] lg:py-24">
+            <div className="relative z-10 max-w-[36rem]">
+              <h1 className="font-serif text-[4rem] font-light leading-[0.9] tracking-normal text-[#FAF7F2] sm:text-[5.25rem] lg:text-[5.6rem] xl:text-[6.25rem] text-scrim-dark">
                 Design.
                 <br />
                 Manufacture.
                 <br />
-                <em className="font-light italic text-[#B08E68]">Deliver.</em>
+                <em className="font-normal italic text-[#D4A373]">Deliver.</em>
               </h1>
-              <p className="mt-6 max-w-[27rem] text-[0.78rem] font-light leading-6 text-[#DFD6CD]/72">
+              <p className="mt-6 max-w-[30rem] text-base md:text-lg font-normal leading-relaxed text-[#FAF7F2]/90 text-scrim-subtle">
                 Raw Canvas is the manufacturing arm of Design One Studio, where highly engineered interiors are shaped through material intelligence,
                 technical detailing, and an uncompromising eye for finish.
               </p>
-              <div className="mt-8">
+              <div className="mt-10">
                 <TextLink href="#process" light>
                   Discover Raw Canvas
                 </TextLink>
               </div>
             </div>
 
-            <div className="absolute inset-0 overflow-hidden bg-[#372E24]">
+            <div className="absolute inset-0 overflow-hidden bg-[#1E1712]">
               <Image
                 src="/raw-canvas/raw-canvas-hero.png"
                 alt="Raw Canvas workshop and manufacturing facility"
                 fill
-                className="object-cover object-center"
+                className="object-cover object-center opacity-70"
                 priority
                 sizes="100vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#372E24]/95 via-[#372E24]/62 to-[#372E24]/18" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#372E24]/72 via-transparent to-[#372E24]/10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/40" />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="process" className="bg-[#DFD6CD] px-5 py-12 sm:px-8 lg:px-12 lg:py-11">
-        <div className="mx-auto grid max-w-[120rem] gap-9 lg:grid-cols-[0.3fr_1fr] lg:gap-12">
+      {/* Process Section */}
+      <section id="process" className="bg-[#DFD6CD] px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
+        <div className="mx-auto grid max-w-[120rem] gap-10 lg:grid-cols-[0.3fr_1fr] lg:gap-14">
           <div>
             <SectionLabel>Our Process</SectionLabel>
-            <h2 className="mt-4 max-w-[17rem] font-serif text-4xl font-light leading-[0.96] tracking-normal sm:text-5xl lg:text-[3.5rem] xl:text-[3.9rem]">
+            <h2 className="mt-4 max-w-[19rem] font-serif text-4xl font-light leading-[0.96] tracking-normal sm:text-5xl lg:text-[3.5rem] xl:text-[3.9rem] text-[#2A211B]">
               A seamless end-to-end process.
             </h2>
           </div>
 
-          <div className="grid gap-px bg-[#6A5A49]/12 md:grid-cols-5">
+          <div className="grid gap-4 md:grid-cols-5">
             {processSteps.map((step) => {
               const Icon = step.icon;
               return (
-                <article key={step.number} className="bg-[#DFD6CD] px-5 py-5">
+                <article key={step.number} className="bg-[#FAF7F2] p-6 rounded-2xl border border-[#5C4F44]/25 shadow-sm">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="font-serif text-2xl italic text-[#B08E68]">{step.number}</span>
-                    <Icon className="h-5 w-5 text-[#B08E68]" strokeWidth={1.35} />
+                    <span className="font-serif text-2xl font-bold italic text-[#A67B48]">{step.number}</span>
+                    <Icon className="h-6 w-6 text-[#A67B48]" strokeWidth={1.75} />
                   </div>
-                  <h3 className="mt-7 min-h-10 text-[0.68rem] font-semibold uppercase leading-5 tracking-[0.14em] text-[#6A5A49]">
+                  <h3 className="mt-6 min-h-10 text-xs font-bold uppercase leading-5 tracking-[0.14em] text-[#2A211B]">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-[0.68rem] font-light leading-5 text-[#6A5A49]/62">{step.description}</p>
+                  <p className="mt-3 text-sm font-normal leading-relaxed text-[#4A3E34]">{step.description}</p>
                 </article>
               );
             })}
@@ -204,17 +205,20 @@ export default function RawCanvasPage() {
         </div>
       </section>
 
-      <section className="bg-[#6A5A49] px-5 py-10 text-[#DFD6CD] sm:px-8 lg:px-12 lg:py-12">
+      {/* What We Do Grid */}
+      <section className="bg-[#1E1712] px-6 py-20 text-[#FAF7F2] sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-[120rem]">
-          <SectionLabel light>What We Do</SectionLabel>
-          <h2 className="mx-auto mt-3 max-w-[45rem] text-center font-serif text-4xl font-light leading-none tracking-normal text-[#DFD6CD] sm:text-5xl lg:text-[3.8rem] xl:text-[4.25rem]">
-            <span className="text-[#B08E68]">Tailor-made</span> solutions for every space.
-          </h2>
+          <div className="text-center mb-14">
+            <SectionLabel light>What We Do</SectionLabel>
+            <h2 className="mx-auto mt-4 max-w-[50rem] font-serif text-4xl font-light leading-none tracking-normal text-[#FAF7F2] sm:text-5xl lg:text-[3.8rem] xl:text-[4.25rem]">
+              <span className="text-[#D4A373] italic font-normal">Tailor-made</span> solutions for every space.
+            </h2>
+          </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
             {solutionCards.map((card) => (
-              <article key={card.title} className="group">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#6A5A49]">
+              <article key={card.title} className="group flex flex-col bg-[#2A211B] rounded-2xl overflow-hidden shadow-lg border border-[#FAF7F2]/10">
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#1E1712]">
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -222,9 +226,9 @@ export default function RawCanvasPage() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(min-width: 1024px) 16vw, (min-width: 640px) 50vw, 100vw"
                   />
-                  <div className="absolute inset-0 bg-[#6A5A49]/10 transition-colors duration-500 group-hover:bg-[#6A5A49]/0" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/80 via-transparent to-transparent" />
                 </div>
-                <h3 className="mt-4 min-h-10 text-[0.62rem] font-semibold uppercase leading-5 tracking-[0.18em] text-[#DFD6CD]">
+                <h3 className="p-4 min-h-14 text-xs font-bold uppercase leading-5 tracking-[0.15em] text-[#FAF7F2] group-hover:text-[#D4A373] transition-colors">
                   {card.title}
                 </h3>
               </article>
@@ -233,59 +237,55 @@ export default function RawCanvasPage() {
         </div>
       </section>
 
-      <section className="bg-[#DFD6CD] px-5 py-12 sm:px-8 lg:px-12 lg:py-12">
+      {/* Materials & Finishes */}
+      <section className="bg-[#DFD6CD] px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-[120rem]">
-          <div className="grid gap-8 lg:grid-cols-[0.34fr_0.66fr] lg:gap-12">
-            <div className="max-w-[30rem]">
+          <div className="grid items-center gap-12 lg:grid-cols-[0.38fr_0.62fr]">
+            <div className="max-w-[32rem]">
               <SectionLabel>Materials & Finishes</SectionLabel>
-            </div>
-            <div className="hidden lg:block" />
-          </div>
-
-          <div className="mt-5 grid items-start gap-9 lg:grid-cols-[0.34fr_0.66fr] lg:gap-12">
-            <div className="max-w-[30rem]">
-              <h2 className="font-serif text-4xl font-light leading-[0.92] tracking-normal sm:text-5xl lg:text-[3.45rem] xl:text-[3.85rem]">
+              <h2 className="mt-4 font-serif text-4xl font-light leading-[0.92] tracking-normal sm:text-5xl lg:text-[3.45rem] xl:text-[3.85rem] text-[#2A211B]">
                 Curated materials. Timeless finishes.
               </h2>
-              <p className="mt-5 text-[0.78rem] font-light leading-6 text-[#6A5A49]/66">
+              <p className="mt-6 text-base md:text-lg font-normal leading-relaxed text-[#4A3E34]">
                 We work with richly grained woods, honed stone, precision hardware, textured laminates, and refined metal accents to create pieces that
                 feel composed, tactile, and enduring.
               </p>
-              <div className="mt-7">
+              <div className="mt-8">
                 <TextLink href="/contact">Explore Materials</TextLink>
               </div>
             </div>
 
-          <div className="relative aspect-[16/7] overflow-hidden bg-[#DFD6CD] shadow-[0_2rem_5rem_rgba(106,90,73,0.16)]">
-            <Image
+            <div className="relative aspect-[16/8] overflow-hidden rounded-3xl bg-[#1E1712] shadow-2xl">
+              <Image
                 src="/raw-canvas/raw-canvas-materials.png"
                 alt="Curated wood, stone, hardware, and natural material samples"
-              fill
-              className="object-cover"
-              priority
-              sizes="(min-width: 1024px) 58vw, 100vw"
-            />
-          </div>
+                fill
+                className="object-cover"
+                priority
+                sizes="(min-width: 1024px) 58vw, 100vw"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#6A5A49] px-5 py-12 text-[#DFD6CD] sm:px-8 lg:px-12 lg:py-12">
+      {/* Why Raw Canvas */}
+      <section className="bg-[#1E1712] px-6 py-20 text-[#FAF7F2] sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-[120rem]">
           <div className="mx-auto text-center">
             <SectionLabel light>Why Raw Canvas</SectionLabel>
-            <h2 className="mx-auto mt-4 max-w-[88rem] whitespace-nowrap font-serif text-4xl font-light leading-[0.92] tracking-normal text-[#DFD6CD] sm:text-5xl lg:text-[3.35rem] xl:text-[3.7rem]">
+            <h2 className="mx-auto mt-4 max-w-[88rem] font-serif text-4xl font-light leading-[0.92] tracking-normal text-[#FAF7F2] sm:text-5xl lg:text-[3.35rem] xl:text-[3.7rem]">
               Where design intent meets craftsmanship.
             </h2>
 
-            <div className="mt-10 grid gap-px bg-[#DFD6CD]/12 text-left md:grid-cols-3">
+            <div className="mt-14 grid gap-6 text-left md:grid-cols-3">
               {values.map((value) => {
                 const Icon = value.icon;
                 return (
-                  <article key={value.title} className="bg-[#6A5A49] px-6 py-6">
-                    <Icon className="h-5 w-5 text-[#DFD6CD]/70" strokeWidth={1.35} />
-                    <h3 className="mt-6 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-[#DFD6CD]">{value.title}</h3>
-                    <p className="mt-3 text-[0.68rem] font-light leading-5 text-[#DFD6CD]/58">{value.description}</p>
+                  <article key={value.title} className="bg-[#2A211B] p-8 rounded-2xl border border-[#FAF7F2]/10 shadow-lg">
+                    <Icon className="h-8 w-8 text-[#D4A373]" strokeWidth={1.5} />
+                    <h3 className="mt-6 text-sm font-bold uppercase tracking-[0.18em] text-[#FAF7F2]">{value.title}</h3>
+                    <p className="mt-3 text-sm font-normal leading-relaxed text-[#FAF7F2]/85">{value.description}</p>
                   </article>
                 );
               })}
@@ -294,20 +294,21 @@ export default function RawCanvasPage() {
         </div>
       </section>
 
-      <section className="bg-[#DFD6CD] px-5 py-10 sm:px-8 lg:px-12 lg:py-10">
-        <div className="mx-auto grid max-w-[120rem] gap-8 lg:grid-cols-[0.27fr_0.73fr] lg:gap-10">
-          <div className="border-b border-[#9A8E84]/30 pb-7 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-10">
+      {/* Selected Experience */}
+      <section className="bg-[#DFD6CD] px-6 py-16 sm:px-10 lg:px-16 lg:py-16 border-t border-[#5C4F44]/25">
+        <div className="mx-auto grid max-w-[120rem] gap-10 lg:grid-cols-[0.27fr_0.73fr]">
+          <div className="border-b border-[#5C4F44]/25 pb-8 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-12">
             <SectionLabel>Selected Experience</SectionLabel>
-            <p className="mt-6 text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-[#9A8E84]">Trusted By</p>
-            <p className="mt-2 font-serif text-2xl uppercase tracking-[0.08em] text-[#6A5A49]">ITC Hotels</p>
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.24em] text-[#5C4F44]">Trusted By</p>
+            <p className="mt-2 font-serif text-3xl uppercase tracking-[0.08em] text-[#2A211B] font-medium">ITC Hotels</p>
           </div>
 
           <div>
             <SectionLabel>Projects Located At</SectionLabel>
-            <div className="mt-6 grid grid-cols-2 md:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
               {partnerLogos.map((logo) => (
-                <div key={logo} className="flex min-h-16 items-center border-l border-[#9A8E84]/30 px-5 first:border-l-0 md:px-8">
-                  <span className="font-serif text-[0.82rem] uppercase tracking-[0.16em] text-[#6A5A49]">{logo}</span>
+                <div key={logo} className="flex min-h-16 items-center border-l-2 border-[#A67B48] px-5 bg-[#FAF7F2] rounded-r-xl shadow-sm">
+                  <span className="font-serif text-sm uppercase tracking-[0.14em] text-[#2A211B] font-semibold">{logo}</span>
                 </div>
               ))}
             </div>
@@ -315,9 +316,10 @@ export default function RawCanvasPage() {
         </div>
       </section>
 
-      <footer className="bg-[#372E24] px-5 py-10 text-[#DFD6CD] sm:px-8 lg:px-12 lg:py-12">
+      {/* Raw Canvas Footer */}
+      <footer className="bg-[#1E1712] px-6 py-16 text-[#FAF7F2] sm:px-10 lg:px-16 lg:py-20">
         <div className="mx-auto max-w-[120rem]">
-          <div className="grid gap-10 lg:grid-cols-[1.25fr_0.8fr_0.7fr] lg:gap-16">
+          <div className="grid gap-12 lg:grid-cols-[1.25fr_0.8fr_0.7fr]">
             <div>
               <Link href="/" className="inline-block">
                 <Image
@@ -325,33 +327,32 @@ export default function RawCanvasPage() {
                   alt="Raw Canvas"
                   width={280}
                   height={72}
-                  className="h-auto w-56 object-contain object-left"
+                  className="h-auto w-60 object-contain object-left brightness-200"
                 />
               </Link>
-              <p className="mt-8 max-w-[26rem] text-sm font-light leading-7 text-[#DFD6CD]/62">
+              <p className="mt-8 max-w-[28rem] text-sm font-normal leading-relaxed text-[#FAF7F2]/85">
                 Interior architecture, custom manufacturing, and installation for finely detailed residential, hospitality, and commercial spaces.
               </p>
             </div>
 
             <div>
-              <h3 className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#DFD6CD]">Contact</h3>
-              <p className="mt-5 text-[0.76rem] font-light leading-7 text-[#DFD6CD]/62">
+              <h3 className="text-xs font-bold uppercase tracking-[0.22em] text-[#A67B48]">Contact</h3>
+              <p className="mt-5 text-sm font-normal leading-relaxed text-[#FAF7F2]/85">
                 Raw Canvas Facility
                 <br />
                 Design One Studio
                 <br />
                 Kolkata, India
                 <br />
-                <a href="tel:+919831823527" className="transition-colors hover:text-[#B08E68]">+91 9831823527</a>
+                <a href="tel:+919831823527" className="transition-colors hover:text-[#D4A373] font-semibold text-[#FAF7F2]">+91 9831823527</a>
               </p>
-              <p className="mt-4 text-[0.68rem] uppercase tracking-[0.18em] text-[#B08E68]">Instagram -</p>
             </div>
 
             <div>
-              <h3 className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#DFD6CD]">Quick Links</h3>
-              <div className="mt-5 grid gap-3 text-[0.72rem] font-light text-[#DFD6CD]/62">
+              <h3 className="text-xs font-bold uppercase tracking-[0.22em] text-[#A67B48]">Quick Links</h3>
+              <div className="mt-5 grid gap-3 text-sm font-normal text-[#FAF7F2]/85">
                 {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href} className="transition-colors hover:text-[#DFD6CD]">
+                  <Link key={link.href} href={link.href} className="transition-colors hover:text-[#FAF7F2]">
                     {link.label}
                   </Link>
                 ))}
@@ -359,13 +360,13 @@ export default function RawCanvasPage() {
             </div>
           </div>
 
-          <div className="mt-12 flex flex-col gap-5 border-t border-[#DFD6CD]/12 pt-6 text-[0.66rem] font-light uppercase tracking-[0.18em] text-[#DFD6CD]/42 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-5">
-              <span>Instagram -</span>
-              <Instagram className="h-4 w-4" strokeWidth={1.4} />
-              <Linkedin className="h-4 w-4" strokeWidth={1.4} />
+          <div className="mt-16 flex flex-col gap-6 border-t border-[#FAF7F2]/15 pt-8 text-xs font-medium uppercase tracking-[0.18em] text-[#FAF7F2]/70 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-6">
+              <span>Follow Us</span>
+              <Instagram className="h-5 w-5 hover:text-[#D4A373] cursor-pointer transition-colors" strokeWidth={1.6} />
+              <Linkedin className="h-5 w-5 hover:text-[#D4A373] cursor-pointer transition-colors" strokeWidth={1.6} />
             </div>
-            <p>Copyright {new Date().getFullYear()} Design One Studio</p>
+            <p>Copyright © {new Date().getFullYear()} Design One Studio. All rights reserved.</p>
           </div>
         </div>
       </footer>

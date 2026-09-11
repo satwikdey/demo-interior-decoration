@@ -24,7 +24,7 @@ const demoCollaborationsData: Record<string, Collaboration> = {
         description: "Art de Vivre in the bathroom.",
         fullDescription: "Our partnership with THG Paris represents a shared commitment to excellence and craftsmanship. Together, we have created a collection of bathroom fittings that blend French elegance with modern innovation. Each piece is akin to jewelry for the home, utilizing the finest materials and semi-precious stones.",
         slug: "thg-paris",
-        image: "/projects/living-1.jpeg", // Placeholder
+        image: "/projects/living-1.jpeg",
         gallery: ["/projects/living-1.jpeg", "/projects/living-luxe-1.jpg", "/projects/living-luxe-2.jpg"]
     },
     "vero-fabrics": {
@@ -33,7 +33,7 @@ const demoCollaborationsData: Record<string, Collaboration> = {
         description: "Weaving stories into every thread.",
         fullDescription: "Working with Vero Fabrics allowed us to explore the tactile dimension of design. This bespoke collection features woven silks, velvets, and linens inspired by the natural patterns found in British landscapes. The fabrics are designed to age beautifully, adding depth and character to any interior.",
         slug: "vero-fabrics",
-        image: "/projects/bedroom-luxe.jpg", // Placeholder
+        image: "/projects/bedroom-luxe.jpg",
         gallery: ["/projects/bedroom-luxe.jpg", "/projects/bedroom-luxe-1.jpg", "/projects/bedroom-luxe-2.jpg"]
     },
     "sa-baxter": {
@@ -42,7 +42,7 @@ const demoCollaborationsData: Record<string, Collaboration> = {
         description: "Architectural hardware as functional art.",
         fullDescription: "Hardware is the handshake of a building. Our collaboration with SA Baxter focused on creating a line of door and cabinet hardware that feels substantial and grounded. Using lost-wax casting techniques, we achieved unique textures and finishes that bring a bespoke touch to the most habitual interactions in a home.",
         slug: "sa-baxter",
-        image: "/projects/urbana-living.jpg", // Placeholder
+        image: "/projects/urbana-living.jpg",
         gallery: ["/projects/urbana-living.jpg", "/projects/urbana-1.jpg", "/projects/urbana-2.jpg"]
     }
 };
@@ -76,15 +76,15 @@ export default function CollaborationDetail() {
     }, [slug]);
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center uppercase tracking-widest text-[#9A8E84] text-[11px]">Loading...</div>;
+        return <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD] uppercase tracking-widest text-[#2A211B] text-xs font-semibold">Loading...</div>;
     }
 
     if (!collab) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD]">
                 <div className="text-center">
-                    <h1 className="text-2xl font-serif mb-4">Collaboration Not Found</h1>
-                    <Link href="/collaborations" className="text-primary hover:underline">Return to Collaborations</Link>
+                    <h1 className="text-3xl font-serif text-[#2A211B] mb-4">Collaboration Not Found</h1>
+                    <Link href="/collaborations" className="text-xs uppercase tracking-widest font-bold border-b-2 border-[#2A211B] pb-1 text-[#2A211B] hover:text-[#A67B48] transition-colors">Return to Collaborations</Link>
                 </div>
             </div>
         );
@@ -95,24 +95,28 @@ export default function CollaborationDetail() {
     const secondImage = gallery[2] ?? gallery[1] ?? gallery[0] ?? collab.image;
 
     return (
-        <main className="bg-[#DFD6CD] min-h-screen pt-24 lg:pt-0">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 px-2 min-h-screen">
+        <main className="bg-[#DFD6CD] min-h-screen pt-24 lg:pt-0 text-[#2A211B]">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 px-3 min-h-screen">
                 {/* Column 1: Text Content */}
-                <div className="flex flex-col justify-center px-12 md:px-20 lg:px-24 py-24 order-last lg:order-first">
-                    <Link href="/collaborations" className="inline-flex items-center text-[10px] uppercase tracking-widest text-[#9A8E84] hover:text-[#6A5A49] mb-20 transition-colors">
-                        <ArrowLeft size={14} className="mr-2" /> Back to Collaborations
+                <div className="flex flex-col justify-center px-10 md:px-16 lg:px-20 py-20 order-last lg:order-first bg-[#FAF7F2] rounded-2xl my-2 shadow-sm">
+                    <Link href="/collaborations" className="inline-flex items-center text-xs uppercase tracking-[0.2em] font-semibold text-[#5C4F44] hover:text-[#2A211B] mb-16 transition-colors group">
+                        <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Collaborations
                     </Link>
-                    <h2 className="text-4xl font-serif mb-8 leading-tight">
+                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#A67B48] mb-3">{collab.category}</p>
+                    <h1 className="text-4xl lg:text-5xl font-serif mb-6 leading-tight text-[#2A211B] font-medium">
+                        {collab.name}
+                    </h1>
+                    <h2 className="text-xl lg:text-2xl font-serif italic text-[#5C4F44] mb-8 leading-snug">
                         &ldquo;{collab.description}&rdquo;
                     </h2>
-                    <div className="w-12 h-0.5 bg-[#9A8E84] mb-12"></div>
-                    <p className="text-[#6A5A49]/70 font-light text-lg leading-relaxed">
+                    <div className="w-16 h-0.5 bg-[#A67B48] mb-8"></div>
+                    <p className="text-[#2A211B] font-normal text-base md:text-lg leading-relaxed">
                         {collab.fullDescription}
                     </p>
                 </div>
 
                 {/* Columns 2 & 3: Large Images */}
-                <div className="relative h-[500px] lg:h-screen w-full">
+                <div className="relative h-[500px] lg:h-screen w-full rounded-2xl overflow-hidden shadow-md my-2">
                     <Image
                         src={firstImage}
                         alt={`${collab.name} showcase 1`}
@@ -120,7 +124,7 @@ export default function CollaborationDetail() {
                         className="object-cover"
                     />
                 </div>
-                <div className="relative h-[500px] lg:h-screen w-full">
+                <div className="relative h-[500px] lg:h-screen w-full rounded-2xl overflow-hidden shadow-md my-2">
                     <Image
                         src={secondImage}
                         alt={`${collab.name} showcase 2`}

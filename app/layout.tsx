@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({
 const montserrat = Montserrat({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${cormorant.variable} ${montserrat.variable} ${greatVibes.variable} antialiased bg-[#DFD6CD] text-[#6A5A49] font-sans`}
+        className={`${cormorant.variable} ${montserrat.variable} ${greatVibes.variable} antialiased bg-[#DFD6CD] text-[#2A211B] font-sans`}
       >
         <Navbar />
         {children}

@@ -92,7 +92,7 @@ function ProjectCard({
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, delay: (index % 6) * 0.07 }}
       className={cn(
-        "group relative overflow-hidden rounded-2xl bg-[#9A8E84]/25",
+        "group relative overflow-hidden rounded-2xl bg-[#1E1712] shadow-sm hover:shadow-xl transition-shadow",
         className
       )}
     >
@@ -107,18 +107,18 @@ function ProjectCard({
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#6A5A49]/60 via-[#6A5A49]/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/35 to-transparent" />
         </div>
 
         {/* Bottom label */}
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-10">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-[#DFD6CD]/60 mb-1">
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-6 pt-12">
+          <p className="text-xs uppercase tracking-[0.2em] text-[#A67B48] font-bold mb-1 drop-shadow-sm">
             {project.location}
           </p>
-          <h3 className="font-serif text-xl md:text-2xl text-[#DFD6CD] leading-tight">
+          <h3 className="font-serif text-xl md:text-2xl text-[#FAF7F2] font-medium leading-tight text-scrim-dark">
             {project.title}
           </h3>
-          <p className="text-[10px] uppercase tracking-widest text-[#DFD6CD]/50 mt-1">
+          <p className="text-xs uppercase tracking-widest text-[#FAF7F2]/90 mt-1 font-medium text-scrim-subtle">
             {project.category}
           </p>
         </div>
@@ -151,7 +151,7 @@ function ProjectGroup({
   /* 2-up: equal halves */
   if (group.length === 2) {
     return (
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {group.map((p, i) => (
           <ProjectCard key={p.id} project={p} index={startIndex + i} className="aspect-[4/5]" />
         ))}
@@ -164,9 +164,9 @@ function ProjectGroup({
   const smallCards = group.slice(1);
 
   const tallLeft = (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[3fr_2fr]">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[3fr_2fr]">
       <ProjectCard project={tallCard} index={startIndex} className="aspect-[3/4] sm:aspect-auto sm:min-h-[540px]" />
-      <div className="grid grid-rows-2 gap-3">
+      <div className="grid grid-rows-2 gap-4">
         {smallCards.map((p, i) => (
           <ProjectCard key={p.id} project={p} index={startIndex + 1 + i} className="min-h-[180px]" />
         ))}
@@ -175,8 +175,8 @@ function ProjectGroup({
   );
 
   const tallRight = (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_3fr]">
-      <div className="grid grid-rows-2 gap-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_3fr]">
+      <div className="grid grid-rows-2 gap-4">
         {smallCards.map((p, i) => (
           <ProjectCard key={p.id} project={p} index={startIndex + 1 + i} className="min-h-[180px]" />
         ))}
@@ -203,9 +203,9 @@ function FourUpGroup({
 
   const leftSide = <ProjectCard project={tall} index={startIndex} className="sm:min-h-[560px] aspect-[3/4] sm:aspect-auto" />;
   const rightSide = (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <ProjectCard project={wide} index={startIndex + 1} className="flex-1 min-h-[220px]" />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-4">
         <ProjectCard project={bl} index={startIndex + 2} className="aspect-[4/3]" />
         <ProjectCard project={br} index={startIndex + 3} className="aspect-[4/3]" />
       </div>
@@ -213,7 +213,7 @@ function FourUpGroup({
   );
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-[5fr_7fr]">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[5fr_7fr]">
       {flip ? <>{rightSide}{leftSide}</> : <>{leftSide}{rightSide}</>}
     </div>
   );
@@ -263,9 +263,8 @@ export default function Projects() {
 
   const active = projects.length > 0 ? projects : demoProjects;
   const categories = [...new Set([...baseCategories, ...active.map((p) => p.category)])];
-  const featured = active[0]; // pinned to hero � never appears in the grid
+  const featured = active[0];
 
-  // Grid excludes the featured project so it only shows at the top
   const gridProjects = active.slice(1);
   const filtered = filter === "All"
     ? gridProjects
@@ -276,32 +275,32 @@ export default function Projects() {
     <main className="min-h-screen bg-[#DFD6CD]">
 
       {/* -- Hero Header ------------------------------------------- */}
-      <section className="relative overflow-hidden bg-[#372E24] pt-28 pb-10">
+      <section className="relative overflow-hidden bg-[#1E1712] pt-28 pb-10">
         <div className="site-container">
-          <div className="relative h-[420px] md:h-[520px] overflow-hidden">
+          <div className="relative h-[420px] overflow-hidden rounded-[2rem] md:h-[520px]">
 
           {/* Left: Title + description */}
           <div className="absolute left-8 top-1/2 z-10 max-w-xl -translate-y-1/2 md:left-14">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#DFD6CD]/55 mb-6">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#A67B48] font-bold mb-6">
               Our Portfolio
             </p>
-            <h1 className="leading-[0.9] mb-8">
+            <h1 className="leading-[0.9] mb-8 text-scrim-dark">
               <span
-                className="block font-sans font-light text-[#DFD6CD]"
+                className="block font-sans font-light text-[#FAF7F2]"
                 style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}
               >
                 Interior
               </span>
               <span
-                className="block font-serif italic text-[#B08E68]"
-                style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)", fontWeight: 300 }}
+                className="block font-serif italic text-[#D4A373] font-normal"
+                style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}
               >
                 Portfolio
               </span>
             </h1>
-            <p className="text-[#DFD6CD]/75 font-light text-sm leading-relaxed max-w-sm">
+            <p className="text-[#FAF7F2]/90 font-normal text-sm md:text-base leading-relaxed max-w-md text-scrim-subtle">
               A curated selection of completed projects across residential,
-              hospitality, and heritage contexts � each shaped by proportion,
+              hospitality, and heritage contexts — each shaped by proportion,
               lifestyle and light.
             </p>
           </div>
@@ -316,6 +315,7 @@ export default function Projects() {
                 className="object-cover"
                 priority
               />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/40" />
             </div>
           )}
           </div>
@@ -323,14 +323,14 @@ export default function Projects() {
       </section>
 
       {/* -- Filter bar -------------------------------------------- */}
-      <div className="site-container flex flex-wrap justify-center gap-3 bg-[#DFD6CD] pt-8 pb-8">
+      <div className="site-container flex flex-wrap justify-center gap-3 bg-[#DFD6CD] pt-10 pb-10">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`text-[10px] sm:text-[11px] uppercase tracking-[0.15em] px-5 py-2.5 rounded-full border transition-all duration-300 ${filter === cat
-                ? "bg-[#B08E68] border-[#B08E68] text-[#DFD6CD] font-medium"
-                : "bg-transparent border-[#9A8E84]/45 text-[#6A5A49]/65 hover:bg-[#B08E68] hover:border-[#B08E68] hover:text-[#DFD6CD]"
+            className={`text-xs uppercase tracking-[0.18em] px-6 py-3 rounded-full border transition-all duration-300 font-semibold shadow-sm ${filter === cat
+                ? "bg-[#2A211B] border-[#2A211B] text-[#FAF7F2]"
+                : "bg-[#FAF7F2] border-[#5C4F44]/30 text-[#2A211B] hover:bg-[#A67B48] hover:border-[#A67B48] hover:text-[#FAF7F2]"
               }`}
           >
             {cat}
@@ -339,17 +339,17 @@ export default function Projects() {
       </div>
 
       {/* -- Project Grid ------------------------------------------ */}
-      <div className="site-container pb-20">
+      <div className="site-container pb-24">
         {loading ? (
-          <div className="py-40 text-center text-[10px] uppercase tracking-widest text-[#6A5A49]/45">
+          <div className="py-40 text-center text-xs uppercase tracking-widest text-[#5C4F44] font-semibold">
             Loading Portfolio...
           </div>
         ) : filtered.length === 0 ? (
           <div className="py-40 text-center">
-            <p className="text-[#6A5A49]/55 font-light italic">No projects found in this category.</p>
+            <p className="text-[#2A211B] font-medium text-base italic">No projects found in this category.</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             {groups.map((group, gi) => (
               <ProjectSection
                 key={`group-${gi}-${group.map((p) => p.id).join("-")}`}

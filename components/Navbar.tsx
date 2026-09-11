@@ -53,10 +53,10 @@ export const Navbar = () => {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out",
                 isScrolled
-                    ? "bg-[#6A5A49]/20 backdrop-blur-2xl border-b border-[#DFD6CD]/20 py-4"
+                    ? "bg-[#1E1712]/90 backdrop-blur-2xl border-b border-[#FAF7F2]/15 py-3.5 shadow-xl"
                     : hasDarkHero
                         ? "bg-transparent py-6"
-                        : "bg-[#6A5A49]/20 backdrop-blur-2xl border-b border-[#DFD6CD]/20 py-5"
+                        : "bg-[#1E1712]/85 backdrop-blur-2xl border-b border-[#FAF7F2]/15 py-4 shadow-lg"
             )}
         >
             <Container className="flex items-center justify-between">
@@ -74,25 +74,33 @@ export const Navbar = () => {
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden lg:flex items-center space-x-8">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="text-[11px] font-medium tracking-widest uppercase text-[#DFD6CD]/90 hover:text-[#DFD6CD] transition-colors"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                <div className="hidden lg:flex items-center space-x-9">
+                    {navLinks.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={cn(
+                                    "text-[12px] font-medium tracking-[0.2em] uppercase transition-all duration-200",
+                                    isActive
+                                        ? "text-[#A67B48] font-semibold"
+                                        : "text-[#FAF7F2] hover:text-[#A67B48]"
+                                )}
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="lg:hidden z-[1000] relative p-2 text-[#DFD6CD] transition-colors"
+                    className="lg:hidden z-[1000] relative p-2 text-[#FAF7F2] hover:text-[#A67B48] transition-colors"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
                 </button>
             </Container>
 
@@ -107,9 +115,9 @@ export const Navbar = () => {
                         className="fixed inset-0 w-screen h-screen bg-[#DFD6CD] !opacity-100 z-[999] flex flex-col lg:hidden"
                     >
                         {/* Mobile Menu Header */}
-                        <div className="flex items-center justify-between px-8 py-6 border-b border-[#9A8E84]/30 bg-[#DFD6CD]">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-[#5C4F44]/25 bg-[#DFD6CD]">
                             <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                                <div className="relative h-10 w-32">
+                                <div className="relative h-12 w-36">
                                     <Image
                                         src="/logo.png"
                                         alt="Logo"
@@ -133,8 +141,8 @@ export const Navbar = () => {
                                     <Link
                                         href={link.href}
                                         className={cn(
-                                            "text-4xl font-serif transition-colors block",
-                                            pathname === link.href ? "text-primary" : "text-[#6A5A49] hover:text-primary"
+                                            "text-3xl sm:text-4xl font-serif transition-colors block tracking-wide",
+                                            pathname === link.href ? "text-[#A67B48] font-medium" : "text-[#2A211B] hover:text-[#A67B48]"
                                         )}
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
@@ -147,11 +155,11 @@ export const Navbar = () => {
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.5 }}
-                                className="pt-10"
+                                className="pt-8"
                             >
                                 <Link
                                     href="/contact"
-                                    className="block w-full text-center py-5 bg-primary text-[#DFD6CD] text-xs font-bold uppercase tracking-[0.2em]"
+                                    className="block w-full text-center py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.25em] rounded-full transition-colors shadow-md"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     Inquire Now

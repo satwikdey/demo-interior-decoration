@@ -1,12 +1,12 @@
 {
-  "name": "website",
+  "name": "website-v2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "firebase:migrate:sqlite": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" scripts/migrate-sqlite-to-firestore.ts",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "eslint",
     "images:svg:convert": "node scripts/convert-project-images-to-svg.js",
     "images:svg:replace-refs": "node scripts/replace-image-refs-with-svg.js",
