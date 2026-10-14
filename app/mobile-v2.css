@@ -81,6 +81,8 @@
   .mobile-v2 .v2-portfolio-hero-frame { height: auto; min-height: 300px; display: flex; align-items: center; padding: 24px; }
   .mobile-v2 .v2-portfolio-hero-frame > :first-child { position: relative; inset: auto; transform: none; max-width: 100%; }
   .mobile-v2 .v2-home-hero { height: auto; min-height: 0; }
+  .mobile-v2 .v2-service-card { min-height: 156px; padding: 16px; }
+  .mobile-v2 .v2-service-card .mt-5 { margin-top: 8px; }
   .mobile-v2 .v2-page--contact .v2-hero { height: 420px; min-height: 420px !important; padding-block: 0; }
   .mobile-v2 .v2-page--contact .v2-hero > .site-container { padding-block: 32px; }
   .mobile-v2 .v2-page--contact .v2-contact-layout { gap: 16px !important; }

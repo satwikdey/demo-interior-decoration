@@ -200,7 +200,7 @@ export default function Home() {
               <Link
                 key={service.num}
                 href="/contact"
-                className="group relative flex flex-col justify-between bg-[#FAF7F2] hover:bg-[#FAF7F2] border border-[#5C4F44]/25 hover:border-[#A67B48] p-6 lg:p-5 min-h-[230px] lg:min-h-[200px] transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden rounded-lg"
+                className="v2-service-card group relative flex flex-col justify-between bg-[#FAF7F2] hover:bg-[#FAF7F2] border border-[#5C4F44]/25 hover:border-[#A67B48] p-6 lg:p-5 min-h-[230px] lg:min-h-[200px] transition-all duration-300 shadow-sm hover:shadow-md overflow-hidden rounded-lg"
               >
                 <div>
                   <div className="flex items-baseline gap-3 mb-3">
