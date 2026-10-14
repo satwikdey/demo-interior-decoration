@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useDesktopViewport } from "@/components/ResponsivePortfolio";
 
 interface Project {
   id: string;
@@ -15,63 +16,6 @@ interface Project {
   category: string;
   description: string;
 }
-
-const demoProjects: Project[] = [
-  {
-    id: "demo-1",
-    slug: "urbana-demo",
-    mainImage: "/projects/urbana-living.jpg",
-    title: "Urbana Living",
-    location: "Kolkata",
-    category: "Private Residential",
-    description: "A calm, layered living space balancing tonal finishes with soft contrast.",
-  },
-  {
-    id: "demo-2",
-    slug: "nahata-demo",
-    mainImage: "/projects/nahata-living.jpg",
-    title: "Nahata Residence",
-    location: "Kolkata",
-    category: "Private Residential",
-    description: "A refined family home with bespoke furniture and warm textures.",
-  },
-  {
-    id: "demo-3",
-    slug: "bikaner-demo",
-    mainImage: "/projects/bikaner-1.jpg",
-    title: "Bikaner Suite",
-    location: "Bikaner",
-    category: "Hospitality",
-    description: "Modern hospitality language blended with regional material character.",
-  },
-  {
-    id: "demo-4",
-    slug: "exhibition-demo",
-    mainImage: "/projects/exhibition-1.jpg",
-    title: "Exhibition Pavilion",
-    location: "Mumbai",
-    category: "Heritage & Commercial",
-    description: "An immersive showcase environment crafted around spatial storytelling.",
-  },
-  {
-    id: "demo-5",
-    slug: "bedroom-demo",
-    mainImage: "/projects/bedroom-luxe.jpg",
-    title: "Luxe Bedroom Concept",
-    location: "Delhi",
-    category: "Private Residential",
-    description: "A plush sleeping suite with precise joinery and ambient lighting.",
-  },
-  {
-    id: "demo-6",
-    slug: "living-demo",
-    mainImage: "/projects/living-1.jpeg",
-    title: "Contemporary Living Studio",
-    location: "Jaipur",
-    category: "Hospitality",
-    description: "Clean geometry and tactile finishes for a timeless contemporary mood.",
-  },
-];
 
 const baseCategories = ["All", "Private Residential", "Hospitality", "Heritage & Commercial"];
 
@@ -86,7 +30,7 @@ function ProjectCard({
   className?: string;
 }) {
   return (
-    <motion.article
+    <MotionConfig reducedMotion="user"><motion.article
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -123,7 +67,7 @@ function ProjectCard({
           </p>
         </div>
       </Link>
-    </motion.article>
+    </motion.article></MotionConfig>
   );
 }
 
@@ -243,6 +187,8 @@ function chunkProjects(projects: Project[], size = 4): Project[][] {
 }
 
 export default function Projects() {
+  const desktopLayout = useDesktopViewport();
+  const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("All");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -252,32 +198,33 @@ export default function Projects() {
       try {
         const res = await fetch("/api/projects");
         const data = await res.json();
-        setProjects(res.ok && Array.isArray(data) ? data : []);
+        if (!res.ok || !Array.isArray(data)) throw new Error("Portfolio unavailable");
+        setProjects(data);
       } catch {
-        setProjects([]);
+        setUnavailable(true);
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
-  const active = projects.length > 0 ? projects : demoProjects;
+  const active = projects;
   const categories = [...new Set([...baseCategories, ...active.map((p) => p.category)])];
   const featured = active[0];
 
-  const gridProjects = active.slice(1);
+  const gridProjects = desktopLayout ? active.slice(1) : active;
   const filtered = filter === "All"
     ? gridProjects
     : gridProjects.filter((p) => p.category === filter);
   const groups = chunkProjects(filtered, 4);
 
   return (
-    <main className="min-h-screen bg-[#DFD6CD]">
+    <main className="v2-page v2-page--projects min-h-screen bg-[#DFD6CD]">
 
       {/* -- Hero Header ------------------------------------------- */}
-      <section className="relative overflow-hidden bg-[#1E1712] pt-28 pb-10">
+      <section className="v2-hero relative overflow-hidden bg-[#1E1712] pt-28 pb-10">
         <div className="site-container">
-          <div className="relative h-[420px] overflow-hidden rounded-[2rem] md:h-[520px]">
+          <div className="v2-portfolio-hero-frame relative h-[420px] overflow-hidden rounded-[2rem] md:h-[520px]">
 
           {/* Left: Title + description */}
           <div className="absolute left-8 top-1/2 z-10 max-w-xl -translate-y-1/2 md:left-14">
@@ -286,14 +233,12 @@ export default function Projects() {
             </p>
             <h1 className="leading-[0.9] mb-8 text-scrim-dark">
               <span
-                className="block font-sans font-light text-[#FAF7F2]"
-                style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}
+                className="v2-display-9 block font-sans font-light text-[#FAF7F2]"
               >
                 Interior
               </span>
               <span
-                className="block font-serif italic text-[#D4A373] font-normal"
-                style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}
+                className="v2-display-9 block font-serif italic text-[#D4A373] font-normal"
               >
                 Portfolio
               </span>
@@ -311,9 +256,10 @@ export default function Projects() {
               <Image
                 src={featured.mainImage}
                 alt={featured.title}
-                fill
+                    fill
+                    sizes="100vw"
                 className="object-cover"
-                priority
+                preload
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/40" />
             </div>
@@ -323,11 +269,12 @@ export default function Projects() {
       </section>
 
       {/* -- Filter bar -------------------------------------------- */}
-      <div className="site-container flex flex-wrap justify-center gap-3 bg-[#DFD6CD] pt-10 pb-10">
+      <div className="v2-filter-bar site-container flex flex-wrap justify-center gap-3 bg-[#DFD6CD] pt-10 pb-10">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
+            aria-pressed={filter === cat}
             className={`text-xs uppercase tracking-[0.18em] px-6 py-3 rounded-full border transition-all duration-300 font-semibold shadow-sm ${filter === cat
                 ? "bg-[#2A211B] border-[#2A211B] text-[#FAF7F2]"
                 : "bg-[#FAF7F2] border-[#5C4F44]/30 text-[#2A211B] hover:bg-[#A67B48] hover:border-[#A67B48] hover:text-[#FAF7F2]"
@@ -344,6 +291,8 @@ export default function Projects() {
           <div className="py-40 text-center text-xs uppercase tracking-widest text-[#5C4F44] font-semibold">
             Loading Portfolio...
           </div>
+        ) : unavailable ? (
+          <div className="v2-empty-state" role="status"><h2 className="font-serif">Portfolio is temporarily unavailable</h2><p>We could not load the live projects. Please try again later.</p></div>
         ) : filtered.length === 0 ? (
           <div className="py-40 text-center">
             <p className="text-[#2A211B] font-medium text-base italic">No projects found in this category.</p>

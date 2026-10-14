@@ -1,174 +1,94 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Container } from "@/components/Container";
-import { cn } from "@/lib/utils";
 
-const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/projects", label: "Portfolio" },
-    { href: "/raw-canvas", label: "Raw Canvas" },
-    { href: "/collaborations", label: "Collaboration" },
-    { href: "/about", label: "About Us" },
-    { href: "/contact", label: "Contact Us" },
+const studioLinks = [
+  { href: "/", label: "Home" }, { href: "/projects", label: "Portfolio" },
+  { href: "/raw-canvas", label: "Raw Canvas" }, { href: "/collaborations", label: "Collaboration" },
+  { href: "/about", label: "About Us" }, { href: "/contact", label: "Contact Us" },
 ];
+const rawLinks = [studioLinks[0], studioLinks[1], studioLinks[2], { href: "/journal", label: "Journal" }, studioLinks[4], studioLinks[5]];
 
-// Pages where the navbar starts fully transparent (dark hero behind it)
-const darkHeroPages = ["/", "/about", "/contact"];
+export function Navbar({ variant = "studio" }: { variant?: "studio" | "raw-canvas" }) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const links = variant === "raw-canvas" ? rawLinks : studioLinks;
+  const logo = variant === "raw-canvas" ? "/raw-canvas-logo.png" : "/logo.png";
+  const brand = variant === "raw-canvas" ? "Raw Canvas" : "Design One Studio";
 
-export const Navbar = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const pathname = usePathname();
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 20);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
-    const hasDarkHero = darkHeroPages.includes(pathname);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1280px)");
+    const closeDesktop = () => { if (query.matches) setOpen(false); };
+    query.addEventListener("change", closeDesktop);
+    return () => query.removeEventListener("change", closeDesktop);
+  }, []);
 
-    // Lock body scroll when mobile menu is open
-    useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-        return () => { document.body.style.overflow = ""; };
-    }, [isMobileMenuOpen]);
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusable = () => Array.from(panel.current?.querySelectorAll<HTMLElement>('a[href], button, [tabindex="0"]') ?? []);
+    focusable()[0]?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { event.preventDefault(); setOpen(false); }
+      if (event.key !== "Tab") return;
+      const items = focusable();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+      if (!window.matchMedia("(min-width: 1280px)").matches) toggle.current?.focus();
+    };
+  }, [open]);
 
-    if (pathname === "/raw-canvas") return null;
-
-    return (
-        <nav
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out",
-                isScrolled
-                    ? "bg-[#1E1712]/90 backdrop-blur-2xl border-b border-[#FAF7F2]/15 py-3.5 shadow-xl"
-                    : hasDarkHero
-                        ? "bg-transparent py-6"
-                        : "bg-[#1E1712]/85 backdrop-blur-2xl border-b border-[#FAF7F2]/15 py-4 shadow-lg"
-            )}
-        >
-            <Container className="flex items-center justify-between">
-                <Link href="/" className="relative z-50 flex items-center">
-                    {/* Logo is oversized vertically but uses -my margins to stay within navbar flow */}
-                    <div className="relative h-16 w-52 lg:h-20 lg:w-64 -my-4">
-                        <Image
-                            src="/logo.png"
-                            alt="Interior Designer Logo"
-                            fill
-                            className="object-contain object-left brightness-0 invert"
-                            priority
-                        />
-                    </div>
-                </Link>
-
-                {/* Desktop Menu */}
-                <div className="hidden lg:flex items-center space-x-9">
-                    {navLinks.map((link) => {
-                        const isActive = pathname === link.href;
-                        return (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className={cn(
-                                    "text-[12px] font-medium tracking-[0.2em] uppercase transition-all duration-200",
-                                    isActive
-                                        ? "text-[#A67B48] font-semibold"
-                                        : "text-[#FAF7F2] hover:text-[#A67B48]"
-                                )}
-                            >
-                                {link.label}
-                            </Link>
-                        );
-                    })}
-                </div>
-
-                {/* Mobile Menu Toggle */}
-                <button
-                    className="lg:hidden z-[1000] relative p-2 text-[#FAF7F2] hover:text-[#A67B48] transition-colors"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                >
-                    {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
-                </button>
-            </Container>
-
-            {/* Mobile Menu Overlay */}
-            <AnimatePresence>
-                {isMobileMenuOpen && (
-                    <motion.div
-                        initial={{ x: "100%" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: "100%" }}
-                        transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed inset-0 w-screen h-screen bg-[#DFD6CD] !opacity-100 z-[999] flex flex-col lg:hidden"
-                    >
-                        {/* Mobile Menu Header */}
-                        <div className="flex items-center justify-between px-8 py-6 border-b border-[#5C4F44]/25 bg-[#DFD6CD]">
-                            <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                                <div className="relative h-12 w-36">
-                                    <Image
-                                        src="/logo.png"
-                                        alt="Logo"
-                                        fill
-                                        className="object-contain"
-                                        priority
-                                    />
-                                </div>
-                            </Link>
-                        </div>
-
-                        {/* Mobile Menu Links */}
-                        <div className="flex-1 flex flex-col px-10 py-12 space-y-8 overflow-y-auto bg-[#DFD6CD]">
-                            {navLinks.map((link, idx) => (
-                                <motion.div
-                                    key={link.href}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 + idx * 0.05 }}
-                                >
-                                    <Link
-                                        href={link.href}
-                                        className={cn(
-                                            "text-3xl sm:text-4xl font-serif transition-colors block tracking-wide",
-                                            pathname === link.href ? "text-[#A67B48] font-medium" : "text-[#2A211B] hover:text-[#A67B48]"
-                                        )}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {link.label}
-                                    </Link>
-                                </motion.div>
-                            ))}
-                            
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="pt-8"
-                            >
-                                <Link
-                                    href="/contact"
-                                    className="block w-full text-center py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.25em] rounded-full transition-colors shadow-md"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Inquire Now
-                                </Link>
-                            </motion.div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </nav>
-    );
-};
+  return (
+    <>
+      <header className={"v2-header" + (scrolled ? " is-scrolled" : "")}>
+        <div className="site-container v2-header-inner">
+          <Link href="/" aria-label={brand + " home"} className="v2-brand">
+            <Image src={logo} alt={brand} fill sizes="(max-width: 1279px) 50vw, 256px" className="object-contain object-left brightness-0 invert" />
+          </Link>
+          <nav className="v2-desktop-nav" aria-label="Main navigation">
+            {links.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined}>{link.label}</Link>)}
+          </nav>
+          <button ref={toggle} type="button" className="v2-menu-toggle" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="v2-navigation-panel" onClick={() => setOpen(!open)}>
+            {open ? <X aria-hidden="true" size={24} /> : <Menu aria-hidden="true" size={24} />}
+          </button>
+        </div>
+      </header>
+      {open && <>
+        <div className="v2-menu-backdrop" aria-hidden="true" onClick={() => setOpen(false)} />
+        <div ref={panel} id="v2-navigation-panel" className="v2-menu-panel" role="dialog" aria-modal="true" aria-label={brand + " navigation"}>
+          <div className="v2-menu-heading"><span>{brand}</span><button type="button" onClick={() => setOpen(false)} aria-label="Close navigation"><X size={24} aria-hidden="true" /></button></div>
+          <nav aria-label="Mobile navigation">
+            {links.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined} onClick={() => setOpen(false)}>{link.label}<span aria-hidden="true">↗</span></Link>)}
+          </nav>
+          <Link href="/contact" className="v2-cta v2-cta-dark" onClick={() => setOpen(false)}>Inquire Now</Link>
+        </div>
+      </>}
+    </>
+  );
+}

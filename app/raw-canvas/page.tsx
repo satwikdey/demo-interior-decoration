@@ -90,7 +90,7 @@ function TextLink({ href, children, light = false }: { href: string; children: R
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] transition-colors ${
+      className={`v2-primary-cta group inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] transition-colors ${
         light ? "text-[#FAF7F2] hover:text-[#D4A373]" : "text-[#2A211B] hover:text-[#A67B48]"
       }`}
     >
@@ -110,37 +110,11 @@ function SectionLabel({ children, light = false }: { children: ReactNode; light?
 
 export default function RawCanvasPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#DFD6CD] font-sans text-[#2A211B]">
+    <main className="v2-raw-page v2-page v2-page--raw-canvas min-h-screen overflow-hidden bg-[#DFD6CD] font-sans text-[#2A211B]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#1E1712] text-[#FAF7F2]">
-        <div className="mx-auto flex min-h-[42rem] w-full max-w-[120rem] flex-col px-6 py-6 sm:px-10 lg:min-h-[38rem] lg:px-16 lg:py-8">
-          <header className="relative z-20 flex items-center justify-between border-b border-[#FAF7F2]/15 pb-6">
-            <Link href="/" className="relative block h-10 w-44">
-              <Image
-                src="/raw-canvas-logo.png"
-                alt="Raw Canvas"
-                fill
-                className="object-contain object-left brightness-200"
-                priority
-              />
-            </Link>
-
-            <nav className="hidden items-center space-x-8 lg:flex">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-xs font-semibold uppercase tracking-widest transition-colors ${
-                    link.href === "/raw-canvas" ? "text-[#FAF7F2] border-b-2 border-[#A67B48] pb-1" : "text-[#FAF7F2]/80 hover:text-[#FAF7F2]"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </header>
-
-          <div className="flex min-h-[35rem] flex-1 items-start py-14 lg:min-h-[39rem] lg:py-24">
+      <section className="v2-hero relative overflow-hidden bg-[#1E1712] text-[#FAF7F2]">
+        <div className="v2-raw-hero-shell mx-auto flex min-h-[42rem] w-full max-w-[120rem] flex-col px-6 py-6 sm:px-10 lg:min-h-[38rem] lg:px-16 lg:py-8">
+          <div className="v2-raw-hero-content flex min-h-[35rem] flex-1 items-start py-14 lg:min-h-[39rem] lg:py-24">
             <div className="relative z-10 max-w-[36rem]">
               <h1 className="font-serif text-[4rem] font-light leading-[0.9] tracking-normal text-[#FAF7F2] sm:text-[5.25rem] lg:text-[5.6rem] xl:text-[6.25rem] text-scrim-dark">
                 Design.
@@ -166,7 +140,7 @@ export default function RawCanvasPage() {
                 alt="Raw Canvas workshop and manufacturing facility"
                 fill
                 className="object-cover object-center opacity-70"
-                priority
+                preload
                 sizes="100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/40" />
@@ -177,7 +151,7 @@ export default function RawCanvasPage() {
 
       {/* Process Section */}
       <section id="process" className="bg-[#DFD6CD] px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
-        <div className="mx-auto grid max-w-[120rem] gap-10 lg:grid-cols-[0.3fr_1fr] lg:gap-14">
+        <div className="v2-editorial-layout mx-auto grid max-w-[120rem] gap-10 lg:grid-cols-[0.3fr_1fr] lg:gap-14">
           <div>
             <SectionLabel>Our Process</SectionLabel>
             <h2 className="mt-4 max-w-[19rem] font-serif text-4xl font-light leading-[0.96] tracking-normal sm:text-5xl lg:text-[3.5rem] xl:text-[3.9rem] text-[#2A211B]">
@@ -192,7 +166,7 @@ export default function RawCanvasPage() {
                 <article key={step.number} className="bg-[#FAF7F2] p-6 rounded-2xl border border-[#5C4F44]/25 shadow-sm">
                   <div className="flex items-center justify-between gap-4">
                     <span className="font-serif text-2xl font-bold italic text-[#A67B48]">{step.number}</span>
-                    <Icon className="h-6 w-6 text-[#A67B48]" strokeWidth={1.75} />
+                    <Icon className="v2-decorative-icon h-6 w-6 text-[#A67B48]" strokeWidth={1.75} />
                   </div>
                   <h3 className="mt-6 min-h-10 text-xs font-bold uppercase leading-5 tracking-[0.14em] text-[#2A211B]">
                     {step.title}
@@ -224,7 +198,7 @@ export default function RawCanvasPage() {
                     alt={card.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(min-width: 1024px) 16vw, (min-width: 640px) 50vw, 100vw"
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc((100vw - 72px) / 2), 16vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/80 via-transparent to-transparent" />
                 </div>
@@ -240,7 +214,7 @@ export default function RawCanvasPage() {
       {/* Materials & Finishes */}
       <section className="bg-[#DFD6CD] px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-[120rem]">
-          <div className="grid items-center gap-12 lg:grid-cols-[0.38fr_0.62fr]">
+          <div className="v2-editorial-layout grid items-center gap-12 lg:grid-cols-[0.38fr_0.62fr]">
             <div className="max-w-[32rem]">
               <SectionLabel>Materials & Finishes</SectionLabel>
               <h2 className="mt-4 font-serif text-4xl font-light leading-[0.92] tracking-normal sm:text-5xl lg:text-[3.45rem] xl:text-[3.85rem] text-[#2A211B]">
@@ -261,8 +235,7 @@ export default function RawCanvasPage() {
                 alt="Curated wood, stone, hardware, and natural material samples"
                 fill
                 className="object-cover"
-                priority
-                sizes="(min-width: 1024px) 58vw, 100vw"
+                sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc(100vw - 48px), 58vw"
               />
             </div>
           </div>
@@ -296,7 +269,7 @@ export default function RawCanvasPage() {
 
       {/* Selected Experience */}
       <section className="bg-[#DFD6CD] px-6 py-16 sm:px-10 lg:px-16 lg:py-16 border-t border-[#5C4F44]/25">
-        <div className="mx-auto grid max-w-[120rem] gap-10 lg:grid-cols-[0.27fr_0.73fr]">
+        <div className="v2-editorial-layout mx-auto grid max-w-[120rem] gap-10 lg:grid-cols-[0.27fr_0.73fr]">
           <div className="border-b border-[#5C4F44]/25 pb-8 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-12">
             <SectionLabel>Selected Experience</SectionLabel>
             <p className="mt-6 text-xs font-bold uppercase tracking-[0.24em] text-[#5C4F44]">Trusted By</p>

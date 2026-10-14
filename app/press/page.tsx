@@ -36,9 +36,9 @@ const pressMap = [
 
 export default function Press() {
     return (
-        <main className="min-h-screen bg-[#DFD6CD] text-[#2A211B]">
+        <main className="v2-page v2-page--press min-h-screen bg-[#DFD6CD] text-[#2A211B]">
             {/* Hero */}
-            <section className="bg-[#1E1712] pt-36 pb-16 text-[#FAF7F2]">
+            <section className="v2-hero bg-[#1E1712] pt-36 pb-16 text-[#FAF7F2]">
                 <Container>
                     <div className="text-center max-w-3xl mx-auto">
                         <p className="text-xs uppercase tracking-[0.3em] font-bold text-[#A67B48] mb-4">
@@ -58,11 +58,12 @@ export default function Press() {
                     {pressMap.map((item, index) => (
                         <Link href={`/press/${item.slug}`} key={index} className="block group">
                             <article className="bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#5C4F44]/25 shadow-sm hover:shadow-xl transition-all duration-500 h-full flex flex-col justify-between">
-                                <div className="relative h-[360px] md:h-[420px] w-full overflow-hidden bg-[#1E1712]">
+                                <div className="v2-press-photo relative h-[360px] md:h-[420px] w-full overflow-hidden bg-[#1E1712]">
                                     <Image
                                         src={item.image}
                                         alt={item.title}
-                                        fill
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc((100vw - 72px) / 2), 25vw"
                                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/60 via-transparent to-transparent" />

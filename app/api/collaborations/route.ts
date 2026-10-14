@@ -1,3 +1,4 @@
+import { livePreviewRead } from "@/lib/live-preview-read";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -21,7 +22,9 @@ function normalizeGallery(value: unknown): string[] {
     .filter((item) => item.length > 0);
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const liveResponse = await livePreviewRead(request);
+  if (liveResponse) return liveResponse;
   try {
     const collaborations = await listCollaborations();
     return NextResponse.json(collaborations);

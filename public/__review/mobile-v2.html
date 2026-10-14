@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design One — Mobile V2 Review</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#DFD6CD;color:#2A211B;font:16px/1.5 system-ui,sans-serif}
+    header{padding:20px max(16px,3vw);background:#1E1712;color:#FAF7F2;border-bottom:3px solid #A67B48}
+    h1{font-size:24px;margin:0 0 4px}p{margin:0}header p{color:#DFD6CD;font-size:14px}
+    .controls{padding:16px max(16px,3vw);display:flex;gap:16px;flex-wrap:wrap;border-bottom:1px solid #5C4F4440;align-items:end}
+    label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600}
+    select,a{min-height:48px;font:16px system-ui,sans-serif;border:1px solid #5C4F4450;border-radius:8px;background:#FAF7F2;color:#2A211B;padding:10px 14px}
+    a{display:inline-flex;align-items:center;text-decoration:none}a:focus-visible,select:focus-visible{outline:2px solid #A67B48;outline-offset:3px}
+    .note{padding:12px max(16px,3vw);font-size:14px;color:#5C4F44}
+    main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:8px max(16px,3vw) 32px;align-items:start}
+    main.single{grid-template-columns:minmax(0,1fr)}.pane{min-width:0}.pane h2{font-size:18px;margin:0 0 8px}.pane small{font-size:13px;font-weight:400;color:#5C4F44}
+    .viewport{position:relative;overflow:hidden;max-width:100%;border:1px solid #5C4F4450;border-radius:12px;background:#FAF7F2;box-shadow:0 8px 24px #1E17121a}
+    iframe{display:block;position:absolute;top:0;left:0;border:0;transform-origin:top left;background:#DFD6CD}
+    [hidden]{display:none!important}
+    @media(max-width:700px){main{grid-template-columns:minmax(0,1fr)}.controls label{flex:1 1 140px}.controls select{width:100%}}
+  </style>
+</head>
+<body>
+  <header><h1>Design One · Mobile V2</h1><p>Compare the current website with the phone and tablet redesign.</p></header>
+  <div class="controls">
+    <label>Viewport<select id="device"><option value="390">Phone · 390px</option><option value="360">Small phone · 360px</option><option value="768">Tablet · 768px</option><option value="1024">Large tablet · 1024px</option><option value="1440">Desktop · 1440px</option></select></label>
+    <label>Page<select id="route"><option value="/">Home</option><option value="/about">About</option><option value="/raw-canvas">Raw Canvas</option><option value="/contact">Contact</option><option value="/projects">Portfolio</option><option value="/collaborations">Collaborations</option><option value="/journal">Journal</option><option value="/press">Press</option><option value="/careers">Careers</option></select></label>
+    <label>View<select id="mode"><option value="compare">Compare both</option><option value="v2">V2 only</option><option value="baseline">Original only</option></select></label>
+    <a id="open-v2" href="http://localhost:3002/" target="_blank" rel="noopener">Open V2 ↗</a>
+    <a id="open-original" href="http://localhost:3001/" target="_blank" rel="noopener">Open original ↗</a>
+  </div>
+  <p class="note">Frames use the selected CSS viewport width. They scale to fit this review window. This local review uses the deployed site’s live project and collaboration read APIs.</p>
+  <main>
+    <section class="pane" data-version="baseline"><h2>Original <small>port 3001</small></h2><div class="viewport"><iframe title="Original website" src="http://localhost:3001/"></iframe></div></section>
+    <section class="pane" data-version="v2"><h2>Mobile V2 <small>port 3002</small></h2><div class="viewport"><iframe title="Mobile V2 website" src="http://localhost:3002/"></iframe></div></section>
+  </main>
+  <script>
+    const device=document.querySelector('#device'),route=document.querySelector('#route'),mode=document.querySelector('#mode');
+    function fit(){const width=Number(device.value),height=width<768?844:900;document.querySelectorAll('.pane').forEach(pane=>{if(pane.hidden)return;const holder=pane.querySelector('.viewport'),frame=pane.querySelector('iframe'),scale=Math.min(1,holder.clientWidth/width);frame.style.width=width+'px';frame.style.height=height+'px';frame.style.transform='scale('+scale+')';holder.style.height=(height*scale)+'px';});}
+    function update(){document.querySelector('main').classList.toggle('single',mode.value!=='compare');document.querySelectorAll('.pane').forEach(pane=>{pane.hidden=mode.value!=='compare'&&mode.value!==pane.dataset.version;});fit();}
+    device.addEventListener('change',fit);mode.addEventListener('change',update);
+    route.addEventListener('change',()=>{document.querySelectorAll('.pane').forEach(pane=>{const port=pane.dataset.version==='v2'?3002:3001;pane.querySelector('iframe').src='http://localhost:'+port+route.value;});document.querySelector('#open-v2').href='http://localhost:3002'+route.value;document.querySelector('#open-original').href='http://localhost:3001'+route.value;});
+    new ResizeObserver(fit).observe(document.querySelector('main'));update();
+  </script>
+</body>
+</html>

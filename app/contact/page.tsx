@@ -13,16 +13,17 @@ export default function Contact() {
     }
 
     return (
-        <main className="min-h-screen bg-[#DFD6CD]">
+        <main className="v2-page v2-page--contact min-h-screen bg-[#DFD6CD]">
 
             {/* ── HERO — Full bleed image with heading overlay ────── */}
-            <section className="relative w-full overflow-hidden bg-[#1E1712]" style={{ minHeight: "55vh" }}>
+            <section className="v2-hero relative w-full overflow-hidden bg-[#1E1712]" style={{ minHeight: "55vh" }}>
                 <Image
                     src="/projects/contact-hero.jpg"
                     alt="DesignOne Studio — Contact"
                     fill
+                    sizes="100vw"
                     className="object-cover"
-                    priority
+                    preload
                 />
                 {/* Gradient fade overlay */}
                 <div
@@ -39,16 +40,12 @@ export default function Contact() {
                     </p>
                     <h1 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }} className="text-scrim-dark">
                         <span
-                            className="block text-[#FAF7F2] font-light"
-                            style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)" }}
+                            className="v2-display-7 block text-[#FAF7F2] font-light"
                         >
                             Get in
                         </span>
                         <span
-                            className="block italic text-[#D4A373] font-normal"
-                            style={{
-                                fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)",
-                            }}
+                            className="v2-display-7 block italic text-[#D4A373] font-normal"
                         >
                             Touch.
                         </span>
@@ -66,7 +63,7 @@ export default function Contact() {
             {/* ── FORM + INFO GRID ────────────────────────────────── */}
             <section className="bg-[#DFD6CD]">
                 <Container className="py-20 md:py-28">
-                    <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-16 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-20">
+                    <div className="v2-contact-layout mx-auto grid max-w-6xl grid-cols-1 items-start gap-16 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-20">
 
                         {/* ── Contact Info ── */}
                         <div className="max-w-sm space-y-0">
@@ -78,8 +75,7 @@ export default function Contact() {
                                     Studio Information
                                 </p>
                                 <h2
-                                    className="text-[#2A211B] font-light leading-[0.95] mb-8 font-serif"
-                                    style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)" }}
+                                    className="v2-display-8 text-[#2A211B] font-light leading-[0.95] mb-8 font-serif"
                                 >
                                     Design One<br />
                                     <span className="italic text-[#A67B48] font-normal">Studio</span>
@@ -186,7 +182,7 @@ export default function Contact() {
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         {["First Name", "Last Name"].map((field) => (
                                             <div key={field} className="flex flex-col">
-                                                <label
+                                                <label htmlFor={field === "First Name" ? "first-name" : "last-name"}
                                                     className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
                                                     style={{ fontFamily: "var(--font-sans)" }}
                                                 >
@@ -194,6 +190,9 @@ export default function Contact() {
                                                 </label>
                                                 <input
                                                     type="text"
+                                                    id={field === "First Name" ? "first-name" : "last-name"}
+                                                    name={field === "First Name" ? "firstName" : "lastName"}
+                                                    autoComplete={field === "First Name" ? "given-name" : "family-name"}
                                                     required
                                                     className="w-full bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none placeholder-[#5C4F44]/50"
                                                     style={{
@@ -206,13 +205,13 @@ export default function Contact() {
 
                                     {/* Email */}
                                     <div className="flex flex-col">
-                                        <label
+                                        <label htmlFor="email"
                                             className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
                                             style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             Email Address
                                         </label>
-                                        <input
+                                        <input id="email" name="email" autoComplete="email"
                                             type="email"
                                             required
                                             className="w-full bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none placeholder-[#5C4F44]/50"
@@ -224,13 +223,13 @@ export default function Contact() {
 
                                     {/* Project type */}
                                     <div className="flex flex-col">
-                                        <label
+                                        <label htmlFor="project-type"
                                             className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
                                             style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             Project Type
                                         </label>
-                                        <select
+                                        <select id="project-type" name="project-type"
                                             className="w-full cursor-pointer appearance-none bg-transparent py-3 border-b-2 border-[#5C4F44]/30 text-[#2A211B] font-medium transition-colors focus:border-[#2A211B] focus:outline-none"
                                             style={{
                                                 fontFamily: "var(--font-sans)",
@@ -247,13 +246,13 @@ export default function Contact() {
 
                                     {/* Message */}
                                     <div className="flex flex-col">
-                                        <label
+                                        <label htmlFor="message"
                                             className="block uppercase text-[#2A211B] font-bold text-xs tracking-[0.2em] mb-2"
                                             style={{ fontFamily: "var(--font-sans)" }}
                                         >
                                             Message
                                         </label>
-                                        <textarea
+                                        <textarea id="message" name="message"
                                             rows={4}
                                             required
                                             placeholder="Tell us about your project, timeline, and location..."
@@ -267,7 +266,7 @@ export default function Contact() {
                                     {/* Submit */}
                                     <button
                                         type="submit"
-                                        className="mt-6 inline-flex items-center gap-3 px-10 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] font-semibold text-xs uppercase tracking-[0.2em] rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-[0.98]"
+                                        className="v2-primary-cta mt-6 inline-flex items-center gap-3 px-10 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] font-semibold text-xs uppercase tracking-[0.2em] rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-[0.98]"
                                         style={{
                                             fontFamily: "var(--font-sans)",
                                         }}

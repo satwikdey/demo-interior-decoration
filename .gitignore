@@ -47,3 +47,9 @@ image_optimization_report.json
 
 # Local Netlify folder
 .netlify
+
+# Mobile V2 browser artifacts
+test-results/
+playwright-report/
+review/browser-results.json
+review/lighthouse/

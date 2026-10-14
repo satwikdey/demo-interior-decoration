@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function Careers() {
     return (
-        <main className="pt-36 pb-28 bg-[#DFD6CD] min-h-screen text-[#2A211B]">
+        <main className="v2-page v2-page--careers pt-36 pb-28 bg-[#DFD6CD] min-h-screen text-[#2A211B]">
             <Container>
                 <div className="max-w-3xl mx-auto text-center mb-20">
                     <p className="text-xs uppercase tracking-[0.3em] font-bold text-[#A67B48] mb-4">
@@ -45,7 +45,7 @@ export default function Careers() {
                             </div>
                             <Link
                                 href="mailto:careers@designone.studio"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A211B] group-hover:bg-[#A67B48] text-[#FAF7F2] rounded-full text-xs uppercase tracking-[0.18em] font-semibold transition-colors"
+                                className="v2-primary-cta inline-flex items-center gap-2 px-6 py-3 bg-[#2A211B] group-hover:bg-[#A67B48] text-[#FAF7F2] rounded-full text-xs uppercase tracking-[0.18em] font-semibold transition-colors"
                             >
                                 Apply Now <ArrowRight size={14} />
                             </Link>

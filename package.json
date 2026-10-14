@@ -3,17 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3002",
     "build": "next build",
     "firebase:migrate:sqlite": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" scripts/migrate-sqlite-to-firestore.ts",
-    "start": "next start -p 3001",
+    "start": "next start -p 3002",
     "lint": "eslint",
     "images:svg:convert": "node scripts/convert-project-images-to-svg.js",
     "images:svg:replace-refs": "node scripts/replace-image-refs-with-svg.js",
     "images:svg:all": "npm run images:svg:convert && npm run images:svg:replace-refs",
     "images:raster:restore-refs": "node scripts/replace-image-refs-with-raster.js",
     "firebase:images:rewrite-svg": "node scripts/update-firestore-image-urls-to-svg.js",
-    "firebase:images:rewrite-raster": "node scripts/update-firestore-image-urls-to-raster.js"
+    "firebase:images:rewrite-raster": "node scripts/update-firestore-image-urls-to-raster.js",
+    "dev:mobile": "next dev -p 3002",
+    "start:mobile": "next start -p 3002",
+    "test:mobile": "playwright test",
+    "typecheck": "tsc --noEmit --incremental false"
   },
   "prisma": {
     "seed": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" prisma/seed.ts"
@@ -37,12 +41,14 @@
     "zod": "^4.4.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "lighthouse": "^12.8.2",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"

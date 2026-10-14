@@ -8,7 +8,7 @@ export const Container = ({
     className?: string;
 }) => {
     return (
-        <div className={cn("mx-auto px-[clamp(2rem,4vw,5rem)] w-full max-w-[var(--content-width)]", className)}>
+        <div className={cn("site-container", className)}>
             {children}
         </div>
     );

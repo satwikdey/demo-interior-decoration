@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat, Great_Vibes } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
+import "./mobile-v2.css";
+import { SiteShell } from "@/components/SiteShell";
 import { Footer } from "@/components/Footer";
 
 const cormorant = Cormorant_Garamond({
@@ -40,9 +41,7 @@ export default function RootLayout({
       <body
         className={`${cormorant.variable} ${montserrat.variable} ${greatVibes.variable} antialiased bg-[#DFD6CD] text-[#2A211B] font-sans`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

@@ -6,8 +6,8 @@ export default function Journal() {
   const articles = getJournalArticles();
 
   return (
-    <main className="min-h-screen bg-[#DFD6CD] text-[#2A211B]">
-      <section className="bg-[#1E1712] px-6 pb-12 pt-36 text-[#FAF7F2] md:px-10 lg:px-16">
+    <main className="v2-page v2-page--journal min-h-screen bg-[#DFD6CD] text-[#2A211B]">
+      <section className="v2-hero bg-[#1E1712] px-6 pb-12 pt-36 text-[#FAF7F2] md:px-10 lg:px-16">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-7">
           <p className="text-xs uppercase tracking-[0.3em] font-bold text-[#A67B48]">
             Articles & Case Studies
@@ -32,7 +32,7 @@ export default function Journal() {
         </div>
       </section>
 
-      <section className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 bg-[#DFD6CD] p-2">
+      <section className="v2-journal-grid grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 bg-[#DFD6CD] p-2">
         {articles.map((article) => (
           <Link
             href={`/journal/${article.slug}`}

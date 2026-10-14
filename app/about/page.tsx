@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useDesktopCarousel } from "@/components/ResponsivePortfolio";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    FOUNDING MEMBERS DATA
@@ -67,18 +68,19 @@ const founders = [
 const featuredFounders = founders.filter(({ id }) => [3, 5, 6].includes(id));
 
 function FoundingMembersCarousel() {
+  const desktopCarousel = useDesktopCarousel();
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [displayed, setDisplayed] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pressStartRef = useRef<number>(0);
 
   const total = featuredFounders.length;
 
   const goTo = useCallback(
     (index: number) => {
       if (isAnimating) return;
+      if (!desktopCarousel) { setDisplayed(index); setCurrent(index); return; }
       setIsAnimating(true);
 
       setTimeout(() => {
@@ -89,7 +91,7 @@ function FoundingMembersCarousel() {
         }, 50);
       }, 400);
     },
-    [isAnimating]
+    [isAnimating, desktopCarousel]
   );
 
   const next = useCallback(() => {
@@ -98,7 +100,7 @@ function FoundingMembersCarousel() {
   }, [current, total, goTo]);
 
   useEffect(() => {
-    if (isPaused) {
+    if (isPaused || !desktopCarousel) {
       if (timerRef.current) clearTimeout(timerRef.current);
       return;
     }
@@ -106,27 +108,7 @@ function FoundingMembersCarousel() {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [current, next, isPaused]);
-
-  const handlePointerDown = () => {
-    pressStartRef.current = Date.now();
-    setIsPaused(true);
-  };
-
-  const handlePointerUp = () => {
-    setIsPaused(false);
-  };
-
-  const handlePointerCancel = () => {
-    setIsPaused(false);
-  };
-
-  const handleCardClick = () => {
-    const elapsed = Date.now() - pressStartRef.current;
-    if (elapsed < 250) {
-      next();
-    }
-  };
+  }, [current, next, isPaused, desktopCarousel]);
 
   const member = featuredFounders[displayed]!;
   const isEntering = displayed === current;
@@ -136,23 +118,12 @@ function FoundingMembersCarousel() {
       className="relative w-full overflow-hidden bg-[#1E1712] py-20 md:py-28"
     >
       <div
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerCancel}
-        onPointerCancel={handlePointerCancel}
-        className="site-container flex flex-col lg:flex-row gap-12 lg:gap-16 items-start"
+        className="v2-founder-layout site-container flex flex-col lg:flex-row gap-12 lg:gap-16 items-start"
       >
         {/* Left Column: Image Card */}
-        <div className="relative w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-start">
+        <div className="relative w-full lg:w-auto flex-shrink-0 flex flex-col items-center lg:items-start">
           <div
-            onClick={handleCardClick}
-            className="relative mx-auto lg:mx-0 w-full max-w-[320px] sm:max-w-[350px] md:max-w-[375px] h-auto md:h-[500px] aspect-[3/4] overflow-hidden rounded-[2rem] bg-[#2A211B] shadow-2xl border border-[#FAF7F2]/10 cursor-pointer select-none"
-            role="button"
-            tabIndex={0}
-            aria-label="Next founder"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") next();
-            }}
+            className="v2-founder-frame relative mx-auto lg:mx-0 w-full lg:max-w-[23.5rem] h-auto md:h-[500px] aspect-[3/4] overflow-hidden rounded-[2rem] bg-[#2A211B] shadow-2xl border border-[#FAF7F2]/10 cursor-pointer select-none"
           >
             <div
               className={`relative h-full w-full transition-all duration-500 ease-out ${isAnimating
@@ -165,9 +136,9 @@ function FoundingMembersCarousel() {
               <Image
                 src={member.image}
                 alt={member.name}
-                fill
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) 70vw, 375px"
                 className="object-cover object-top"
-                priority
               />
               <div
                 className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/30 to-transparent"
@@ -195,27 +166,12 @@ function FoundingMembersCarousel() {
               </span>
             </div>
 
-            {/* Dot indicators at top-right */}
-            <div className="absolute top-5 right-5 md:top-6 md:right-6 flex items-center gap-2 z-10 bg-[#1E1712]/50 backdrop-blur-md px-3 py-2 rounded-full border border-[#FAF7F2]/15">
-              {featuredFounders.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goTo(i);
-                  }}
-                  aria-label={`Go to member ${i + 1}`}
-                  className="transition-all duration-300 h-1.5 rounded-full cursor-pointer"
-                  style={{
-                    width: i === displayed ? "24px" : "6px",
-                    background:
-                      i === displayed
-                        ? "#A67B48"
-                        : "rgba(250,247,242,0.4)",
-                  }}
-                />
-              ))}
-            </div>
+          </div>
+          <div className="v2-founder-controls" aria-label="Founder carousel controls">
+            <button type="button" onClick={() => goTo((current - 1 + total) % total)} aria-label="Previous founder">←</button>
+            {featuredFounders.map((founder, i) => <button type="button" key={founder.id} onClick={() => goTo(i)} aria-label={"Show " + founder.name} aria-pressed={i === displayed}>{i + 1}</button>)}
+            <button type="button" onClick={next} aria-label="Next founder">→</button>
+            {desktopCarousel && <button type="button" onClick={() => setIsPaused(!isPaused)} aria-label={isPaused ? "Resume founder slideshow" : "Pause founder slideshow"}>{isPaused ? "Play" : "Pause"}</button>}
           </div>
         </div>
 
@@ -236,6 +192,7 @@ function FoundingMembersCarousel() {
           </h2>
           <div
             key={`bio-${displayed}`}
+            aria-live="polite"
             className="transition-all duration-500"
             style={{
               opacity: isEntering ? 1 : 0,
@@ -284,21 +241,22 @@ function FoundingMembersCarousel() {
 ───────────────────────────────────────────────────────────────────────────── */
 export default function About() {
   return (
-    <main className="bg-[#DFD6CD] min-h-screen text-[#2A211B]">
+    <main className="v2-page v2-page--about bg-[#DFD6CD] min-h-screen text-[#2A211B]">
 
       {/* ══════════════════════════════════════════════════════════════════════
           HERO — "Designing spaces that feel personal."
       ══════════════════════════════════════════════════════════════════════ */}
       <section
-        className="relative w-full overflow-hidden bg-[#1E1712] min-h-[85vh] flex items-center"
+        className="v2-hero relative w-full overflow-hidden bg-[#1E1712] min-h-[85vh] flex items-center"
       >
         <div className="absolute inset-0 z-0">
           <Image
             src="/projects/about-hero-dark.jpg"
             alt="DesignOne Studio interior"
-            fill
+                    fill
+                    sizes="100vw"
             className="object-cover"
-            priority
+            preload
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/45 opacity-70" />
         </div>
@@ -313,14 +271,12 @@ export default function About() {
             className="leading-[0.95] mb-8 max-w-3xl text-scrim-dark font-serif"
           >
             <span
-              className="block text-[#FAF7F2] font-light"
-              style={{ fontSize: "clamp(3rem, 6.5vw, 6.5rem)" }}
+              className="v2-display-5 block text-[#FAF7F2] font-light"
             >
               Designing spaces that feel{" "}
             </span>
             <span
-              className="block italic text-[#D4A373] font-normal"
-              style={{ fontSize: "clamp(3rem, 6.5vw, 6.5rem)" }}
+              className="v2-display-5 block italic text-[#D4A373] font-normal"
             >
               personal.
             </span>
@@ -353,16 +309,12 @@ export default function About() {
             </p>
             <h2 className="whitespace-nowrap" style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
               <span
-                className="inline text-[#2A211B] font-light"
-                style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)" }}
+                className="v2-display-6 inline text-[#2A211B] font-light"
               >
                 How We{" "}
               </span>
               <span
-                className="inline italic text-[#A67B48] font-normal"
-                style={{
-                  fontSize: "clamp(2.6rem, 5.5vw, 5rem)",
-                }}
+                className="v2-display-6 inline italic text-[#A67B48] font-normal"
               >
                 Work
               </span>
@@ -452,16 +404,12 @@ export default function About() {
             </p>
             <h2 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }}>
               <span
-                className="block text-[#2A211B] font-light"
-                style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)" }}
+                className="v2-display-6 block text-[#2A211B] font-light"
               >
                 Our Journey
               </span>
               <span
-                className="block italic text-[#A67B48] font-normal"
-                style={{
-                  fontSize: "clamp(2.6rem, 5.5vw, 5rem)",
-                }}
+                className="v2-display-6 block italic text-[#A67B48] font-normal"
               >
                 So Far
               </span>
@@ -528,7 +476,8 @@ export default function About() {
           <Image
             src="/projects/about-philosophy-bg.jpeg"
             alt="DesignOne luxury interior"
-            fill
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc((100vw - 72px) / 2), 50vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1E1712]/95 via-[#1E1712]/75 to-[#1E1712]/50" />
@@ -543,10 +492,7 @@ export default function About() {
             Philosophy
           </p>
           <h2
-            className="text-[#FAF7F2] font-light leading-[1.05] mb-8 max-w-2xl text-scrim-dark font-serif"
-            style={{
-              fontSize: "clamp(2.6rem, 5.5vw, 5rem)",
-            }}
+            className="v2-display-6 text-[#FAF7F2] font-light leading-[1.05] mb-8 max-w-2xl text-scrim-dark font-serif"
           >
             Luxury is not about excess. It is about{" "}
             <span className="italic text-[#D4A373] font-normal">
@@ -560,7 +506,7 @@ export default function About() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-3 self-start rounded-full px-8 py-4 bg-[#A67B48] hover:bg-[#FAF7F2] text-[#FAF7F2] hover:text-[#2A211B] transition-all duration-300 shadow-xl uppercase font-semibold text-xs tracking-[0.2em]"
+            className="v2-primary-cta inline-flex items-center gap-3 self-start rounded-full px-8 py-4 bg-[#A67B48] hover:bg-[#FAF7F2] text-[#FAF7F2] hover:text-[#2A211B] transition-all duration-300 shadow-xl uppercase font-semibold text-xs tracking-[0.2em]"
           >
             Contact the Studio
             <span className="text-sm">→</span>

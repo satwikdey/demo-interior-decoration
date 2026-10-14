@@ -104,8 +104,8 @@ export default async function JournalArticlePage({ params }: PageProps) {
   const sections = article.body.slice(introEnd).map(formatArticleSection);
 
   return (
-    <main className="bg-[#DFD6CD] pt-28 text-[#2A211B] min-h-screen">
-      <article className="mx-auto max-w-4xl px-6 pb-24 pt-12 md:px-12">
+    <main className="v2-page v2-page--journal bg-[#DFD6CD] pt-28 text-[#2A211B] min-h-screen">
+      <article className="v2-reading mx-auto max-w-4xl px-6 pb-24 pt-12 md:px-12">
         <Link
           href="/journal"
           className="inline-flex items-center text-xs uppercase tracking-[0.2em] font-semibold text-[#5C4F44] hover:text-[#2A211B] mb-12 transition-colors group"
@@ -159,7 +159,7 @@ export default async function JournalArticlePage({ params }: PageProps) {
         <div className="pt-14">
           <Link
             href="/journal"
-            className="inline-block px-8 py-3.5 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.2em] rounded-full transition-colors shadow-md"
+            className="v2-primary-cta inline-block px-8 py-3.5 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.2em] rounded-full transition-colors shadow-md"
           >
             Back to Journal
           </Link>

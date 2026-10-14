@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { PageLoading } from "@/components/PageLoading";
 
 interface Collaboration {
     id?: string;
@@ -16,36 +17,6 @@ interface Collaboration {
     slug: string;
     gallery: string[];
 }
-
-const demoCollaborationsData: Record<string, Collaboration> = {
-    "thg-paris": {
-        name: "THG Paris",
-        category: "Bathroom Fittings",
-        description: "Art de Vivre in the bathroom.",
-        fullDescription: "Our partnership with THG Paris represents a shared commitment to excellence and craftsmanship. Together, we have created a collection of bathroom fittings that blend French elegance with modern innovation. Each piece is akin to jewelry for the home, utilizing the finest materials and semi-precious stones.",
-        slug: "thg-paris",
-        image: "/projects/living-1.jpeg",
-        gallery: ["/projects/living-1.jpeg", "/projects/living-luxe-1.jpg", "/projects/living-luxe-2.jpg"]
-    },
-    "vero-fabrics": {
-        name: "Vero Fabrics",
-        category: "Textiles",
-        description: "Weaving stories into every thread.",
-        fullDescription: "Working with Vero Fabrics allowed us to explore the tactile dimension of design. This bespoke collection features woven silks, velvets, and linens inspired by the natural patterns found in British landscapes. The fabrics are designed to age beautifully, adding depth and character to any interior.",
-        slug: "vero-fabrics",
-        image: "/projects/bedroom-luxe.jpg",
-        gallery: ["/projects/bedroom-luxe.jpg", "/projects/bedroom-luxe-1.jpg", "/projects/bedroom-luxe-2.jpg"]
-    },
-    "sa-baxter": {
-        name: "SA Baxter",
-        category: "Hardware",
-        description: "Architectural hardware as functional art.",
-        fullDescription: "Hardware is the handshake of a building. Our collaboration with SA Baxter focused on creating a line of door and cabinet hardware that feels substantial and grounded. Using lost-wax casting techniques, we achieved unique textures and finishes that bring a bespoke touch to the most habitual interactions in a home.",
-        slug: "sa-baxter",
-        image: "/projects/urbana-living.jpg",
-        gallery: ["/projects/urbana-living.jpg", "/projects/urbana-1.jpg", "/projects/urbana-2.jpg"]
-    }
-};
 
 export default function CollaborationDetail() {
     const params = useParams();
@@ -71,12 +42,12 @@ export default function CollaborationDetail() {
                 setLoading(false);
             }
 
-            setCollab(demoCollaborationsData[slug] ?? null);
+            setCollab(null);
         })();
     }, [slug]);
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD] uppercase tracking-widest text-[#2A211B] text-xs font-semibold">Loading...</div>;
+        return <PageLoading label="Loading collaboration…" />;
     }
 
     if (!collab) {
@@ -95,10 +66,10 @@ export default function CollaborationDetail() {
     const secondImage = gallery[2] ?? gallery[1] ?? gallery[0] ?? collab.image;
 
     return (
-        <main className="bg-[#DFD6CD] min-h-screen pt-24 lg:pt-0 text-[#2A211B]">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 px-3 min-h-screen">
+        <main className="v2-page v2-page--collaborations bg-[#DFD6CD] min-h-screen pt-24 lg:pt-0 text-[#2A211B]">
+            <div className="v2-detail-layout grid grid-cols-1 lg:grid-cols-3 gap-3 px-3 min-h-screen">
                 {/* Column 1: Text Content */}
-                <div className="flex flex-col justify-center px-10 md:px-16 lg:px-20 py-20 order-last lg:order-first bg-[#FAF7F2] rounded-2xl my-2 shadow-sm">
+                <div className="v2-gallery-content flex flex-col justify-center px-10 md:px-16 lg:px-20 py-20 order-last lg:order-first bg-[#FAF7F2] rounded-2xl my-2 shadow-sm">
                     <Link href="/collaborations" className="inline-flex items-center text-xs uppercase tracking-[0.2em] font-semibold text-[#5C4F44] hover:text-[#2A211B] mb-16 transition-colors group">
                         <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Collaborations
                     </Link>
@@ -116,19 +87,21 @@ export default function CollaborationDetail() {
                 </div>
 
                 {/* Columns 2 & 3: Large Images */}
-                <div className="relative h-[500px] lg:h-screen w-full rounded-2xl overflow-hidden shadow-md my-2">
+                <div className="v2-detail-gallery relative h-[500px] lg:h-screen w-full rounded-2xl overflow-hidden shadow-md my-2">
                     <Image
                         src={firstImage}
                         alt={`${collab.name} showcase 1`}
-                        fill
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc(100vw - 48px), 33vw"
                         className="object-cover"
                     />
                 </div>
-                <div className="relative h-[500px] lg:h-screen w-full rounded-2xl overflow-hidden shadow-md my-2">
+                <div className="v2-detail-gallery relative h-[500px] lg:h-screen w-full rounded-2xl overflow-hidden shadow-md my-2">
                     <Image
                         src={secondImage}
                         alt={`${collab.name} showcase 2`}
-                        fill
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc(100vw - 48px), 33vw"
                         className="object-cover"
                     />
                 </div>

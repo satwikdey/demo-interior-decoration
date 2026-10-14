@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { StackedPortfolio, PortfolioSkeleton, useDesktopViewport } from "@/components/ResponsivePortfolio";
+
+const PortfolioCarousel = dynamic(() => import("@/components/DesktopPortfolio"), { ssr: false });
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface Project {
@@ -17,412 +19,58 @@ interface Project {
   description: string;
 }
 
-/* ── Fallback data (same as portfolio page) ─────────────────── */
-const demoProjects: Project[] = [
-  {
-    id: "demo-1",
-    slug: "urbana-demo",
-    mainImage: "/projects/urbana-living.jpg",
-    title: "Urbana Living",
-    location: "Kolkata",
-    category: "Private Residential",
-    description: "A calm, layered living space balancing tonal finishes with soft contrast.",
-  },
-  {
-    id: "demo-2",
-    slug: "nahata-demo",
-    mainImage: "/projects/nahata-living.jpg",
-    title: "Nahata Residence",
-    location: "Kolkata",
-    category: "Private Residential",
-    description: "A refined family home with bespoke furniture and warm textures.",
-  },
-  {
-    id: "demo-3",
-    slug: "bikaner-demo",
-    mainImage: "/projects/bikaner-1.jpg",
-    title: "Bikaner Suite",
-    location: "Bikaner, Rajasthan",
-    category: "Heritage & Commercial",
-    description: "Modern hospitality language blended with regional material character.",
-  },
-  {
-    id: "demo-4",
-    slug: "exhibition-demo",
-    mainImage: "/projects/exhibition-1.jpg",
-    title: "Exhibition Pavilion",
-    location: "Mumbai",
-    category: "Heritage & Commercial",
-    description: "An immersive showcase environment crafted around spatial storytelling.",
-  },
-  {
-    id: "demo-5",
-    slug: "bedroom-demo",
-    mainImage: "/projects/bedroom-luxe.jpg",
-    title: "Luxe Bedroom Concept",
-    location: "Delhi",
-    category: "Private Residential",
-    description: "A plush sleeping suite with precise joinery and ambient lighting.",
-  },
-  {
-    id: "demo-6",
-    slug: "living-demo",
-    mainImage: "/projects/living-1.jpeg",
-    title: "Contemporary Living Studio",
-    location: "Jaipur",
-    category: "Hospitality",
-    description: "Clean geometry and tactile finishes for a timeless contemporary mood.",
-  },
-];
-
-/* ── Hero fade-up animation ─────────────────────────────────── */
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const, delay },
-  }),
-};
-
-/* ── Carousel slide variants ────────────────────────────────── */
-const slideVariants = {
-  enter: (dir: number) => ({
-    x: dir > 0 ? 80 : -80,
-    opacity: 0,
-    scale: 0.96,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
-  },
-  exit: (dir: number) => ({
-    x: dir > 0 ? -80 : 80,
-    opacity: 0,
-    scale: 0.96,
-    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
-  }),
-};
-
-/* ── Portfolio Carousel ─────────────────────────────────────── */
-function PortfolioCarousel({ projects }: { projects: Project[] }) {
-  const [[current, direction], setPage] = useState([0, 0]);
-  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const paginate = useCallback(
-    (newDir: number) => {
-      setPage(([prev]) => {
-        const next = (prev + newDir + projects.length) % projects.length;
-        return [next, newDir];
-      });
-    },
-    [projects.length]
-  );
-
-  // Auto-advance every 5s
-  useEffect(() => {
-    autoRef.current = setInterval(() => paginate(1), 5000);
-    return () => { if (autoRef.current) clearInterval(autoRef.current); };
-  }, [paginate]);
-
-  const resetAuto = useCallback(() => {
-    if (autoRef.current) clearInterval(autoRef.current);
-    autoRef.current = setInterval(() => paginate(1), 5000);
-  }, [paginate]);
-
-  const go = (dir: number) => {
-    paginate(dir);
-    resetAuto();
-  };
-
-  const goTo = (idx: number) => {
-    setPage(([prev]) => [idx, idx > prev ? 1 : -1]);
-    resetAuto();
-  };
-
-  const project = projects[current]!;
-
-  return (
-    <section className="relative w-full bg-[#DFD6CD] overflow-hidden pt-16 md:pt-24 pb-16 md:pb-24">
-      {/* ── Header row: label left, view-all right — same baseline */}
-      <div className="site-container flex items-center justify-between mb-4">
-        <p className="text-xs uppercase tracking-[0.3em] text-[#5C4F44] font-semibold">Our Portfolio</p>
-        <Link
-          href="/projects"
-          className="hidden md:flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#2A211B] hover:text-[#A67B48] font-semibold transition-colors group"
-        >
-          View All Projects
-          <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </Link>
-      </div>
-
-      {/* ── Interior Archive heading */}
-      <div className="site-container mb-8 md:mb-12">
-        <h2 className="font-sans font-light text-[#2A211B] leading-[0.9]" style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)" }}>
-          Interior{" "}
-          <span className="font-serif italic text-[#A67B48] font-normal">Archive</span>
-        </h2>
-      </div>
-
-      {/* ── Carousel track ───────────────────────────────────── */}
-      <div className="relative max-w-screen-2xl mx-auto px-4 md:px-8">
-
-        {/* Only the centre card shows */}
-
-        {/* Main slide */}
-        <div className="relative mx-auto w-full lg:w-[92%] aspect-[16/8] rounded-2xl overflow-hidden shadow-2xl z-20">
-          <AnimatePresence custom={direction} mode="popLayout">
-            <motion.div
-              key={current}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute inset-0"
-            >
-              {/* Background image */}
-              <Image
-                src={project.mainImage}
-                alt={project.title}
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 1024px) 100vw, 56vw"
-              />
-
-              {/* Dark gradient overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/40 to-[#1E1712]/30" />
-
-              {/* Counter pill */}
-              <div className="absolute top-6 left-6 bg-[#1E1712]/60 backdrop-blur-md border border-[#FAF7F2]/20 rounded-full px-4 py-1.5 text-[#FAF7F2] text-xs font-medium tracking-[0.25em] uppercase">
-                {String(current + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-              </div>
-
-              {/* Category badge */}
-              <div className="absolute top-6 right-6 bg-[#A67B48] shadow-md rounded-full px-4 py-1.5 text-[#FAF7F2] text-xs font-semibold tracking-[0.2em] uppercase">
-                {project.category}
-              </div>
-
-              {/* Text overlay */}
-              <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
-                <motion.p
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-[#A67B48] text-xs font-semibold uppercase tracking-[0.3em] mb-2 drop-shadow-sm"
-                >
-                  {project.location}
-                </motion.p>
-
-                <motion.h3
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25, duration: 0.55 }}
-                  className="font-serif text-[#FAF7F2] leading-[1] mb-3 text-scrim-dark"
-                  style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
-                >
-                  {project.title}
-                </motion.h3>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35, duration: 0.5 }}
-                  className="text-[#FAF7F2]/90 text-sm md:text-base font-normal leading-relaxed max-w-lg mb-6 hidden md:block text-scrim-subtle"
-                >
-                  {project.description}
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45, duration: 0.5 }}
-                >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="inline-flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#A67B48] text-[#2A211B] hover:text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.2em] px-6 py-3 rounded-full transition-all duration-300 shadow-lg group"
-                  >
-                    Open Project
-                    <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </Link>
-                </motion.div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* ── Controls row ─────────────────────────────────── */}
-        <div className="flex items-center justify-center gap-6 mt-8 z-30 relative">
-          {/* Prev */}
-          <button
-            onClick={() => go(-1)}
-            aria-label="Previous project"
-            className="w-12 h-12 rounded-full border border-[#2A211B]/30 hover:border-[#2A211B] bg-[#2A211B]/10 hover:bg-[#2A211B]/20 flex items-center justify-center text-[#2A211B] transition-all duration-300"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          {/* Dot indicators */}
-          <div className="flex items-center gap-2">
-            {projects.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i)}
-                aria-label={`Go to project ${i + 1}`}
-                className="relative h-[4px] rounded-full overflow-hidden transition-all duration-300"
-                style={{ width: i === current ? 32 : 12, background: "rgba(42,33,27,0.25)" }}
-              >
-                {i === current && (
-                  <motion.span
-                    layoutId="dot-fill"
-                    className="absolute inset-0 rounded-full bg-[#2A211B]"
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Next */}
-          <button
-            onClick={() => go(1)}
-            aria-label="Next project"
-            className="w-12 h-12 rounded-full border border-[#2A211B]/30 hover:border-[#2A211B] bg-[#2A211B]/10 hover:bg-[#2A211B]/20 flex items-center justify-center text-[#2A211B] transition-all duration-300"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-
-        {/* Mobile: View all */}
-        <div className="flex justify-center mt-8 md:hidden">
-          <Link
-            href="/projects"
-            className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#2A211B] hover:text-[#A67B48] transition-colors"
-          >
-            View All Projects <ArrowUpRight size={14} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ── Page ───────────────────────────────────────────────────── */
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [unavailable, setUnavailable] = useState(false);
+  const desktopCarousel = useDesktopViewport();
 
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch("/api/projects");
         const data = await res.json();
-        setProjects(res.ok && Array.isArray(data) && data.length > 0 ? data : demoProjects);
+        if (!res.ok || !Array.isArray(data)) throw new Error("Portfolio unavailable");
+        setProjects(data);
       } catch {
-        setProjects(demoProjects);
+        setUnavailable(true);
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
 
-  const displayProjects = projects.length > 0 ? projects : demoProjects;
+
 
   return (
     <main className="font-sans">
 
-      {/* ── Hero Section ─────────────────────────────────── */}
-      <section className="relative w-full h-screen min-h-[620px] overflow-hidden">
-
-        {/* Full-bleed background image */}
+      <section className="v2-hero v2-home-hero relative w-full h-screen min-h-[620px] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero-home.jpg"
-            alt="Design One Living – luxury interior"
-            fill
-            className="object-cover object-center"
-            priority
-            quality={95}
-          />
+          <Image src="/hero-home.jpg" alt="Design One Living – luxury interior" fill className="object-cover object-center" preload quality={75} sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#1E1712]/75 via-[#1E1712]/35 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/60 via-transparent to-transparent" />
         </div>
-
-        {/* Stats row */}
-        <div className="site-container absolute bottom-28 md:bottom-32 left-0 right-0 z-20 flex items-end justify-end gap-8 md:gap-14">
-          {[
-            { value: "1000+", label: "Projects" },
-            { value: "25+", label: "Cities" },
-            { value: "30+", label: "years" },
-          ].map((stat) => (
-            <motion.div
-              key={stat.label}
-              className="text-right"
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.6 }}
-            >
-              <p className="text-[#FAF7F2] text-3xl md:text-4xl font-serif leading-none text-scrim-dark font-medium">{stat.value}</p>
-              <p className="text-[#FAF7F2]/90 text-xs font-medium tracking-[0.2em] uppercase mt-1 text-scrim-subtle">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Main headline – bottom left */}
-        <div className="site-container relative z-10 h-full flex flex-col justify-start pt-36 md:pt-44">
-          <div className="space-y-0">
-            <motion.h1
-              custom={0.2}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="text-[#FAF7F2] font-serif font-light leading-[0.95] tracking-tight select-none text-scrim-dark"
-              style={{ fontSize: "clamp(3.5rem,10vw,8.5rem)" }}
-            >
-              Crafting
-            </motion.h1>
-            <motion.p
-              custom={0.4}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="text-[#FAF7F2] font-serif font-light leading-[0.95] tracking-tight select-none text-scrim-dark"
-              style={{ fontSize: "clamp(3.5rem,10vw,8.5rem)" }}
-            >
-              Experiences
-            </motion.p>
-            <motion.span
-              custom={0.6}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="mt-8 block italic leading-[1.05] select-none text-[#D4A373] md:mt-10 text-scrim-dark"
-              style={{
-                fontFamily: "var(--font-script), serif",
-                fontSize: "clamp(3rem,9vw,7.5rem)",
-              }}
-            >
-              Since 1995
-            </motion.span>
+        <div className="v2-home-copy site-container relative z-10 h-full flex flex-col justify-start pt-36 md:pt-44">
+          <div>
+            <h1 className="v2-display-1 text-[#FAF7F2] font-serif font-light leading-[0.95] tracking-tight text-scrim-dark">Crafting<br />Experiences</h1>
+            <span className="v2-display-2 font-script mt-8 block italic text-[#D4A373] text-scrim-dark">Since 1995</span>
           </div>
-
-          <motion.p
-            custom={0.9}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mt-8 text-[#FAF7F2]/90 text-sm md:text-base font-normal leading-relaxed max-w-xs md:max-w-md text-scrim-subtle"
-          >
-            For over two decades, Design One has been crafting timeless interiors, architecture and environments that are deeply personal, meticulously detailed and beautifully executed.
-          </motion.p>
+          <p className="mt-8 text-[#FAF7F2]/90 text-sm md:text-base leading-relaxed max-w-xs md:max-w-md text-scrim-subtle">For over two decades, Design One has been crafting timeless interiors, architecture and environments that are deeply personal, meticulously detailed and beautifully executed.</p>
         </div>
-
+        <div className="v2-home-stats site-container absolute bottom-28 md:bottom-32 left-0 right-0 z-20 flex items-end justify-end gap-8 md:gap-14">
+          {[{ value: "1000+", label: "Projects" }, { value: "25+", label: "Cities" }, { value: "30+", label: "Years" }].map(stat => <div key={stat.label} className="text-right"><p className="text-[#FAF7F2] text-3xl md:text-4xl font-serif leading-none font-medium">{stat.value}</p><p className="text-[#FAF7F2]/90 text-xs uppercase tracking-[0.2em] mt-1">{stat.label}</p></div>)}
+        </div>
       </section>
 
-      {/* ── Portfolio Carousel ────────────────────────────── */}
-      <PortfolioCarousel projects={displayProjects} />
+      {loading ? <PortfolioSkeleton />
+        : unavailable ? <section className="site-container v2-empty-state"><h2 className="font-serif">Portfolio is temporarily unavailable</h2><p>We could not load the live projects. Please try again later.</p><Link href="/projects" className="v2-cta">View Portfolio</Link></section>
+        : projects.length === 0 ? <section className="site-container v2-empty-state"><h2 className="font-serif">Our Portfolio</h2><p>New projects will appear here soon.</p></section>
+        : desktopCarousel ? <PortfolioCarousel projects={projects} /> : <StackedPortfolio projects={projects} />}
 
       {/* ── The Principals ───────────────────────────────── */}
-      <section className="flex flex-col lg:flex-row min-h-[90vh]">
+      <section className="v2-principals flex flex-col lg:flex-row min-h-[90vh]">
 
         {/* Left: Dark editorial panel */}
         <div className="relative flex flex-col justify-between bg-[#1E1712] lg:w-[55%] w-full px-12 md:px-16 lg:px-20 pt-20 pb-16">
@@ -436,20 +84,18 @@ export default function Home() {
           <div className="mb-auto">
             <h2 className="flex flex-wrap items-baseline gap-x-5 leading-[0.95] mb-16">
               <span
-                className="text-[#FAF7F2] font-sans font-light"
-                style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)" }}
+                className="v2-display-3 text-[#FAF7F2] font-sans font-light"
               >
                 Yusuf
               </span>
               <span
-                className="text-[#A67B48] font-serif italic"
-                style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)", fontWeight: 400 }}
+                className="v2-display-3 text-[#A67B48] font-serif italic"
+                style={{  fontWeight: 400 }}
               >
                 &amp;
               </span>
               <span
-                className="text-[#FAF7F2] font-sans font-light"
-                style={{ fontSize: "clamp(2.4rem, 5vw, 4.5rem)" }}
+                className="v2-display-3 text-[#FAF7F2] font-sans font-light"
               >
                 Vidhisha
               </span>
@@ -465,8 +111,9 @@ export default function Home() {
         </div>
 
         {/* Right: Team photo */}
-        <div className="relative lg:w-[45%] w-full h-[70vh] lg:h-auto overflow-hidden">
+        <div className="v2-principals-photo relative lg:w-[45%] w-full h-[70vh] lg:h-auto overflow-hidden">
           <Image
+            sizes="(max-width: 1279px) 100vw, 45vw"
             src="/projects/about-team-new.jpeg"
             alt="Yusuf Hussain and Vidhisha Nimuchwala — DesignOne Studio"
             fill
@@ -485,14 +132,13 @@ export default function Home() {
             <div>
               <h2 className="leading-[0.92]">
                 <span
-                  className="block text-[#2A211B] font-sans font-light"
-                  style={{ fontSize: "clamp(2.8rem, 6vw, 5.5rem)" }}
+                  className="v2-display-4 block text-[#2A211B] font-sans font-light"
                 >
                   Our
                 </span>
                 <span
-                  className="block text-[#A67B48] font-serif italic"
-                  style={{ fontSize: "clamp(2.8rem, 6vw, 5.5rem)", fontWeight: 400 }}
+                  className="v2-display-4 block text-[#A67B48] font-serif italic"
+                  style={{  fontWeight: 400 }}
                 >
                   Services
                 </span>

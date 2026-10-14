@@ -66,26 +66,25 @@ export default function PressDetail() {
     }
 
     return (
-        <main className="bg-[#DFD6CD] min-h-screen text-[#2A211B]">
+        <main className="v2-page v2-page--press bg-[#DFD6CD] min-h-screen text-[#2A211B]">
             {/* Hero */}
-            <div className="relative h-[60vh] w-full bg-[#1E1712]">
+            <div className="v2-detail-hero relative h-[60vh] w-full bg-[#1E1712]">
                 <Image
                     src={article.image}
                     alt={article.title}
                     fill
+                    sizes="100vw"
                     className="object-cover opacity-75"
-                    priority
+                    preload
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/50 to-transparent flex items-end">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                    <div
                         className="site-container pb-16 pt-36 max-w-4xl text-[#FAF7F2]"
                     >
-                        <span className="text-xs uppercase tracking-[0.25em] font-bold mb-4 bg-[#A67B48] text-[#FAF7F2] inline-block px-4 py-1.5 rounded-full">{article.publication}</span>
+                        <span className="v2-primary-cta text-xs uppercase tracking-[0.25em] font-bold mb-4 bg-[#A67B48] text-[#FAF7F2] inline-block px-4 py-1.5 rounded-full">{article.publication}</span>
                         <h1 className="text-4xl md:text-6xl font-serif font-normal leading-tight text-scrim-dark mt-2">{article.title}</h1>
                         <p className="text-sm font-semibold uppercase tracking-widest mt-4 text-[#D4A373]">{article.date}</p>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
 
@@ -106,7 +105,7 @@ export default function PressDetail() {
                     </div>
 
                     {article.link && (
-                        <a href={article.link} className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-colors shadow-md">
+                        <a href={article.link} className="v2-primary-cta inline-flex items-center gap-2 px-8 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-colors shadow-md">
                             Read Full Feature on {article.publication} <ExternalLink size={16} />
                         </a>
                     )}

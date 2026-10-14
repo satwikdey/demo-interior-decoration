@@ -6,7 +6,8 @@ import { Container } from "@/components/Container";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
+import { PageLoading } from "@/components/PageLoading";
 
 type ProjectContentBlock = {
     id: string;
@@ -48,7 +49,7 @@ export default function ProjectDetail() {
     }, [slug]);
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center bg-[#DFD6CD] uppercase tracking-widest text-[#2A211B] text-xs font-semibold">Loading...</div>;
+        return <PageLoading label="Loading project…" />;
     }
 
     if (!project) {
@@ -65,26 +66,24 @@ export default function ProjectDetail() {
     }
 
     return (
-        <main className="bg-[#DFD6CD] min-h-screen text-[#2A211B]">
+        <main className="v2-page v2-page--projects bg-[#DFD6CD] min-h-screen text-[#2A211B]">
             {/* Hero — full bleed with rich contrast gradient */}
-            <div className="relative h-[80vh] w-full bg-[#1E1712]">
+            <div className="v2-detail-hero relative h-[80vh] w-full bg-[#1E1712]">
                 <Image
                     src={project.mainImage}
                     alt={project.title}
                     fill
+                    sizes="100vw"
                     className="object-cover"
-                    priority
+                    preload
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/95 via-[#1E1712]/40 to-transparent" />
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                <div
                     className="absolute bottom-12 left-8 md:left-16 right-8"
                 >
                     <p className="text-[#A67B48] text-xs uppercase tracking-[0.25em] font-bold mb-3 drop-shadow-sm">{project.location} — {project.category}</p>
                     <h1 className="text-5xl md:text-7xl font-serif text-[#FAF7F2] font-normal text-scrim-dark leading-tight">{project.title}</h1>
-                </motion.div>
+                </div>
             </div>
 
             <Container className="py-20 md:py-24">
@@ -93,7 +92,7 @@ export default function ProjectDetail() {
                 </Link>
 
                 {/* Project Info + Description */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-16 mb-24 pb-16 border-b border-[#5C4F44]/25">
+                <div className="v2-detail-layout grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-16 mb-24 pb-16 border-b border-[#5C4F44]/25">
                     <div className="lg:col-span-1 space-y-6">
                         <div>
                             <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#5C4F44] mb-2">Location</h3>
@@ -114,7 +113,7 @@ export default function ProjectDetail() {
                 {/* Dynamic Content Blocks */}
                 <div className="space-y-24">
                     {project.content?.map((block, index) => (
-                        <motion.div
+                        <MotionConfig reducedMotion="user" key={block.id}><motion.div
                             key={block.id}
                             initial={{ opacity: 0, y: 40 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -129,7 +128,7 @@ export default function ProjectDetail() {
                                         alt={`${project.title} — ${index + 1}`}
                                         fill
                                         className="object-cover hover:scale-105 transition-transform duration-1000 ease-out"
-                                        sizes="100vw"
+                                        sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc(100vw - 48px), 80vw"
                                     />
                                 </div>
                             ) : (
@@ -139,7 +138,7 @@ export default function ProjectDetail() {
                                     </p>
                                 </div>
                             )}
-                        </motion.div>
+                        </motion.div></MotionConfig>
                     ))}
                 </div>
 
@@ -147,7 +146,7 @@ export default function ProjectDetail() {
                 <div className="mt-32 text-center border-t border-[#5C4F44]/25 pt-20">
                     <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#A67B48] mb-3">Design One Studio</p>
                     <h3 className="text-3xl md:text-4xl font-serif text-[#2A211B] mb-8 font-medium">Ready to begin your project?</h3>
-                    <Link href="/contact" className="inline-block px-10 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.2em] rounded-full transition-colors shadow-lg">
+                    <Link href="/contact" className="v2-primary-cta inline-block px-10 py-4 bg-[#2A211B] hover:bg-[#A67B48] text-[#FAF7F2] text-xs font-semibold uppercase tracking-[0.2em] rounded-full transition-colors shadow-lg">
                         Get in Touch
                     </Link>
                 </div>

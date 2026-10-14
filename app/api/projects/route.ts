@@ -1,3 +1,4 @@
+import { livePreviewRead } from "@/lib/live-preview-read";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -18,7 +19,9 @@ interface CreateProjectPayload {
   content?: ContentBlockInput[];
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const liveResponse = await livePreviewRead(request);
+  if (liveResponse) return liveResponse;
   try {
     const projects = await listProjects();
     return NextResponse.json(projects);

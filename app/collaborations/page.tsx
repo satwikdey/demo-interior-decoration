@@ -14,54 +14,34 @@ interface Collaboration {
     slug: string;
 }
 
-const demoCollaborations: Collaboration[] = [
-    {
-        name: "THG Paris",
-        category: "Bathroom Fittings",
-        description: "Handcrafted precision fittings from Paris — where engineering meets haute couture.",
-        image: "/projects/living-1.jpeg",
-        slug: "thg-paris"
-    },
-    {
-        name: "Vero Fabrics",
-        category: "Textiles",
-        description: "Bespoke fabric houses curating natural fibres, textures, and tonal palettes for our interiors.",
-        image: "/projects/bedroom-luxe.jpg",
-        slug: "vero-fabrics"
-    },
-    {
-        name: "SA Baxter",
-        category: "Hardware",
-        description: "Architecturally refined hardware — door pulls, handles, and fixtures in solid brass and bronze.",
-        image: "/projects/urbana-living.jpg",
-        slug: "sa-baxter"
-    }
-];
-
 export default function Collaborations() {
     const [collaborations, setCollaborations] = useState<Collaboration[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [unavailable, setUnavailable] = useState(false);
 
     useEffect(() => {
         (async () => {
             try {
                 const res = await fetch("/api/collaborations");
                 const data = await res.json();
-                setCollaborations(res.ok && Array.isArray(data) && data.length > 0 ? data : []);
+                if (!res.ok || !Array.isArray(data)) throw new Error("Collaborations unavailable");
+                setCollaborations(data);
             } catch {
-                setCollaborations([]);
+                setUnavailable(true);
+            } finally {
+                setLoading(false);
             }
         })();
     }, []);
 
-    const activeCollaborations =
-        collaborations.length > 0 ? collaborations : demoCollaborations;
+    const activeCollaborations = collaborations;
 
     return (
-        <main className="min-h-screen bg-[#DFD6CD]">
+        <main className="v2-page v2-page--collaborations min-h-screen bg-[#DFD6CD]">
 
             {/* -- HERO HEADER --------------------------------------- */}
             <section
-                className="relative w-full flex flex-col justify-end overflow-hidden bg-[#1E1712]"
+                className="v2-hero relative w-full flex flex-col justify-end overflow-hidden bg-[#1E1712]"
                 style={{ minHeight: "45vh" }}
             >
                 {/* Subtle background texture */}
@@ -81,16 +61,12 @@ export default function Collaborations() {
                     </p>
                     <h1 style={{ fontFamily: "var(--font-serif)", lineHeight: "0.92" }} className="text-scrim-dark">
                         <span
-                            className="block text-[#FAF7F2] font-light"
-                            style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)" }}
+                            className="v2-display-7 block text-[#FAF7F2] font-light"
                         >
                             Our
                         </span>
                         <span
-                            className="block italic text-[#D4A373] font-normal"
-                            style={{
-                                fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)",
-                            }}
+                            className="v2-display-7 block italic text-[#D4A373] font-normal"
                         >
                             Collaborations
                         </span>
@@ -110,7 +86,8 @@ export default function Collaborations() {
 
             {/* -- COLLABORATION GRID -------------------------------- */}
             <section className="bg-[#DFD6CD]">
-                <div className="grid grid-cols-1 md:grid-cols-3">
+                <div className="v2-collaboration-grid grid grid-cols-1 md:grid-cols-3">
+                    {loading ? <div className="v2-empty-state" aria-busy="true"><p role="status">Loading collaborations…</p></div> : unavailable ? <div className="v2-empty-state" role="status"><h2 className="font-serif">Collaborations are temporarily unavailable</h2><p>We could not load the live collaborations. Please try again later.</p></div> : activeCollaborations.length === 0 ? <div className="v2-empty-state"><p>New collaborations will appear here soon.</p></div> : null}
                     {activeCollaborations.map((collab, index) => (
                         <Link
                             href={`/collaborations/${collab.slug}`}
@@ -119,13 +96,14 @@ export default function Collaborations() {
                         >
                             {/* Image */}
                             <div
-                                className="relative w-full overflow-hidden bg-[#1E1712]"
+                                className="v2-collaboration-photo relative w-full overflow-hidden bg-[#1E1712]"
                                 style={{ height: "clamp(320px, 50vw, 600px)" }}
                             >
                                 <Image
                                     src={collab.image}
                                     alt={collab.name}
-                                    fill
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc((100vw - 72px) / 2), 33vw"
                                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                                 {/* Gradient overlay */}
@@ -183,8 +161,7 @@ export default function Collaborations() {
                         Work With Us
                     </p>
                     <h2
-                        className="text-[#FAF7F2] font-light leading-[0.95] font-serif"
-                        style={{ fontSize: "clamp(2rem, 4vw, 3.8rem)" }}
+                        className="v2-display-10 text-[#FAF7F2] font-light leading-[0.95] font-serif"
                     >
                         Interested in a{" "}
                         <span className="italic text-[#D4A373] font-normal">
@@ -194,7 +171,7 @@ export default function Collaborations() {
                 </div>
                 <Link
                     href="/contact"
-                    className="inline-flex items-center gap-3 self-start md:self-auto px-8 py-4 bg-[#A67B48] hover:bg-[#FAF7F2] text-[#FAF7F2] hover:text-[#2A211B] transition-all duration-300 rounded-full font-semibold uppercase text-xs tracking-[0.2em] shadow-xl shrink-0"
+                    className="v2-primary-cta inline-flex items-center gap-3 self-start md:self-auto px-8 py-4 bg-[#A67B48] hover:bg-[#FAF7F2] text-[#FAF7F2] hover:text-[#2A211B] transition-all duration-300 rounded-full font-semibold uppercase text-xs tracking-[0.2em] shadow-xl shrink-0"
                 >
                     Get in Touch
                     <span className="text-sm">→</span>
