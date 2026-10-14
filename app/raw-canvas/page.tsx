@@ -255,7 +255,7 @@ export default function RawCanvasPage() {
               {values.map((value) => {
                 const Icon = value.icon;
                 return (
-                  <article key={value.title} className="bg-[#2A211B] p-8 rounded-2xl border border-[#FAF7F2]/10 shadow-lg">
+                  <article key={value.title} className="v2-value-card bg-[#2A211B] p-8 rounded-2xl border border-[#FAF7F2]/10 shadow-lg">
                     <Icon className="h-8 w-8 text-[#D4A373]" strokeWidth={1.5} />
                     <h3 className="mt-6 text-sm font-bold uppercase tracking-[0.18em] text-[#FAF7F2]">{value.title}</h3>
                     <p className="mt-3 text-sm font-normal leading-relaxed text-[#FAF7F2]/85">{value.description}</p>
