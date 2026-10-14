@@ -196,7 +196,7 @@
 .v2-solutions-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .v2-solutions-track::-webkit-scrollbar { display: none; }
 .v2-solution-card { flex: 0 0 calc((100% - 32px) / 3); overflow: hidden; border: 1px solid #FAF7F21a; border-radius: 16px; background: #2A211B; scroll-snap-align: start; }
-.v2-solution-title { min-height: 56px; padding: 16px; color: #FAF7F2; font-size: 12px; font-weight: 700; line-height: 1.5; letter-spacing: .12em; text-transform: uppercase; }
+.v2-solution-title { min-height: 56px; padding: 16px; color: #FAF7F2; font-size: 15px; font-weight: 700; line-height: 1.5; letter-spacing: .12em; text-transform: uppercase; }
 .v2-solutions-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px; }
 .v2-solutions-controls button { min-width: 48px; min-height: 48px; border: 1px solid #FAF7F24d; border-radius: 50%; color: #FAF7F2; font-size: 22px; }
 .v2-solutions-controls p { min-width: 64px; color: #FAF7F2; text-align: center; }
