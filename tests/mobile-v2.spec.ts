@@ -51,7 +51,7 @@ for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
         }
       }
       if (route === "/" && width < 1280) {
-        expect(await page.locator(".v2-home-copy > p").evaluate(el => getComputedStyle(el).fontSize)).toBe("14px");
+        expect(await page.locator(".v2-home-copy > p").evaluate(el => getComputedStyle(el).fontSize)).toBe("12px");
         expect(await page.locator(".v2-home-copy .font-script").evaluate(el => getComputedStyle(el).fontSize)).toBe(width < 768 ? "40px" : "48px");
         const stats = await page.locator(".v2-home-stats > div").evaluateAll(els => els.map(el => ({ rect: el.getBoundingClientRect().toJSON(), border: getComputedStyle(el).borderTopWidth, align: getComputedStyle(el).textAlign })));
         expect(new Set(stats.map(stat => stat.rect.y)).size).toBe(1);
