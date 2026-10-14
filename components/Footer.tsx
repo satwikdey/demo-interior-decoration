@@ -6,9 +6,10 @@ import { usePathname } from "next/navigation";
 export const Footer = () => {
     const pathname = usePathname();
     if (pathname === "/raw-canvas") return null;
+    const compactPublicFooter = !pathname.startsWith("/admin");
 
     return (
-        <footer className={`${pathname === "/" ? "v2-home-footer " : ""}bg-[#1E1712] text-[#FAF7F2] font-sans border-t border-[#5C4F44]/30`}>
+        <footer className={`${compactPublicFooter ? "v2-home-footer " : ""}bg-[#1E1712] text-[#FAF7F2] font-sans border-t border-[#5C4F44]/30`}>
             <div className="max-w-screen-2xl mx-auto px-8 md:px-16 py-16 md:py-24">
                 <div className="v2-footer-grid grid grid-cols-1 md:grid-cols-6 gap-12 md:gap-8 items-start">
                     
