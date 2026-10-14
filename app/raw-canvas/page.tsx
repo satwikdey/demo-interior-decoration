@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import RawCanvasSolutionsCarousel from "@/components/RawCanvasSolutionsCarousel";
 import {
   ArrowRight,
   ClipboardCheck,
@@ -187,25 +188,7 @@ export default function RawCanvasPage() {
             </h2>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
-            {solutionCards.map((card) => (
-              <article key={card.title} className="group flex flex-col bg-[#2A211B] rounded-2xl overflow-hidden shadow-lg border border-[#FAF7F2]/10">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#1E1712]">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc((100vw - 72px) / 2), 16vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E1712]/80 via-transparent to-transparent" />
-                </div>
-                <h3 className="p-4 min-h-14 text-xs font-bold uppercase leading-5 tracking-[0.15em] text-[#FAF7F2] group-hover:text-[#D4A373] transition-colors">
-                  {card.title}
-                </h3>
-              </article>
-            ))}
-          </div>
+          <RawCanvasSolutionsCarousel solutions={solutionCards} />
         </div>
       </section>
 

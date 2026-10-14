@@ -170,6 +170,20 @@ test("founders: explicit tap controls and reduced-motion behavior", async ({ pag
   await expect(page.locator(".v2-founder-frame img")).toHaveAttribute("alt", "Yusuf Hussain");
 });
 
+test("Raw Canvas What We Do: touch carousel controls advance service cards", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/raw-canvas");
+  const carousel = page.locator(".v2-solutions-carousel");
+  await expect(carousel).toBeVisible();
+  await expect(carousel.locator(".v2-solution-card")).toHaveCount(6);
+  await expect(carousel.locator(".v2-solutions-controls p")).toHaveText("1 / 6");
+  await carousel.getByRole("button", { name: "Next service", exact: true }).click();
+  await expect(carousel.locator(".v2-solutions-controls p")).toHaveText("2 / 6");
+  await carousel.getByRole("button", { name: "Previous service", exact: true }).click();
+  await expect(carousel.locator(".v2-solutions-controls p")).toHaveText("1 / 6");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBeTruthy();
+});
+
 test("homepage principals biography expands beyond the compact preview", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockReadResponses(page);
