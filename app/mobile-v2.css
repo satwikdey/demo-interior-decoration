@@ -241,6 +241,7 @@
 .mobile-v2 .v2-home-footer .v2-footer-copyright p { font-size: 10px !important; }
 @media (max-width: 1279px) {
   .mobile-v2 .v2-solution-card { flex-basis: 100%; }
+  .mobile-v2 .v2-solution-title { font-size: 15px !important; }
   .mobile-v2 .v2-home-copy h1 { font-size: 64px !important; line-height: 1 !important; }
   .mobile-v2 .v2-home-copy .font-script { font-size: 48px !important; line-height: 1.2; margin-top: 12px; }
   .mobile-v2 .v2-home-copy > p { font-size: 12px !important; line-height: 1.65; max-width: 420px; margin-top: 20px; }
