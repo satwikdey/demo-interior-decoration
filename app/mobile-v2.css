@@ -216,14 +216,17 @@
   .mobile-v2 .v2-home-stats p:first-child { font-size: 24px !important; line-height: 1.2; }
   .mobile-v2 .v2-home-stats p:last-child { font-size: 10px !important; line-height: 1.5; letter-spacing: .08em !important; }
   .mobile-v2 .v2-portfolio-hero-frame { min-height: 300px; padding: 24px; }
-  .v2-mobile-carousel-track .v2-preview-photo { aspect-ratio: 16 / 9; }
-  .v2-mobile-carousel-track .v2-preview-copy { min-height: 220px; }
+  .v2-mobile-carousel-track .v2-preview-photo { aspect-ratio: 3 / 2; }
+  .v2-mobile-carousel-track .v2-preview-copy { min-height: 176px; gap: 8px; }
+  .mobile-v2 .v2-preview-copy h3 { font-size: 18px !important; line-height: 1.3 !important; }
+  .mobile-v2 .v2-preview-copy > p { font-size: 14px !important; line-height: 1.55; }
+  .mobile-v2 .v2-preview-copy > .v2-eyebrow { font-size: 11px !important; letter-spacing: .06em !important; }
 }
 @media (max-width: 767px) {
   .mobile-v2 .v2-home-copy h1 { font-size: 48px !important; }
   .mobile-v2 .v2-home-copy .font-script { font-size: 40px !important; }
   .mobile-v2 .v2-home-stats p:first-child { font-size: 22px !important; }
-  .v2-mobile-carousel-track .v2-preview-photo { aspect-ratio: 4 / 3; }
+  .v2-mobile-carousel-track .v2-preview-photo { aspect-ratio: 1 / 1; }
   .mobile-v2 .v2-filter-bar { gap: 4px; justify-content: flex-start; }
   .mobile-v2 .v2-filter-bar .v2-filter-button { font-size: clamp(8px, calc(2.9vw - 2.5px), 11px) !important; letter-spacing: 0 !important; }
   .v2-filter-button span { padding: 7px 4px; }

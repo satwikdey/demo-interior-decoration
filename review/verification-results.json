@@ -41,5 +41,25 @@
     1280,
     1440
   ],
-  "revision": "Homepage hierarchy and carousel, compact home footer, unclipped portfolio hero, single-row filters, flush project images"
+  "revision": "Homepage hierarchy and carousel, compact home footer, unclipped portfolio hero, single-row filters, flush project images",
+  "carouselSizingReview": {
+    "date": "2026-10-14",
+    "productionBuild": "passed",
+    "typescript": "passed",
+    "browserChecks": {
+      "startTime": "2026-10-14T05:40:21.399Z",
+      "duration": 7453.472000000001,
+      "expected": 9,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "livePhone": {
+      "imageFrame": "356 x 356 px at 390px viewport",
+      "label": "11px",
+      "title": "18px",
+      "description": "14px",
+      "horizontalOverflow": false
+    }
+  }
 }

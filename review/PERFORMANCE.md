@@ -1,5 +1,7 @@
 # Mobile V2 performance report
 
+Benchmark snapshot: commit 738f20a, before the subsequent carousel image/caption sizing adjustment.
+
 Measured on 2026-10-14 after the requested homepage and portfolio revisions. Three alternating production-mode runs per version used the same Playwright Chromium browser, a fresh browser profile each time, and Lighthouse mobile simulated throttling: 412 × 823 CSS pixels, DPR 1.75, 150ms modeled RTT, 1638.4 Kbps throughput, and 4× CPU slowdown. Image-optimizer server caches were warm. These are local lab measurements, not field or physical-device measurements.
 
 Both versions used the deployed site's real project read API. All six benchmark runs recorded an HTTP 200 project response. No intercepted responses or sample-data mode were used. Original: localhost:3001; V2: localhost:3002.
