@@ -66,6 +66,8 @@ for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
       const header = await page.locator(".v2-header").boundingBox();
       expect(header?.height).toBe(width < 1280 ? 56 : 80);
       if (width < 1280) {
+        const bodyCopySizes = await page.locator(".mobile-v2 p, .mobile-v2 li, .mobile-v2 label").evaluateAll(els => els.filter(el => !el.closest(".v2-home-stats")).map(el => parseFloat(getComputedStyle(el).fontSize)));
+        expect(bodyCopySizes.every(size => size >= 10 && size <= 12)).toBeTruthy();
         expect(await page.locator("main h1").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBe(route === "/" ? (width < 768 ? 48 : 64) : (width < 768 ? 28 : 36));
         const heading = await page.locator("main h1").first().boundingBox();
         expect(heading!.x).toBeGreaterThanOrEqual(width < 768 ? 16 : 24);
@@ -78,7 +80,7 @@ for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
       }
       if (width < 1280) {
         const footerLink = page.locator("footer a").last();
-        expect(await footerLink.evaluate(el => getComputedStyle(el).fontSize)).toBe(route === "/" ? "13px" : "16px");
+        expect(await footerLink.evaluate(el => getComputedStyle(el).fontSize)).toBe("12px");
       }
       if (width < 1280 && route.startsWith("/collaborations/")) {
         for (const frame of await page.locator(".v2-detail-gallery").all()) {
