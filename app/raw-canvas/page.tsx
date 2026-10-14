@@ -1,8 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import type { ReactNode } from "react";
 import {
   ArrowRight,
@@ -111,28 +108,6 @@ function SectionLabel({ children, light = false }: { children: ReactNode; light?
   );
 }
 
-function ProcessCard({ step }: { step: (typeof processSteps)[number] }) {
-  const [expanded, setExpanded] = useState(false);
-  const previewLength = 92;
-  const previewEnd = step.description.slice(0, previewLength).lastIndexOf(" ");
-  const description = expanded ? step.description : `${step.description.slice(0, previewEnd)}…`;
-  const Icon = step.icon;
-
-  return (
-    <article className="v2-process-card bg-[#FAF7F2] p-6 rounded-2xl border border-[#5C4F44]/25 shadow-sm">
-      <div className="flex items-center justify-between gap-4">
-        <span className="font-serif text-2xl font-bold italic text-[#A67B48]">{step.number}</span>
-        <Icon className="v2-decorative-icon h-6 w-6 text-[#A67B48]" strokeWidth={1.75} />
-      </div>
-      <h3 className="mt-6 min-h-10 text-xs font-bold uppercase leading-5 tracking-[0.14em] text-[#2A211B]">{step.title}</h3>
-      <p className="mt-3 text-sm font-normal leading-relaxed text-[#4A3E34]">{description}</p>
-      <button type="button" className="v2-process-more" aria-expanded={expanded} onClick={() => setExpanded((value) => !value)}>
-        {expanded ? "Show less" : "Read more"}
-      </button>
-    </article>
-  );
-}
-
 export default function RawCanvasPage() {
   return (
     <main className="v2-raw-page v2-page v2-page--raw-canvas min-h-screen overflow-hidden bg-[#DFD6CD] font-sans text-[#2A211B]">
@@ -185,7 +160,19 @@ export default function RawCanvasPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-5">
-            {processSteps.map((step) => <ProcessCard key={step.number} step={step} />)}
+            {processSteps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <article key={step.number} className="v2-process-card bg-[#FAF7F2] p-6 rounded-2xl border border-[#5C4F44]/25 shadow-sm">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="font-serif text-2xl font-bold italic text-[#A67B48]">{step.number}</span>
+                    <Icon className="v2-decorative-icon h-6 w-6 text-[#A67B48]" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="mt-6 min-h-10 text-xs font-bold uppercase leading-5 tracking-[0.14em] text-[#2A211B]">{step.title}</h3>
+                  <p className="mt-3 text-sm font-normal leading-relaxed text-[#4A3E34]">{step.description}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
