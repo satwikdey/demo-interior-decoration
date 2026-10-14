@@ -1,6 +1,6 @@
 # Mobile V2 performance report
 
-Measured on 2026-10-14. Three alternating production-mode runs per version used the same Playwright Chromium browser, a fresh browser profile each time, and Lighthouse mobile simulated throttling: 412 × 823 CSS pixels, DPR 1.75, 150ms modeled RTT, 1638.4 Kbps throughput, and 4× CPU slowdown. Image-optimizer server caches were warm. These are local lab measurements, not field or physical-device measurements.
+Measured on 2026-10-14 after the requested homepage and portfolio revisions. Three alternating production-mode runs per version used the same Playwright Chromium browser, a fresh browser profile each time, and Lighthouse mobile simulated throttling: 412 × 823 CSS pixels, DPR 1.75, 150ms modeled RTT, 1638.4 Kbps throughput, and 4× CPU slowdown. Image-optimizer server caches were warm. These are local lab measurements, not field or physical-device measurements.
 
 Both versions used the deployed site's real project read API. All six benchmark runs recorded an HTTP 200 project response. No intercepted responses or sample-data mode were used. Original: localhost:3001; V2: localhost:3002.
 
@@ -8,31 +8,31 @@ Both versions used the deployed site's real project read API. All six benchmark 
 
 | Metric — median of three runs | Original | V2 |
 | --- | ---: | ---: |
-| Largest Contentful Paint | 3.99 s | 3.04 s |
+| Largest Contentful Paint | 3.93 s | 2.26 s |
 | Cumulative Layout Shift | 0 | 0 |
-| Lighthouse performance score | 88 | 94 |
-| Total measured transfer | 614.0 KiB | 502.5 KiB |
+| Lighthouse performance score | 88 | 99 |
+| Total measured transfer | 614.0 KiB | 553.6 KiB |
 | Homepage hero transfer | 109.7 KiB | 40.6 KiB |
 
-LCP improved by 23.9%. Measured total transfer fell by 18.2%, and hero transfer fell by 63.0%.
+LCP improved by 42.4%. Measured total transfer fell by 9.8%, and hero transfer fell by 63.0%.
 
-**CLS meets the ≤0.1 target. LCP remains above the ≤2.5s target by 0.54s.** The score increase does not mean that the LCP target has been met.
+**The median meets both targets: LCP ≤2.5s and CLS ≤0.1.** V2 LCP varied from 2.26s to 3.03s; one of the three runs exceeded the LCP target. All three had CLS 0. These lab results do not establish consistent real-device performance.
 
 | Run | LCP | CLS | Score | Transfer |
 | --- | ---: | ---: | ---: | ---: |
-| baseline 1 | 3.99 s | 0 | 88 | 614.0 KiB |
-| v2 1 | 3.04 s | 0 | 94 | 502.5 KiB |
-| baseline 2 | 4.01 s | 0 | 87 | 614.0 KiB |
-| v2 2 | 3.03 s | 0 | 94 | 502.5 KiB |
-| baseline 3 | 3.91 s | 0 | 88 | 614.0 KiB |
-| v2 3 | 3.04 s | 0 | 94 | 502.5 KiB |
+| baseline 1 | 4.00 s | 0 | 87 | 614.0 KiB |
+| v2 1 | 2.26 s | 0 | 99 | 553.2 KiB |
+| baseline 2 | 3.92 s | 0 | 88 | 614.0 KiB |
+| v2 2 | 3.03 s | 0 | 94 | 554.1 KiB |
+| baseline 3 | 3.93 s | 0 | 88 | 614.0 KiB |
+| v2 3 | 2.26 s | 0 | 99 | 553.6 KiB |
 
 The retained original hero source is 18,729,663 bytes (18.7MB). The source file size is not the mobile download size: Next.js serves optimized responsive variants. The measured mobile hero response was 41,543 bytes, using quality 75 instead of the original 95.
 
 ## Implemented improvements
 
 - Accurate image sizes descriptors produce responsive srcset candidates. Gallery/card aspect-ratio frames reserve image space. Hero images are prioritized; founder and materials images below the fold are no longer preloaded. [Next.js image documentation](https://nextjs.org/docs/app/api-reference/components/image)
-- Compact viewports mount three static project cards, not the desktop autoplay carousel. Desktop carousel code is split from the phone homepage. Initial hero content no longer waits behind entrance animations.
+- Compact viewports use a manual scroll-snap carousel showing one project at a time with native swipe support. There is no compact autoplay timer. All five live projects are available; the wider carousel media increases delivered bytes relative to the earlier three-card V2 layout. Desktop carousel code is split from the phone homepage. Initial hero content no longer waits behind entrance animations.
 - Header height stays fixed while its background changes. Portfolio loading placeholders match the loaded title/card geometry. The existing next/font families and swap behavior remain in place. No layout shift was observed in these homepage runs. [CLS optimization guidance](https://web.dev/articles/optimize-cls)
 - Decorative Raw Canvas icons are omitted on compact screens while their substantive text remains available. No hero videos or hover-only dropdowns were found in the current implementation.
 

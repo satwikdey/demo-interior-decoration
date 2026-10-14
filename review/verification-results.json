@@ -3,8 +3,8 @@
   "productionBuild": "passed",
   "typescript": "passed",
   "browserChecks": {
-    "startTime": "2026-10-14T02:55:40.042Z",
-    "duration": 43255.084,
+    "startTime": "2026-10-14T04:20:11.628Z",
+    "duration": 47061.413,
     "expected": 119,
     "skipped": 0,
     "unexpected": 0,
@@ -12,17 +12,17 @@
   },
   "performance": {
     "baseline": {
-      "lcpMs": 3991.9803,
+      "lcpMs": 3928.567975,
       "cls": 0,
       "score": 0.88,
       "transferBytes": 628759,
       "heroBytes": 112320
     },
     "v2": {
-      "lcpMs": 3035.9669000000004,
+      "lcpMs": 2263.6230000000005,
       "cls": 0,
-      "score": 0.94,
-      "transferBytes": 514526,
+      "score": 0.99,
+      "transferBytes": 566886,
       "heroBytes": 41543
     }
   },
@@ -40,5 +40,6 @@
     1279,
     1280,
     1440
-  ]
+  ],
+  "revision": "Homepage hierarchy and carousel, compact home footer, unclipped portfolio hero, single-row filters, flush project images"
 }

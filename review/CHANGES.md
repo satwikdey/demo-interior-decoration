@@ -5,16 +5,16 @@ The visitor website now adapts to phone and tablet viewports while retaining its
 ## Visitor experience
 
 - Phone content layouts stack vertically below 768px. Tablet card collections use two columns through 1279px; reading, galleries, and forms remain single-column.
-- Content gutters are at least 16px on phones and 24px on tablets. Body and form text is 16px. Phone headings are capped at H1 28px and H2 24px; tablet headings at 36px / 28px. Inline display sizes were moved into CSS classes.
-- The homepage has a compact image-backed hero, stacked statistics, three live project previews, a full-width portfolio CTA, principals introduction/photo, services, and footer.
-- Portfolio masonry is flattened for compact viewports. Collaboration introductions precede galleries. Raw Canvas process layouts are simplified, with decorative icons omitted on phones/tablets. Articles and Careers keep their reading order.
+- Content gutters are at least 16px on phones and 24px on tablets. Body and form text is 16px. Phone headings use H1 28px and H2 24px; tablet headings use 36px / 28px. The revised homepage hero intentionally uses 48px / 64px titles, a 40px / 48px script line, and smaller 14px supporting text. Inline display sizes were moved into CSS classes.
+- The homepage has a compact image-backed hero, small right-aligned statistics without divider lines, a swipeable live-project carousel, a full-width portfolio CTA, principals introduction/photo, services, and footer.
+- Portfolio masonry is flattened for compact viewports. Its complete “Our Portfolio” title is visible in a naturally sized hero, all four compact filters stay in one row, and photographs fill cards without black padding. Collaboration introductions precede galleries. Raw Canvas process layouts are simplified, with decorative icons omitted on phones/tablets. Articles and Careers keep their reading order.
 - The fixed header is 56px on compact viewports and 80px on desktop, with separate device-safe-area allowance. The hamburger panel sits below it and includes scroll locking, focus containment/restoration, Escape, outside-tap dismissal, route closing, and desktop-resize closing.
-- Main navigation links and compact interactive controls have 48px minimum targets. Forms and primary CTAs fill available phone content width. Labels are associated with fields. Footer navigation is readable at 16px.
+- Main navigation links and carousel controls have 48px minimum targets. Compact portfolio filters keep a 48px touch height. Forms and primary CTAs fill available phone content width. Labels are associated with fields. The homepage footer uses compact 13px links and 12px contact details; other public footers retain 16px navigation.
 - Founder controls use explicit buttons. Automatic rotation is disabled for compact screens and reduced-motion preferences. The desktop portfolio has manual controls and pause/resume, and follows preference changes during the session.
 
 ## Media and loading
 
-Responsive Next.js images have sizes descriptors and reserved aspect-ratio frames. The homepage hero uses quality 75, down from 95. Below-the-fold founder/material images are lazy-loaded. Desktop carousel code is loaded separately, and compact viewports do not mount the carousel. Portfolio skeletons match the loaded header and card geometry.
+Responsive Next.js images have sizes descriptors and reserved aspect-ratio frames. The homepage hero uses quality 75, down from 95. Below-the-fold founder/material images are lazy-loaded. Desktop carousel code is loaded separately, and compact viewports use a native scroll-snap carousel with manual buttons and swipe gestures, without automatic rotation. Portfolio skeletons match the loaded header and card geometry.
 
 ## Live review setup
 

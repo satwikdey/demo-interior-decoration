@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { StackedPortfolio, PortfolioSkeleton, useDesktopViewport } from "@/components/ResponsivePortfolio";
+import { MobilePortfolioCarousel, PortfolioSkeleton, useDesktopViewport } from "@/components/ResponsivePortfolio";
 
 const PortfolioCarousel = dynamic(() => import("@/components/DesktopPortfolio"), { ssr: false });
 
@@ -67,7 +67,7 @@ export default function Home() {
       {loading ? <PortfolioSkeleton />
         : unavailable ? <section className="site-container v2-empty-state"><h2 className="font-serif">Portfolio is temporarily unavailable</h2><p>We could not load the live projects. Please try again later.</p><Link href="/projects" className="v2-cta">View Portfolio</Link></section>
         : projects.length === 0 ? <section className="site-container v2-empty-state"><h2 className="font-serif">Our Portfolio</h2><p>New projects will appear here soon.</p></section>
-        : desktopCarousel ? <PortfolioCarousel projects={projects} /> : <StackedPortfolio projects={projects} />}
+        : desktopCarousel ? <PortfolioCarousel projects={projects} /> : <MobilePortfolioCarousel projects={projects} />}
 
       {/* ── The Principals ───────────────────────────────── */}
       <section className="v2-principals flex flex-col lg:flex-row min-h-[90vh]">

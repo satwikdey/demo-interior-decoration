@@ -33,10 +33,40 @@ for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
       await expect(page.locator("main h1").first()).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+      if (route === "/projects") {
+        const frame = await page.locator(".v2-portfolio-hero-frame").boundingBox();
+        const copy = await page.locator(".v2-portfolio-hero-copy").boundingBox();
+        expect(copy!.y).toBeGreaterThanOrEqual(frame!.y);
+        expect(copy!.y + copy!.height).toBeLessThanOrEqual(frame!.y + frame!.height);
+        await expect(page.locator("main h1")).toHaveText("OurPortfolio");
+        const filters = await page.locator(".v2-filter-button").evaluateAll(els => els.map(el => el.getBoundingClientRect().toJSON()));
+        expect(new Set(filters.map(rect => rect.y)).size).toBe(1);
+        expect(filters.at(-1)!.right).toBeLessThanOrEqual(width - (width < 768 ? 16 : width < 1280 ? 24 : 0));
+        await expect(page.locator("main article").first()).toBeVisible();
+        for (const card of await page.locator("main article").all()) {
+          const sizes = await card.evaluate(el => ({ card: el.getBoundingClientRect().toJSON(), image: el.querySelector("img")!.getBoundingClientRect().toJSON(), padding: getComputedStyle(el).padding }));
+          expect(sizes.padding).toBe("0px");
+          expect(sizes.image.width).toBeCloseTo(sizes.card.width, 0);
+          expect(sizes.image.height).toBeCloseTo(sizes.card.height, 0);
+        }
+      }
+      if (route === "/" && width < 1280) {
+        expect(await page.locator(".v2-home-copy > p").evaluate(el => getComputedStyle(el).fontSize)).toBe("14px");
+        expect(await page.locator(".v2-home-copy .font-script").evaluate(el => getComputedStyle(el).fontSize)).toBe(width < 768 ? "40px" : "48px");
+        const stats = await page.locator(".v2-home-stats > div").evaluateAll(els => els.map(el => ({ rect: el.getBoundingClientRect().toJSON(), border: getComputedStyle(el).borderTopWidth, align: getComputedStyle(el).textAlign })));
+        expect(new Set(stats.map(stat => stat.rect.y)).size).toBe(1);
+        expect(stats.every(stat => stat.border === "0px" && stat.align === "right")).toBeTruthy();
+        expect(stats.at(-1)!.rect.right).toBe(width - (width < 768 ? 16 : 24));
+        await expect(page.locator(".v2-mobile-carousel-controls")).toBeVisible();
+        await page.getByRole("button", { name: "Next project" }).click();
+        await expect(page.locator(".v2-carousel-controls p")).toHaveText("2 / 3");
+        await page.getByRole("button", { name: "Previous project" }).click();
+        await expect(page.locator(".v2-carousel-controls p")).toHaveText("1 / 3");
+      }
       const header = await page.locator(".v2-header").boundingBox();
       expect(header?.height).toBe(width < 1280 ? 56 : 80);
       if (width < 1280) {
-        expect(await page.locator("main h1").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBe(width < 768 ? 28 : 36);
+        expect(await page.locator("main h1").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBe(route === "/" ? (width < 768 ? 48 : 64) : (width < 768 ? 28 : 36));
         const heading = await page.locator("main h1").first().boundingBox();
         expect(heading!.x).toBeGreaterThanOrEqual(width < 768 ? 16 : 24);
         expect(heading!.x + heading!.width).toBeLessThanOrEqual(width - (width < 768 ? 16 : 24));
@@ -48,7 +78,7 @@ for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
       }
       if (width < 1280) {
         const footerLink = page.locator("footer a").last();
-        expect(await footerLink.evaluate(el => getComputedStyle(el).fontSize)).toBe("16px");
+        expect(await footerLink.evaluate(el => getComputedStyle(el).fontSize)).toBe(route === "/" ? "13px" : "16px");
       }
       if (width < 1280 && route.startsWith("/collaborations/")) {
         for (const frame of await page.locator(".v2-detail-gallery").all()) {

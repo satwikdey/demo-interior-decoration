@@ -40,24 +40,20 @@ for (const width of [390, 1024]) {
   }
 }
 
-test("phone homepage: three live project cards and no carousel controls", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  await liveExpect(page.locator(".v2-project-preview")).toHaveCount(3);
-  await liveExpect(page.locator(".v2-carousel-controls")).toHaveCount(0);
-  await liveExpect(page.getByRole("link", { name: "View All Projects" })).toBeVisible();
-});
-
-test("tablet homepage: two-column live project cards", async ({ page }) => {
-  await page.setViewportSize({ width: 1024, height: 900 });
-  await page.goto("/");
-  await liveExpect(page.locator(".v2-project-preview")).toHaveCount(3);
-  const cards = await page.locator(".v2-project-preview").all();
-  const first = await cards[0].boundingBox();
-  const second = await cards[1].boundingBox();
-  liveExpect(first!.y).toBe(second!.y);
-  liveExpect(second!.x).toBeGreaterThan(first!.x);
-});
+for (const width of [390, 1024]) {
+  test(`${width}px homepage: live swipe carousel and project navigation`, async ({ page, request }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const records = await (await request.get(`${production}/api/projects`)).json();
+    await page.goto("/");
+    await liveExpect(page.locator(".v2-mobile-carousel-controls")).toBeVisible();
+    await liveExpect(page.locator(".v2-project-preview")).toHaveCount(records.length);
+    await liveExpect(page.locator(".v2-carousel-controls p")).toHaveText(`1 / ${records.length}`);
+    await page.getByRole("button", { name: "Next project" }).click();
+    await liveExpect(page.locator(".v2-carousel-controls p")).toHaveText(`2 / ${records.length}`);
+    await liveExpect(page.getByRole("link", { name: "View All Projects" })).toBeVisible();
+    liveExpect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+  });
+}
 
 test("desktop reduced motion keeps the carousel without automatic rotation", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });

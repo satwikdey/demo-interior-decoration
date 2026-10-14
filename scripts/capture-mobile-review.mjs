@@ -22,16 +22,17 @@ try {
     for (const [name, route] of routes) {
       for (const [version, port] of [["original", 3001], ["v2", 3002]]) {
         if (process.env.REVIEW_CAPTURE_VERSION && version !== process.env.REVIEW_CAPTURE_VERSION) continue;
+        if (process.env.REVIEW_CAPTURE_PAGES && !process.env.REVIEW_CAPTURE_PAGES.split(",").includes(name)) continue;
         await page.goto(`http://localhost:${port}${route}`, { waitUntil: "networkidle" });
         await page.evaluate(() => document.fonts.ready);
-        if (name === "home") await page.locator("main").waitFor();
+        if (name === "home" && version === "v2") await page.locator(".v2-mobile-carousel-controls").waitFor({ timeout: 30_000 });
         // Load lazy images and reveal viewport-triggered content before capture.
         const fullHeight = await page.evaluate(() => document.documentElement.scrollHeight);
         for (let y = 0; y < fullHeight; y += height * 0.75) {
           await page.evaluate(y => window.scrollTo(0, y), y);
           await page.waitForTimeout(80);
         }
-        await page.evaluate(async () => { await Promise.all(Array.from(document.images).map(img => img.decode().catch(() => {}))); });
+        await page.evaluate(async () => { await Promise.all(Array.from(document.images).filter(img => img.complete).map(img => img.decode().catch(() => {}))); });
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.waitForTimeout(600);
         const filename = `${version}-${name}-${device}.png`;

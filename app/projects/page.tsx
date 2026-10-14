@@ -40,14 +40,14 @@ function ProjectCard({
         className
       )}
     >
-      <Link href={`/projects/${project.slug}`} className="block h-full">
+      <Link href={`/projects/${project.slug}`} className="absolute inset-0 block">
         {/* Image */}
         <div className="relative h-full w-full overflow-hidden">
           <Image
             src={project.mainImage}
             alt={project.title}
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc((100vw - 72px) / 2), 50vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
           {/* Gradient overlay */}
@@ -224,18 +224,18 @@ export default function Projects() {
       {/* -- Hero Header ------------------------------------------- */}
       <section className="v2-hero relative overflow-hidden bg-[#1E1712] pt-28 pb-10">
         <div className="site-container">
-          <div className="v2-portfolio-hero-frame relative h-[420px] overflow-hidden rounded-[2rem] md:h-[520px]">
+          <div className="v2-portfolio-hero-frame relative overflow-hidden rounded-[2rem]">
 
           {/* Left: Title + description */}
-          <div className="absolute left-8 top-1/2 z-10 max-w-xl -translate-y-1/2 md:left-14">
+          <div className="v2-portfolio-hero-copy relative z-10">
             <p className="text-xs uppercase tracking-[0.3em] text-[#A67B48] font-bold mb-6">
-              Our Portfolio
+              Selected Projects
             </p>
             <h1 className="leading-[0.9] mb-8 text-scrim-dark">
               <span
                 className="v2-display-9 block font-sans font-light text-[#FAF7F2]"
               >
-                Interior
+                Our
               </span>
               <span
                 className="v2-display-9 block font-serif italic text-[#D4A373] font-normal"
@@ -269,18 +269,18 @@ export default function Projects() {
       </section>
 
       {/* -- Filter bar -------------------------------------------- */}
-      <div className="v2-filter-bar site-container flex flex-wrap justify-center gap-3 bg-[#DFD6CD] pt-10 pb-10">
+      <div className="v2-filter-bar site-container bg-[#DFD6CD]">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
             aria-pressed={filter === cat}
-            className={`text-xs uppercase tracking-[0.18em] px-6 py-3 rounded-full border transition-all duration-300 font-semibold shadow-sm ${filter === cat
+            className={`v2-filter-button font-semibold ${filter === cat
                 ? "bg-[#2A211B] border-[#2A211B] text-[#FAF7F2]"
                 : "bg-[#FAF7F2] border-[#5C4F44]/30 text-[#2A211B] hover:bg-[#A67B48] hover:border-[#A67B48] hover:text-[#FAF7F2]"
               }`}
           >
-            {cat}
+            <span>{cat}</span>
           </button>
         ))}
       </div>
@@ -297,6 +297,8 @@ export default function Projects() {
           <div className="py-40 text-center">
             <p className="text-[#2A211B] font-medium text-base italic">No projects found in this category.</p>
           </div>
+        ) : !desktopLayout ? (
+          <div className="v2-card-grid">{filtered.map((project, index) => <ProjectCard key={project.id} project={project} index={index} className="aspect-[4/3]" />)}</div>
         ) : (
           <div className="flex flex-col gap-4">
             {groups.map((group, gi) => (
