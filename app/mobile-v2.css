@@ -89,7 +89,7 @@
   .mobile-v2 .v2-home-stats p:first-child { font-size: 28px !important; }
   .mobile-v2 .v2-principals { min-height: 0; padding-block: 0; flex-direction: column; }
   .mobile-v2 .v2-principals > div { width: 100%; padding: 40px var(--site-gutter); }
-  .mobile-v2 .v2-principals .v2-principals-photo { padding: 0; height: auto; aspect-ratio: 4 / 3; }
+  .mobile-v2 .v2-principals .v2-principals-photo { padding: 0; height: auto; aspect-ratio: 5 / 4; }
   .mobile-v2 .v2-founder-layout { flex-direction: column; gap: 24px; }
   .mobile-v2 .v2-founder-frame { width: min(100%, 70vw); max-width: 100%; height: auto; aspect-ratio: 3 / 4; }
   .mobile-v2 .v2-page--collaborations > .v2-detail-layout { padding-inline: var(--site-gutter); }
