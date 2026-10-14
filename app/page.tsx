@@ -24,7 +24,13 @@ export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [unavailable, setUnavailable] = useState(false);
+  const [principalsExpanded, setPrincipalsExpanded] = useState(false);
   const desktopCarousel = useDesktopViewport();
+
+  const principalsBio = "For over three decades, Yusuf Hussain and Vidhisha Nimuchwala have led Design One with a shared belief that great design begins with understanding people. While Yusuf brings a strong focus on planning, detailing and the technical aspects of execution, Vidhisha contributes her intuitive understanding of spaces, materials and client relationships. Together, they have shaped a practice built on thoughtful design, meticulous execution and lasting client partnerships, creating homes, hospitality spaces and commercial environments that remain relevant long after trends have passed.";
+  const previewLength = 250;
+  const previewEnd = principalsBio.slice(0, previewLength).lastIndexOf(" ");
+  const visiblePrincipalsBio = principalsExpanded ? principalsBio : `${principalsBio.slice(0, previewEnd)}…`;
 
   useEffect(() => {
     (async () => {
@@ -103,9 +109,15 @@ export default function Home() {
 
             {/* Single bio paragraph */}
             <div className="max-w-xl">
-              <p className="text-[#FAF7F2]/90 font-normal text-base md:text-lg leading-relaxed">
-                For over three decades, Yusuf Hussain and Vidhisha Nimuchwala have led Design One with a shared belief that great design begins with understanding people. While Yusuf brings a strong focus on planning, detailing and the technical aspects of execution, Vidhisha contributes her intuitive understanding of spaces, materials and client relationships. Together, they have shaped a practice built on thoughtful design, meticulous execution and lasting client partnerships, creating homes, hospitality spaces and commercial environments that remain relevant long after trends have passed.
-              </p>
+              <p className="text-[#FAF7F2]/90 font-normal text-base md:text-lg leading-relaxed">{visiblePrincipalsBio}</p>
+              <button
+                type="button"
+                className="v2-read-more"
+                aria-expanded={principalsExpanded}
+                onClick={() => setPrincipalsExpanded((expanded) => !expanded)}
+              >
+                {principalsExpanded ? "Show less" : "Read more"}
+              </button>
             </div>
           </div>
         </div>

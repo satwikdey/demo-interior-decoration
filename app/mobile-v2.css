@@ -184,6 +184,7 @@
 .v2-mobile-carousel-controls button:disabled { opacity: .35; cursor: default; }
 .v2-mobile-carousel-controls p { min-width: 64px; text-align: center; }
 .v2-skeleton-controls { height: 48px; }
+.v2-read-more { display: inline-flex; align-items: center; min-height: 48px; margin-top: 12px; padding: 8px 0; color: #D4A373; font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
 .mobile-v2 .v2-portfolio-hero-frame { min-height: 420px; height: auto; display: flex; align-items: center; padding: 48px 56px; }
 .mobile-v2 .v2-portfolio-hero-copy { position: relative; inset: auto; translate: none; transform: none; max-width: 640px; }
 .mobile-v2 .v2-filter-bar { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; padding-block: 16px; overflow-x: auto; }

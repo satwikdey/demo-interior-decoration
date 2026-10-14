@@ -167,6 +167,23 @@ test("founders: explicit tap controls and reduced-motion behavior", async ({ pag
   await expect(page.locator(".v2-founder-frame img")).toHaveAttribute("alt", "Yusuf Hussain");
 });
 
+test("homepage principals biography expands beyond the compact preview", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockReadResponses(page);
+  await page.goto("/");
+  const bio = page.locator(".v2-principals p").filter({ hasText: "For over three decades" });
+  const readMore = page.getByRole("button", { name: "Read more" });
+  await expect(readMore).toBeVisible();
+  const preview = await bio.textContent();
+  expect(preview?.endsWith("…")).toBeTruthy();
+  await readMore.click();
+  await expect(page.getByRole("button", { name: "Show less" })).toBeVisible();
+  const expanded = await bio.textContent();
+  expect(expanded!.length).toBeGreaterThan(preview!.length);
+  await page.getByRole("button", { name: "Show less" }).click();
+  await expect(page.getByRole("button", { name: "Read more" })).toBeVisible();
+});
+
 test("live-data failures, empty results, delayed responses and missing records", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.route("**/api/projects", route => route.fulfill({ status: 503, json: { error: "Unavailable" } }));
