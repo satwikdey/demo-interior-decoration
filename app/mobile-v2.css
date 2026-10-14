@@ -125,6 +125,8 @@
   .mobile-v2 .v2-raw-page footer .mt-16 { margin-top: 24px; }
   .mobile-v2 .v2-raw-page footer .pt-8 { padding-top: 12px; }
   .mobile-v2 .v2-raw-page footer img { width: 180px; }
+  .mobile-v2 .v2-process-card h3 { font-size: 14px !important; line-height: 1.35 !important; letter-spacing: .08em; }
+  .mobile-v2 .v2-process-card > p { font-size: 10px !important; line-height: 1.5; }
   .mobile-v2 .v2-raw-page .v2-decorative-icon { display: none; }
   .mobile-v2 footer [class*="md:flex-row"] { flex-direction: column; }
   .mobile-v2 footer .grid > * { grid-column: auto; justify-self: stretch; }

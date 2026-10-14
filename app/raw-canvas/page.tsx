@@ -163,7 +163,7 @@ export default function RawCanvasPage() {
             {processSteps.map((step) => {
               const Icon = step.icon;
               return (
-                <article key={step.number} className="bg-[#FAF7F2] p-6 rounded-2xl border border-[#5C4F44]/25 shadow-sm">
+                <article key={step.number} className="v2-process-card bg-[#FAF7F2] p-6 rounded-2xl border border-[#5C4F44]/25 shadow-sm">
                   <div className="flex items-center justify-between gap-4">
                     <span className="font-serif text-2xl font-bold italic text-[#A67B48]">{step.number}</span>
                     <Icon className="v2-decorative-icon h-6 w-6 text-[#A67B48]" strokeWidth={1.75} />
