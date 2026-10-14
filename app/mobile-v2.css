@@ -10,6 +10,7 @@
 .mobile-v2 .site-container { width: 100%; padding-inline: var(--site-gutter); }
 .mobile-v2 img:not([data-nimg="fill"]) { max-width: 100%; height: auto; }
 .mobile-v2 :where(h1, h2, h3, p, a) { overflow-wrap: anywhere; }
+.mobile-v2 :where(p, li) { text-align: justify; }
 .mobile-v2 :where(a, button, input, select, textarea):focus-visible { outline: 2px solid #A67B48; outline-offset: 4px; }
 .mobile-v2 [id] { scroll-margin-top: calc(var(--site-header-height) + var(--site-safe-top) + 16px); }
 .mobile-v2 .v2-home-hero { height: calc(100svh - var(--site-header-height) - var(--site-safe-top)); }
