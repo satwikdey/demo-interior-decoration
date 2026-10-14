@@ -187,6 +187,19 @@ test("homepage principals biography expands beyond the compact preview", async (
   await expect(page.getByRole("button", { name: "Read more" })).toBeVisible();
 });
 
+test("Raw Canvas process cards expand their descriptions", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/raw-canvas");
+  const cards = page.locator(".v2-process-card");
+  await expect(cards).toHaveCount(5);
+  const card = cards.first();
+  const preview = await card.locator("p").textContent();
+  await expect(card.getByRole("button", { name: "Read more" })).toBeVisible();
+  await card.getByRole("button", { name: "Read more" }).click();
+  await expect(card.getByRole("button", { name: "Show less" })).toBeVisible();
+  expect((await card.locator("p").textContent())!.length).toBeGreaterThan(preview!.length);
+});
+
 test("live-data failures, empty results, delayed responses and missing records", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.route("**/api/projects", route => route.fulfill({ status: 503, json: { error: "Unavailable" } }));
