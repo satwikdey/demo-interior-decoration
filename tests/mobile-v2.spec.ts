@@ -39,7 +39,10 @@ for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
         expect(copy!.y).toBeGreaterThanOrEqual(frame!.y);
         expect(copy!.y + copy!.height).toBeLessThanOrEqual(frame!.y + frame!.height);
         await expect(page.locator("main h1")).toHaveText("OurPortfolio");
-        await expect(page.locator(".v2-filter-button")).toHaveCount(0);
+        const filters = page.locator(".v2-filter-button");
+        await expect(filters).toHaveCount(4);
+        const filterBoxes = await filters.evaluateAll(els => els.map(el => el.getBoundingClientRect().toJSON()));
+        expect(new Set(filterBoxes.map(rect => rect.y)).size).toBe(1);
         await expect(page.locator("main article").first()).toBeVisible();
         for (const card of await page.locator("main article").all()) {
           const sizes = await card.evaluate(el => ({ card: el.getBoundingClientRect().toJSON(), image: el.querySelector("img")!.getBoundingClientRect().toJSON(), padding: getComputedStyle(el).padding }));

@@ -17,6 +17,8 @@ interface Project {
   description: string;
 }
 
+const baseCategories = ["All", "Private Residential", "Hospitality", "Heritage & Commercial"];
+
 /* -- Card component ------------------------------------------- */
 function ProjectCard({
   project,
@@ -187,6 +189,7 @@ function chunkProjects(projects: Project[], size = 4): Project[][] {
 export default function Projects() {
   const desktopLayout = useDesktopViewport();
   const [unavailable, setUnavailable] = useState(false);
+  const [filter, setFilter] = useState("All");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -209,7 +212,9 @@ export default function Projects() {
   const featured = active[0];
 
   const gridProjects = desktopLayout ? active.slice(1) : active;
-  const groups = chunkProjects(gridProjects, 4);
+  const categories = [...new Set([...baseCategories, ...active.map((p) => p.category)])];
+  const filtered = filter === "All" ? gridProjects : gridProjects.filter((p) => p.category === filter);
+  const groups = chunkProjects(filtered, 4);
 
   return (
     <main className="v2-page v2-page--projects min-h-screen bg-[#DFD6CD]">
@@ -261,6 +266,23 @@ export default function Projects() {
         </div>
       </section>
 
+      {/* -- Filter bar -------------------------------------------- */}
+      <div className="v2-filter-bar site-container bg-[#DFD6CD]">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            aria-pressed={filter === cat}
+            className={`v2-filter-button font-semibold ${filter === cat
+              ? "bg-[#2A211B] border-[#2A211B] text-[#FAF7F2]"
+              : "bg-[#FAF7F2] border-[#5C4F44]/30 text-[#2A211B] hover:bg-[#A67B48] hover:border-[#A67B48] hover:text-[#FAF7F2]"
+            }`}
+          >
+            <span>{cat}</span>
+          </button>
+        ))}
+      </div>
+
       {/* -- Project Grid ------------------------------------------ */}
       <div className="site-container pb-24">
         {loading ? (
@@ -269,12 +291,12 @@ export default function Projects() {
           </div>
         ) : unavailable ? (
           <div className="v2-empty-state" role="status"><h2 className="font-serif">Portfolio is temporarily unavailable</h2><p>We could not load the live projects. Please try again later.</p></div>
-        ) : gridProjects.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <div className="py-40 text-center">
             <p className="text-[#2A211B] font-medium text-base italic">No projects found in this category.</p>
           </div>
         ) : !desktopLayout ? (
-          <div className="v2-card-grid">{gridProjects.map((project, index) => <ProjectCard key={project.id} project={project} index={index} className="aspect-[4/3]" />)}</div>
+          <div className="v2-card-grid">{filtered.map((project, index) => <ProjectCard key={project.id} project={project} index={index} className="aspect-[4/3]" />)}</div>
         ) : (
           <div className="flex flex-col gap-4">
             {groups.map((group, gi) => (
