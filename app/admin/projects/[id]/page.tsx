@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { Container } from "@/components/Container";
+import { Container } from "@/components/versions/desktop/Container";
 import { Plus, Trash2, Image as ImageIcon, Type, Save, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 

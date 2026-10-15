@@ -24,7 +24,7 @@ async function mockReadResponses(page: Page) {
 const article = "/journal/10-interior-design-mistakes-kolkata-homeowners-make-before-moving-into-a-new-flat";
 const routes = ["/", "/about", "/contact", "/raw-canvas", "/projects", "/projects/qa-project", "/collaborations", "/collaborations/qa-collaboration", "/journal", article, "/press", "/press/words-of-wisdom", "/careers"];
 
-for (const width of [360, 390, 767, 768, 1024, 1279, 1280, 1440]) {
+for (const width of [360, 390, 767, 768, 1024, 1279]) {
   for (const route of routes) {
     test(`${width}px ${route}: layout and readable type`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
@@ -137,6 +137,9 @@ test("compact menu: focus, Escape, outside tap, navigation, resizing and sticky 
   await expect(dialog).toBeHidden();
   expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
   await page.evaluate(() => window.scrollTo(0, 500));
+  await expect(page.locator(".v2-header")).toHaveCount(0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator(".v2-header")).toBeVisible();
   expect((await page.locator(".v2-header").boundingBox())!.y).toBe(0);
 });
 
@@ -244,7 +247,7 @@ test("touch input: menu taps and visible card information on a large touch viewp
     await page.getByRole("dialog").getByRole("link", { name: "Raw Canvas", exact: true }).tap();
     await expect(page).toHaveURL(/\/raw-canvas$/);
     await expect(page.getByRole("dialog")).toBeHidden();
-    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.setViewportSize({ width: 1279, height: 900 });
     await page.goto("/projects");
     expect(await page.evaluate(() => matchMedia("(pointer: coarse)").matches)).toBeTruthy();
     const caption = page.locator("main article h3").first();
@@ -255,3 +258,30 @@ test("touch input: menu taps and visible card information on a large touch viewp
     await context.close();
   }
 });
+
+for (const width of [1280, 1440]) {
+  for (const route of routes) {
+    test(`${width}px ${route}: deployed desktop layout`, async ({ page, context }) => {
+      await page.setViewportSize({ width, height: 900 });
+      const original = await context.newPage();
+      await original.setViewportSize({ width, height: 900 });
+      await mockReadResponses(page);
+      await mockReadResponses(original);
+      await Promise.all([page.goto(route), original.goto(`http://localhost:3001${route}`)]);
+      for (const current of [page, original]) {
+        await expect(current.locator("main h1").first()).toBeVisible();
+        await current.evaluate(() => document.fonts.ready);
+        await current.waitForTimeout(1200);
+      }
+      await expect(page.locator(".responsive-mobile")).toHaveCount(0);
+      await expect(page.locator(".v2-header")).toHaveCount(0);
+      // Desktop markup and typography must match the existing deployed source.
+      const inspect = async (current: Page) => current.locator("main h1, main h2, main h3, footer, nav").evaluateAll(elements => elements.map(el => {
+        const style = getComputedStyle(el);
+        return { tag: el.tagName, text: el.textContent, classes: el.className, fontSize: style.fontSize, lineHeight: style.lineHeight, padding: style.padding, background: style.backgroundColor };
+      }));
+      expect(await inspect(page)).toEqual(await inspect(original));
+      await original.close();
+    });
+  }
+}

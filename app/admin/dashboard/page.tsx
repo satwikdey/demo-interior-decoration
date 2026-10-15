@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Container } from "@/components/Container";
+import { Container } from "@/components/versions/desktop/Container";
 import Link from "next/link";
 import { Plus, Edit, Trash2, ExternalLink, ArrowUp, ArrowDown } from "lucide-react";
 

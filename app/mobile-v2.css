@@ -1,3 +1,4 @@
+@media (max-width: 1279px) {
 /* Visitor-only rules: rem-based desktop/admin scaling remains unchanged. */
 .mobile-v2 {
   --site-gutter: clamp(2rem, 4vw, 5rem);
@@ -274,3 +275,8 @@
   .mobile-v2 .v2-home-footer .v2-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .mobile-v2 .v2-home-footer .v2-footer-contact { grid-column: 1 / -1; }
 }
+
+}
+.responsive-mobile, .responsive-desktop { display: contents; }
+@media (max-width: 1279px) { .responsive-desktop { display: none; } }
+@media (min-width: 1280px) { .responsive-mobile { display: none; } }

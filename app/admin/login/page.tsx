@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Container } from "@/components/Container";
+import { Container } from "@/components/versions/desktop/Container";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
